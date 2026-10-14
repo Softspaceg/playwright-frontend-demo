@@ -1,0 +1,22 @@
+name: Install dependencies
+description: >
+  Restores node_modules (including Vite's dependency pre-bundling cache under
+  node_modules/.vite) from a cache keyed on package-lock.json, running `npm ci`
+  only on a cache miss. Shared by every quality-checks job to avoid paying a
+  full fresh install — and Vite's cold-start dependency optimization — on
+  every single job.
+
+runs:
+  using: composite
+  steps:
+    - name: Restore node_modules cache
+      id: node-modules-cache
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+    - name: Install dependencies
+      if: steps.node-modules-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm ci
