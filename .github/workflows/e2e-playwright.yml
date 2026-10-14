@@ -1,0 +1,142 @@
+# Runs the whole Playwright suite (smoke + regression) with a video of every
+# test, then publishes the HTML report to https://e2e-reports.uapp.ae/<run>/ on
+# prod-server.
+#
+# The report goes over SSH with its own key, pinned on the host to
+# /usr/local/bin/e2e-reports (uapp-web: gcp-deployment/e2e-reports). That key can only
+# unpack a report into /srv/e2e-reports; it is not the deploy key and cannot
+# touch a container. Host setup: uapp-web repo, gcp-deployment/README.md, "E2E reports".
+#
+# Pull requests from forks get no secrets, so they skip the publish and keep
+# only the run artifact.
+name: E2E Playwright
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-playwright-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    name: Playwright (report on GCP)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      REPORT_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+      REPORTS_URL: https://e2e-reports.uapp.ae
+      REPORTS_USER: e2ereports
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        uses: ./.github/actions/install-deps
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright
+        id: e2e
+        run: npm run e2e
+
+      # Every step below runs whether the tests passed or failed: a failing run
+      # is exactly when the report and the videos are needed.
+      - name: Keep the report as a run artifact
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Check the publish key
+        id: publish
+        if: ${{ !cancelled() }}
+        env:
+          GCP_E2E_REPORTS_SSH_KEY: ${{ secrets.GCP_E2E_REPORTS_SSH_KEY }}
+        run: |
+          if [ -n "$GCP_E2E_REPORTS_SSH_KEY" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::GCP_E2E_REPORTS_SSH_KEY is not available to this run; the report stays a run artifact only."
+          fi
+
+      - name: Write the reports key
+        if: ${{ !cancelled() && steps.publish.outputs.enabled == 'true' }}
+        env:
+          GCP_E2E_REPORTS_SSH_KEY: ${{ secrets.GCP_E2E_REPORTS_SSH_KEY }}
+          GCP_DEPLOY_KNOWN_HOSTS: ${{ secrets.GCP_DEPLOY_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$GCP_E2E_REPORTS_SSH_KEY" > ~/.ssh/gcp_e2e_reports
+          printf '%s\n' "$GCP_DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/gcp_e2e_reports ~/.ssh/known_hosts
+
+      # Read by the host's index page. Passed through env, never interpolated
+      # into the script: a pull request's branch name is attacker-controlled.
+      - name: Describe the run for the reports index
+        if: ${{ !cancelled() && steps.publish.outputs.enabled == 'true' }}
+        env:
+          OUTCOME: ${{ steps.e2e.outcome }}
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+          SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          PR: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/attempts/${{ github.run_attempt }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          status=failed
+          [ "$OUTCOME" = "success" ] && status=passed
+          {
+            echo "status=$status"
+            echo "branch=$BRANCH"
+            echo "sha=$SHA"
+            echo "pr=$PR"
+            echo "repo=$REPO"
+            echo "run_url=$RUN_URL"
+            echo "actor=$ACTOR"
+            echo "finished=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > playwright-report/meta.txt
+
+      - name: Publish the report to prod-server
+        if: ${{ !cancelled() && steps.publish.outputs.enabled == 'true' }}
+        env:
+          GCP_DEPLOY_HOST: ${{ secrets.GCP_DEPLOY_HOST }}
+        run: |
+          tar -C playwright-report -czf - . | \
+            ssh -i ~/.ssh/gcp_e2e_reports -o StrictHostKeyChecking=yes -o ConnectTimeout=30 \
+              "$REPORTS_USER@$GCP_DEPLOY_HOST" "upload $REPORT_ID"
+
+      - name: Link the report
+        if: ${{ !cancelled() && steps.publish.outputs.enabled == 'true' }}
+        run: |
+          echo "### Playwright report: $REPORTS_URL/$REPORT_ID/" >> "$GITHUB_STEP_SUMMARY"
+          echo "Report: $REPORTS_URL/$REPORT_ID/"
+
+      - name: Remove the key from the runner
+        if: always()
+        run: rm -f ~/.ssh/gcp_e2e_reports
