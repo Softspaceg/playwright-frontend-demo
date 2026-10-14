@@ -1,10 +1,21 @@
 import { useMemo, useState } from 'react';
+import AddProductDialog from '../components/AddProductDialog';
 import Navbar from '../components/Navbar';
-import { categories, products } from '../data/products';
+import {
+  categories,
+  loadCustomProducts,
+  products as builtInProducts,
+  saveCustomProducts,
+  type Product,
+} from '../data/products';
 
 export default function ProductsPage() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
+  const [customProducts, setCustomProducts] = useState<Product[]>(loadCustomProducts);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const products = useMemo(() => [...builtInProducts, ...customProducts], [customProducts]);
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -13,7 +24,14 @@ export default function ProductsPage() {
         (category === 'all' || p.category === category) &&
         (!q || p.name.toLowerCase().includes(q)),
     );
-  }, [search, category]);
+  }, [products, search, category]);
+
+  const handleAdd = (product: Omit<Product, 'id'>) => {
+    const next = [...customProducts, { ...product, id: Date.now() }];
+    saveCustomProducts(next);
+    setCustomProducts(next);
+    setDialogOpen(false);
+  };
 
   return (
     <>
@@ -43,6 +61,9 @@ export default function ProductsPage() {
                 </option>
               ))}
             </select>
+            <button className="btn" onClick={() => setDialogOpen(true)} data-testid="add-product-button">
+              + Add product
+            </button>
           </div>
         </div>
 
@@ -74,6 +95,8 @@ export default function ProductsPage() {
           </ul>
         )}
       </main>
+
+      {dialogOpen && <AddProductDialog onAdd={handleAdd} onClose={() => setDialogOpen(false)} />}
     </>
   );
 }
