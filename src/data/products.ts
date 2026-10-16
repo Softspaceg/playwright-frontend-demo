@@ -23,3 +23,19 @@ export const products: Product[] = [
 ];
 
 export const categories = [...new Set(products.map((p) => p.category))].sort();
+
+const CUSTOM_PRODUCTS_KEY = 'demo_products';
+
+/** Products added from the "Add product" dialog, persisted in localStorage. */
+export function loadCustomProducts(): Product[] {
+  try {
+    const raw = localStorage.getItem(CUSTOM_PRODUCTS_KEY);
+    return raw ? (JSON.parse(raw) as Product[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveCustomProducts(custom: Product[]) {
+  localStorage.setItem(CUSTOM_PRODUCTS_KEY, JSON.stringify(custom));
+}
