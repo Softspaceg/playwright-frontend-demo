@@ -1,5 +1,6 @@
 {
-  "name": "playwright-templates-demo",
+  "name": "playwright-frontend-demo",
+  "homepage": "https://softspaceg.github.io/playwright-frontend-demo/",
   "private": true,
   "version": "0.1.0",
   "type": "module",
