@@ -1,4 +1,6 @@
-# playwright-templates
+# playwright-frontend-demo
+
+Live demo: https://softspaceg.github.io/playwright-frontend-demo/
 
 A small demo React app (login, signup, product list) to use as a target for Playwright tests.
 

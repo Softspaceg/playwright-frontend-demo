@@ -2,10 +2,10 @@ import { defineConfig, devices } from "@playwright/test";
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:5173";
 
-// GitHub sets these on every run; locally the title stays "Playwright Templates E2E".
+// GitHub sets these on every run; locally the title stays "Playwright Frontend Demo E2E".
 const branch = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF_NAME;
 const pullRequest = process.env.GITHUB_REF?.match(/^refs\/pull\/(\d+)\//)?.[1];
-const reportTitle = ["Playwright Templates E2E", branch, pullRequest && `PR #${pullRequest}`]
+const reportTitle = ["Playwright Frontend Demo E2E", branch, pullRequest && `PR #${pullRequest}`]
   .filter(Boolean)
   .join(" · ");
 
