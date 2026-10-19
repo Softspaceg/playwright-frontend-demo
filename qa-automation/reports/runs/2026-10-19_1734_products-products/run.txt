@@ -1,0 +1,7 @@
+when:      2026-10-19T14:34:05.020Z
+command:   npx playwright test tests/products/products.spec.ts --headed
+exit code: 1
+
+The HTML report for these findings is built separately, because it is written
+rather than generated:
+  node scripts/build-report.mjs <source.html> reports/<module>/<tab>-<version>

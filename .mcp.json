@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "node",
+      "args": [
+        "qa-automation/node_modules/@playwright/mcp/cli.js",
+        "--isolated",
+        "--storage-state", "qa-automation/auth/state.json",
+        "--output-dir", "qa-automation/mcp-output",
+        "--viewport-size", "1440x900",
+        "--timeout-action", "20000",
+        "--timeout-navigation", "60000",
+        "--timeout-settle", "1000",
+        "--caps", "devtools"
+      ]
+    },
+    "playwright-test": {
+      "command": "node",
+      "args": [
+        "qa-automation/node_modules/playwright/cli.js",
+        "run-test-mcp-server",
+        "--config", "qa-automation/playwright.config.ts"
+      ]
+    }
+  }
+}

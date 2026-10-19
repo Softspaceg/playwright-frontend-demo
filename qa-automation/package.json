@@ -1,0 +1,26 @@
+{
+  "name": "demo-shop-qa-automation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright automation suite for Demo Shop — a practice copy of the UAPP QA architecture",
+  "scripts": {
+    "auth": "playwright test tests/auth.setup.ts --project=setup",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:products": "playwright test --grep @products",
+    "report": "playwright show-report",
+    "trace": "playwright show-trace",
+    "test:critical": "playwright test --grep @critical",
+    "retest": "playwright test --grep",
+    "summary": "node scripts/run-and-summarize.mjs",
+    "coverage": "node scripts/coverage.mjs",
+    "tab": "node scripts/run-and-summarize.mjs --tab"
+  },
+  "devDependencies": {
+    "@playwright/mcp": "^0.0.82",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.2",
+    "dotenv": "^18.0.3",
+    "typescript": "^7.0.2"
+  }
+}

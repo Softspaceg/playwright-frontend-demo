@@ -1,0 +1,593 @@
+<title>Departments QA Findings</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg:#f4f6f7; --surface:#fff; --surface-2:#eceff2; --surface-3:#e3e8ec;
+    --line:#dce2e7; --line-2:#c2ccd4;
+    --ink:#151e27; --ink-2:#3f4e5b; --muted:#687784;
+    --accent:#2c5f7d; --accent-soft:#e4eef4;
+    --bug:#a52f3c; --bug-bg:#fbe5e7;
+    --enh:#8a6118; --enh-bg:#fbeed6;
+    --ask:#5b4a92; --ask-bg:#ece8f8;
+    --ok:#2c6b4f; --ok-bg:#e0efe7;
+    --fe:#1d6a75; --fe-bg:#ddf0f2;
+    --be:#7a4a86; --be-bg:#f2e6f5;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg:#10151a; --surface:#171f26; --surface-2:#1e2830; --surface-3:#26323c;
+      --line:#2a3640; --line-2:#3b4a57;
+      --ink:#e7edf2; --ink-2:#bcc8d2; --muted:#8a98a5;
+      --accent:#7cafd0; --accent-soft:#1b2a35;
+      --bug:#ef8b96; --bug-bg:#33191d;
+      --enh:#dfae64; --enh-bg:#332711;
+      --ask:#b5a5e8; --ask-bg:#262039;
+      --ok:#7ac6a0; --ok-bg:#172a21;
+      --fe:#79c4cd; --fe-bg:#15292c;
+      --be:#c4a0d0; --be-bg:#291f2d;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg:#10151a; --surface:#171f26; --surface-2:#1e2830; --surface-3:#26323c;
+    --line:#2a3640; --line-2:#3b4a57;
+    --ink:#e7edf2; --ink-2:#bcc8d2; --muted:#8a98a5;
+    --accent:#7cafd0; --accent-soft:#1b2a35;
+    --bug:#ef8b96; --bug-bg:#33191d;
+    --enh:#dfae64; --enh-bg:#332711;
+    --ask:#b5a5e8; --ask-bg:#262039;
+    --ok:#7ac6a0; --ok-bg:#172a21;
+    --fe:#79c4cd; --fe-bg:#15292c;
+    --be:#c4a0d0; --be-bg:#291f2d;
+  }
+
+  body{background:var(--bg);color:var(--ink);font-family:"Public Sans",system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding-inline:20px;padding-block:0 64px}
+
+  header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+  .top-in{max-width:980px;margin:0 auto;padding-inline:20px;padding-block:26px 20px}
+  .eyebrow{font-family:Archivo,sans-serif;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:Archivo,sans-serif;font-size:clamp(25px,4.4vw,34px);font-weight:700;line-height:1.12;margin:6px 0 10px;letter-spacing:-.015em;text-wrap:balance}
+  .meta{display:flex;flex-wrap:wrap;gap:4px 20px;font-size:13px;color:var(--muted)}
+  .meta b{color:var(--ink-2);font-weight:500}
+
+  .lead{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+  .lead p{margin:0;font-size:15px;color:var(--ink-2)}
+  .lead strong{color:var(--ink);font-weight:600}
+  .counts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+  .c{border-left:3px solid var(--line-2);padding-left:11px}
+  .c .n{font-family:Archivo,sans-serif;font-size:25px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+  .c .l{font-size:12px;color:var(--muted);margin-top:4px}
+  .c.bug{border-color:var(--bug)}.c.bug .n{color:var(--bug)}
+  .c.enh{border-color:var(--enh)}.c.enh .n{color:var(--enh)}
+  .c.ask{border-color:var(--ask)}.c.ask .n{color:var(--ask)}
+  .c.ok{border-color:var(--ok)}.c.ok .n{color:var(--ok)}
+
+  nav.tabs{display:flex;gap:2px;margin-top:26px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  .tab{appearance:none;background:none;border:0;cursor:pointer;font-family:Archivo,sans-serif;font-size:13.5px;font-weight:600;color:var(--muted);padding:11px 14px;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
+  .tab:hover{color:var(--ink-2)}
+  .tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+  .tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:4px}
+  .tab .cnt{opacity:.6;margin-left:5px;font-weight:500;font-variant-numeric:tabular-nums}
+
+  .panel{padding-top:22px}
+  h2{font-family:Archivo,sans-serif;font-size:17px;font-weight:600;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 18px}
+  .audience{display:inline-block;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:5px;background:var(--accent-soft);color:var(--accent);margin-bottom:12px}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:16px;overflow:hidden}
+  .card.bug{border-left:4px solid var(--bug)}
+  .card.enh{border-left:4px solid var(--enh)}
+  .card-h{padding:14px 16px 12px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .chip{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:5px}
+  .chip.bug{background:var(--bug-bg);color:var(--bug)}
+  .chip.enh{background:var(--enh-bg);color:var(--enh)}
+  .chip.id{background:var(--accent-soft);color:var(--accent)}
+  .chip.fe{background:var(--fe-bg);color:var(--fe)}
+  .chip.be{background:var(--be-bg);color:var(--be)}
+  .card-h h3{font-family:Archivo,sans-serif;font-size:16px;font-weight:600;margin:0;line-height:1.35}
+
+  .rows{border-top:1px solid var(--line)}
+  .row{display:grid;grid-template-columns:104px 1fr;gap:4px 14px;padding:11px 16px;border-bottom:1px solid var(--line);font-size:14px}
+  .row:last-child{border-bottom:0}
+  .row dt{color:var(--muted);font-size:12.5px;padding-top:2px}
+  .row dd{margin:0;color:var(--ink-2)}
+  .row.impact{background:var(--surface-2)}
+  .row.impact dd{color:var(--ink)}
+  .row.fix dd{color:var(--ink)}
+
+  pre{margin:6px 0 0;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:10px 12px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink-2)}
+  code{font-family:var(--mono);font-size:.9em;background:var(--accent-soft);padding:1px 5px;border-radius:4px;color:var(--ink-2)}
+  .hl{background:var(--bug-bg);color:var(--bug);font-weight:600;padding:1px 4px;border-radius:3px}
+
+  figure{margin:6px 0 0}
+  figure img{width:100%;border-radius:6px;display:block}
+  figcaption{font-size:12.5px;color:var(--muted);margin-top:9px;line-height:1.55}
+  figcaption b{color:var(--ink-2);font-weight:600}
+
+  /* A screenshot with the problem ringed. The box is positioned in percentages so it
+     stays on the right spot at any width, including on a phone. */
+  .shot{position:relative;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;line-height:0}
+  .mark{position:absolute;border:3px solid #e11d48;border-radius:4px;pointer-events:none;box-shadow:0 0 0 2px rgba(255,255,255,.55)}
+  .mark i{position:absolute;top:-11px;left:-11px;width:22px;height:22px;border-radius:50%;background:#e11d48;color:#fff;font:700 12px/22px Archivo,sans-serif;font-style:normal;text-align:center}
+  .caps{display:flex;flex-direction:column;gap:7px;margin-top:10px}
+  .cap{display:grid;grid-template-columns:22px 1fr;gap:9px;font-size:13px;color:var(--ink-2);line-height:1.5}
+  .cap span{width:20px;height:20px;border-radius:50%;background:#e11d48;color:#fff;font:700 11px/20px Archivo,sans-serif;text-align:center}
+
+  .filelink{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;color:var(--accent);text-decoration:none}
+  .filelink:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .filelink .sz{color:var(--muted);font-size:10.5px}
+
+  .files{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .file{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;color:var(--ink-2)}
+  .file .sz{color:var(--muted);font-size:10.5px}
+
+  .copybar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--surface-2);border-top:1px solid var(--line);flex-wrap:wrap}
+  .copybtn{appearance:none;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;padding:6px 12px;border-radius:6px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);cursor:pointer}
+  .copybtn:hover{border-color:var(--accent);color:var(--accent)}
+  .copybtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .copyhint{font-size:12px;color:var(--muted)}
+
+  ol.q,ul.p{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:12px}
+  ul.p{list-style:none;padding-left:0}
+  ol.q li,ul.p li{font-size:14.5px;color:var(--ink-2)}
+  ul.p li strong,ol.q li strong{color:var(--ink);font-weight:600}
+  .why{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+
+  .note{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:14px;color:var(--ink-2)}
+  .note strong{color:var(--ink)}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+  table.t th{text-align:left;font-family:Archivo,sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px 8px 0;border-bottom:1px solid var(--line-2)}
+  table.t td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:top}
+
+  @media (max-width:640px){
+    .counts{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .row{grid-template-columns:1fr}
+    .row dt{font-weight:600}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<style>
+  /* ── Collapsible findings ───────────────────────────────────────────────────
+     Every finding is a closed row by default, so the reader sees the whole list
+     of problems on one screen and opens only the one they own. */
+  .card-btn{
+    width:100%;appearance:none;background:none;border:0;cursor:pointer;color:inherit;font:inherit;
+    display:grid;grid-template-columns:1fr auto;align-items:start;gap:14px;text-align:left;padding:14px 16px;
+  }
+  .card-btn:hover{background:var(--surface-2)}
+  .card-btn:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  .card-btn h3{font-family:Archivo,sans-serif;font-size:16px;font-weight:600;margin:0;line-height:1.35}
+  .card-btn .where{display:block;color:var(--muted);font-size:12.5px;font-weight:400;margin-top:3px}
+  .caret{color:var(--muted);font-size:11px;transition:transform .18s ease;padding-top:4px}
+  .card-btn[aria-expanded="true"] .caret{transform:rotate(90deg)}
+
+  /* ── Who fixes it ───────────────────────────────────────────────────────────
+     Splitting the work by team at the top of the finding, so neither side has to
+     read the whole card to find out whether it is theirs. */
+  .own{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:6px 0 0}
+  .own .o{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--surface)}
+  .own .o.fe{border-left:3px solid var(--fe)}
+  .own .o.be{border-left:3px solid var(--be)}
+  .own .o.none{border-left:3px solid var(--line-2);opacity:.8}
+  .own .o h5{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 5px}
+  .own .o.fe h5{color:var(--fe)}
+  .own .o.be h5{color:var(--be)}
+  .own .o.none h5{color:var(--muted)}
+  .own .o p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.5}
+
+  /* ── The wire ───────────────────────────────────────────────────────────────
+     Endpoint, request and response quoted from the recording, so a developer can
+     reproduce without opening the HAR first. */
+  .wire{margin-top:6px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+  .wire .w-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:9px 12px;background:var(--surface-2);border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px}
+  .verb{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:3px 7px;border-radius:4px;background:var(--accent-soft);color:var(--accent)}
+  .verb.post{background:var(--ok-bg);color:var(--ok)}
+  .verb.patch{background:var(--enh-bg);color:var(--enh)}
+  .verb.del{background:var(--bug-bg);color:var(--bug)}
+  .st{margin-left:auto;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;padding:3px 7px;border-radius:4px;background:var(--ok-bg);color:var(--ok)}
+  .st.bad{background:var(--bug-bg);color:var(--bug)}
+  .ms{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .wire .w-b{padding:10px 12px}
+  .wire .w-b + .w-b{border-top:1px dashed var(--line)}
+  .wire h6{font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 5px}
+  .wire pre{margin:0}
+
+  .src{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.5}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px;margin:0}
+  .kv dt{color:var(--muted)}
+  .kv dd{margin:0;color:var(--ink-2)}
+  .c.shf{border-color:var(--enh)}.c.shf .n{color:var(--enh)}
+  .tag{display:inline-block;font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:var(--surface-3);color:var(--muted)}
+
+  /* ── Blocked cases ───────────────────────────────────────────────────────────
+     Labelled rather than tabulated. A four-column table needed headers to be read at
+     all, and the case id wrapped onto three lines. Here each card says "Cannot test"
+     and "We need" in words, so no column has to be inferred. */
+  .needs{display:flex;flex-direction:column;gap:12px}
+  .need{
+    background:var(--surface);border:1px solid var(--line);
+    border-left:3px solid var(--ask);border-radius:10px;overflow:hidden;
+  }
+  .n-top{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:10px 15px;background:var(--surface-2);border-bottom:1px solid var(--line);
+  }
+  .n-id{font-family:var(--mono);font-size:12px;color:var(--accent);white-space:nowrap}
+  .n-from{
+    font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--ask);background:var(--ask-bg);
+    padding:3px 9px;border-radius:5px;white-space:nowrap;
+  }
+  .n-block,.n-ask{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;padding:12px 15px}
+  .n-ask{background:var(--accent-soft);border-top:1px solid var(--line)}
+  .n-lbl{
+    font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--muted);padding-top:3px;
+  }
+  .n-ask .n-lbl{color:var(--accent)}
+  .n-block p,.n-ask p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.5}
+  .n-ask p b{color:var(--ink);font-weight:600}
+  @media (max-width:640px){
+    .n-block,.n-ask{grid-template-columns:1fr;gap:5px}
+  }
+</style><header class="top">
+  <div class="top-in">
+    <div class="eyebrow">Demo Shop · {{MODULE}} · {{AREA}}</div>
+    <h1>{{TAB}} — QA Findings</h1>
+    <div class="meta">
+      <span><b>Environment</b> softspaceg.github.io/playwright-templates</span>
+      <span><b>Run</b> {{RUN DATE}}</span>
+      <span><b>Scope</b> {{TAB}} · cases {{FIRST}} to {{LAST}}</span>
+      <span><b>Method</b> Automated browser tests, real API traffic captured</span>
+      <span><b>Version</b> {{N}}</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="lead">
+    <p><strong>{{One sentence: how many defects, enhancements, decisions, blockers.}}</strong>
+      {{The single costliest finding, in a sentence a person can say out loud in a meeting.}}
+      {{What works correctly — say it plainly, it is as much a result as the failures.}}</p>
+    <div class="counts">
+      <div class="c bug"><div class="n">{{N}}</div><div class="l">For developers</div></div>
+      <div class="c enh"><div class="n">{{N}}</div><div class="l">Enhancements</div></div>
+      <div class="c ask"><div class="n">{{N}}</div><div class="l">For business</div></div>
+      <div class="c ok"><div class="n">{{Y}}/{{X}}</div><div class="l">Automated cases passing</div></div>
+    </div>
+  </section>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" aria-selected="true" aria-controls="p-dev" id="t-dev">For developers <span class="cnt">{{N}}</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-enh" id="t-enh">Enhancements <span class="cnt">{{N}}</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-biz" id="t-biz">For business <span class="cnt">{{N}}</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-need" id="t-need">What we need <span class="cnt">{{N}}</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-perf" id="t-perf">Performance <span class="cnt">{{N}}</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-qa" id="t-qa">What was tested <span class="cnt">{{N}}</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-api" id="t-api">API reference</button>
+  </nav>
+
+  <!-- ══════════ FOR DEVELOPERS ══════════
+       Holds two kinds of finding, both of which must be fixed:
+         Defect      — the product does something wrong
+         Shortcoming — nothing is wrong, but something a user is entitled to expect is missing
+       The chip says which. Both live here because both are on the fix list. -->
+  <section class="panel" role="tabpanel" id="p-dev" aria-labelledby="t-dev">
+    <div class="audience">Assign to: Frontend &amp; Backend</div>
+    <h2>Defects and shortcomings</h2>
+    <p class="sub">Ordered by cost. A <b>defect</b> is wrong behaviour; a <b>shortcoming</b> is something
+      expected that is missing. Both need fixing.</p>
+
+    <!-- ── FINDING TEMPLATE — copy this block per finding ───────────────────── -->
+    <div class="card bug">
+      <button class="card-btn" aria-expanded="false" aria-controls="d1">
+        <span>
+          <h3>{{What is wrong, as a sentence you would say in a meeting}}</h3>
+          <span class="where">{{High}} · {{Frontend}} · {{CASE-ID or "found manually"}} · {{where in the product}}</span>
+        </span>
+        <span class="caret">▶</span>
+      </button>
+      <div id="d1" hidden>
+      <div class="card-h" style="padding-top:0">
+        <div class="chips"><span class="chip bug">Defect · {{High}}</span><span class="chip id">{{CASE-ID}}</span><span class="chip fe">{{Frontend}}</span></div>
+      </div>
+      <dl class="rows">
+        <!-- Explain the problem and give our reading of it. Never prescribe the fix. -->
+        <div class="row"><dt>What is going on</dt><dd>
+          <div class="own">
+            <div class="o fe"><h5>{{Frontend}}</h5><p>{{What the evidence says about this side, and why we read it that way.}}</p></div>
+            <div class="o none"><h5>{{Backend — nothing to do}}</h5><p>{{Why this side is not implicated, from the evidence.}}</p></div>
+          </div>
+        </dd></div>
+        <div class="row"><dt>Steps</dt><dd>{{How to reach it, in the fewest steps that work}}</dd></div>
+        <div class="row"><dt>Expected</dt><dd>{{What should happen}}</dd></div>
+        <div class="row"><dt>Actual</dt><dd>{{What happens, with the exact text in <span class="hl">a highlight</span>}}</dd></div>
+        <div class="row impact"><dt>Impact</dt><dd>{{Who is hurt, how badly, and what they do instead}}</dd></div>
+        <div class="row"><dt>On the wire</dt><dd>
+          <div class="wire">
+            <div class="w-h"><span class="verb patch">{{PATCH}}</span><span>{{/api/path}}</span><span class="st bad">{{422}}</span><span class="ms">{{1 234 ms}}</span></div>
+            <div class="w-b"><h6>Request</h6><pre>{{quoted from the HAR, never from memory}}</pre></div>
+            <div class="w-b"><h6>Response</h6><pre>{{quoted from the HAR}}</pre></div>
+          </div>
+          <div class="src">{{Which recording this came from, or "direct API probe". Say when a value
+            is a stand-in.}}</div>
+        </dd></div>
+        <div class="row"><dt>Evidence</dt><dd>
+          <figure>
+            <div class="shot">
+              <img src="SHOT_PLACEHOLDER" alt="{{what the image shows}}">
+              <span class="mark" style="left:10%;top:29%;width:18%;height:4%"><i>1</i></span>
+            </div>
+            <div class="caps">
+              <div class="cap"><span>1</span><div>{{What this marked area proves}}</div></div>
+            </div>
+          </figure>
+          <div class="files" style="margin-top:12px">
+            <a class="filelink" href="evidence/{{file}}.png">evidence/{{file}}.png <span class="sz">{{N}} KB</span></a>
+          </div>
+        </dd></div>
+      </dl>
+      <div class="copybar"><button class="copybtn">Copy for tracker</button><span class="copyhint">{{what to attach}}</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ENHANCEMENTS ══════════
+       Correct and complete behaviour that would simply be pleasanter. Genuinely optional.
+       If it is not optional it is a shortcoming and belongs in the previous tab. -->
+  <section class="panel" role="tabpanel" id="p-enh" aria-labelledby="t-enh" hidden>
+    <div class="audience">Assign to: Frontend · prioritise with Product</div>
+    <h2>Enhancements</h2>
+    <p class="sub">The behaviour here is correct and complete. These would make it pleasanter, and are
+      genuinely optional. Kept apart from the shortcomings so that "optional" means optional.</p>
+
+    <div class="card" style="border-left:4px solid var(--line-2)">
+      <button class="card-btn" aria-expanded="false" aria-controls="e1">
+        <span><h3>{{Title}}</h3><span class="where">{{owner}} · {{where}}</span></span>
+        <span class="caret">▶</span>
+      </button>
+      <div id="e1" hidden>
+      <div class="card-h" style="padding-top:0"><div class="chips"><span class="tag">Enhancement</span><span class="chip fe">{{Frontend}}</span></div></div>
+      <dl class="rows">
+        <div class="row"><dt>Actual</dt><dd>{{what happens today}}</dd></div>
+        <div class="row impact"><dt>Why it is only an enhancement</dt><dd>{{what still works correctly — this is the sentence that keeps it out of the defect list}}</dd></div>
+        <div class="row"><dt>Evidence</dt><dd><div class="src" style="margin-top:0">{{where the numbers came from}}</div></dd></div>
+      </dl>
+      <div class="copybar"><button class="copybtn">Copy for tracker</button><span class="copyhint">{{attachment}}</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ FOR BUSINESS ══════════
+       Two kinds, visibly distinguished:
+         Question       — nobody has settled the rule, so QA cannot assert either way
+         Recommendation — QA already has an opinion; Product accepts or rejects it -->
+  <section class="panel" role="tabpanel" id="p-biz" aria-labelledby="t-biz" hidden>
+    <div class="audience">Assign to: Product Manager &amp; BA</div>
+    <h2>Questions and recommendations</h2>
+    <p class="sub">None of these are defects and none need a developer yet. A <b>question</b> has no
+      agreed answer, so the suite cannot say whether today's behaviour is right. A
+      <b>recommendation</b> is what QA would do and why, for Product to accept or reject. Each one
+      names the screen to open, so it can be checked in under a minute.</p>
+
+    <div class="rows" style="display:flex;flex-direction:column;gap:8px;border-top:0">
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q1">
+          <span><h3>{{The question, as a question}}</h3>
+          <span class="where">Q1 · Blocks {{CASE-ID}}</span></span><span class="caret">▶</span></button>
+        <div id="q1" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>{{what the product does today, with evidence}}</dd></div>
+          <div class="row"><dt>Why here</dt><dd>{{why this is not a defect}}</dd></div>
+          <div class="row fix"><dt>If confirmed</dt><dd>{{what it becomes if the rule is agreed}}</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--enh)">
+        <button class="card-btn" aria-expanded="false" aria-controls="r1">
+          <span><h3>{{What we would change}}</h3>
+          <span class="where">R1 · QA recommendation · {{where}}</span></span><span class="caret">▶</span></button>
+        <div id="r1" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>{{what testing made obvious}}</dd></div>
+          <div class="row"><dt>Our view</dt><dd>{{what we would do, and the reason — grounded in what was observed, not a preference}}</dd></div>
+          <div class="row impact"><dt>Cost of doing nothing</dt><dd>{{so it can be prioritised against other work}}</dd></div>
+          <div class="row"><dt>Status</dt><dd>QA's opinion, not a requirement. No test fails because of this.</dd></div>
+        </dl></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ WHAT WE NEED ══════════
+       Everything QA cannot test without someone else acting first. This tab exists so a
+       blocker is never silently dropped and never buried in a footnote: it is a request,
+       addressed to a named group, with the cases it is holding up. -->
+  <section class="panel" role="tabpanel" id="p-need" aria-labelledby="t-need" hidden>
+    <div class="audience">Owner named on each card</div>
+    <h2>What we need to finish this tab</h2>
+    <p class="sub">{{N}} cases are blocked on someone else. They stay in the plan and keep counting as gaps.</p>
+
+    <div class="needs">
+      <!-- One card per blocked case. Copy this block. -->
+      <div class="need">
+        <div class="n-top">
+          <span class="n-id">{{CASE-ID, or "No case yet"}}</span>
+          <span class="n-from">{{DevOps / BA / Product / Backend}}</span>
+        </div>
+        <div class="n-block">
+          <span class="n-lbl">Cannot test</span>
+          <p>{{the scenario, in one line, in the user's words}}</p>
+        </div>
+        <div class="n-ask">
+          <span class="n-lbl">We need</span>
+          <p><b>{{The specific thing.}}</b> {{Why, in one short sentence.}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PERFORMANCE ══════════ -->
+  <section class="panel" role="tabpanel" id="p-perf" aria-labelledby="t-perf" hidden>
+    <div class="audience">Assign to: Backend</div>
+    <h2>API response times</h2>
+    <p class="sub">Measured on this run, not estimated. {{N}} calls across {{N}} tests, grouped by endpoint.</p>
+
+    <div class="note" style="margin-bottom:18px;border-left:4px solid var(--bug)">
+      <strong>{{The one slowness that matters most to a user, in a sentence.}}</strong>
+      {{Which screen it is, and why it matters to the person waiting on it.}}
+    </div>
+
+    <div style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Endpoint</th><th style="text-align:right">Worst</th><th style="text-align:right">Average</th><th style="text-align:right">Calls</th></tr></thead>
+        <tbody style="font-variant-numeric:tabular-nums">
+          <tr><td><code>{{METHOD /api/path}}</code></td><td style="text-align:right;color:var(--bug);font-weight:600">{{N}} ms</td><td style="text-align:right">{{N}} ms</td><td style="text-align:right">{{N}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 style="margin-top:26px">What the numbers suggest</h2>
+    <ul class="p" style="margin-top:10px">
+      <li><strong>{{Observation}}.</strong> {{Measured fact.}} <em>Hypothesis, not a finding:</em> {{the inference, labelled as one}}</li>
+    </ul>
+
+    <div class="note" style="margin-top:20px">
+      <strong>What this measurement cannot tell you.</strong> These are round-trip times seen by the
+      browser. They show which endpoint is slow, not why. Separating server processing from network
+      time needs backend logs or an APM trace. Treat this as where to look, not as a diagnosis.
+    </div>
+  </section>
+
+  <!-- ══════════ WHAT WAS TESTED ══════════ -->
+  <section class="panel" role="tabpanel" id="p-qa" aria-labelledby="t-qa" hidden>
+    <div class="audience">For QA &amp; anyone re-running this</div>
+    <h2>What was tested</h2>
+    <p class="sub"><b>{{X}} of {{P}} planned cases automated · {{Y}} pass · {{Z}} fail.</b> The rest are
+      under What we need.</p>
+
+    <h2 style="margin-top:26px">Every planned case</h2>
+    <div style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Case</th><th>What it checks</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td><code>{{CASE-ID}}</code></td><td>{{what it checks}}</td><td style="color:var(--ok)">Passed</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- ══════════ API REFERENCE ══════════ -->
+  <section class="panel" role="tabpanel" id="p-api" aria-labelledby="t-api" hidden>
+    <div class="audience">Reference</div>
+    <h2>Confirmed API behaviour</h2>
+    <p class="sub">Every line was observed in real traffic during this run or a direct probe against
+      this environment, not inferred from a naming convention.</p>
+    <div style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Action</th><th>Call</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>{{Create}}</td><td><code>{{POST /api/path}}</code></td><td>{{201 · "message"}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 style="margin-top:30px">About the attached files</h2>
+    <div style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>File</th><th>What it is</th><th>How to open it</th></tr></thead>
+        <tbody>
+          <tr><td><code>.png</code></td><td>The screen at the moment of the finding, with the part that matters ringed in red and the rest dimmed.</td><td>Any image viewer. They are also embedded in this page.</td></tr>
+          <tr><td><code>.har</code></td><td>Every network request the browser made during that test, with headers, bodies, status codes and timings.</td><td>DevTools &rarr; Network &rarr; the import arrow, then drop the file in.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src" style="margin-top:12px">Session tokens in the HARs are replaced with
+      <code>REDACTED</code>; nothing else is altered. No trace is attached — ask QA for one.</p>
+
+  </section>
+</div>
+<script>
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        var p = document.getElementById(t.getAttribute('aria-controls'));
+        if (p) p.hidden = !on;
+      });
+    }
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () { select(t); });
+      t.addEventListener('keydown', function (e) {
+        var i = tabs.indexOf(t);
+        if (e.key === 'ArrowRight') { var n = tabs[(i + 1) % tabs.length]; n.focus(); select(n); }
+        if (e.key === 'ArrowLeft') { var p = tabs[(i - 1 + tabs.length) % tabs.length]; p.focus(); select(p); }
+      });
+    });
+
+    // Findings start closed, so the list of problems fits on one screen.
+    document.querySelectorAll('.card-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        var body = document.getElementById(btn.getAttribute('aria-controls'));
+        if (body) body.hidden = open;
+      });
+    });
+
+    // Copies one finding as plain text, ready to paste into a tracker task.
+    document.querySelectorAll('.copybtn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var card = btn.closest('.card');
+        var head = card.querySelector('h3');
+        var title = head ? head.textContent.trim() : '';
+        var chips = Array.prototype.map.call(card.querySelectorAll('.chip, .tag'), function (c) {
+          return c.textContent.trim();
+        }).join(' · ');
+        var lines = [title, chips, ''];
+        card.querySelectorAll('.row').forEach(function (r) {
+          var dt = r.querySelector('dt'), dd = r.querySelector('dd');
+          if (!dt || !dd) return;
+          var k = dt.textContent.trim();
+          var v = dd.innerText.trim();
+          // innerText skips href values, so the evidence filenames would be lost.
+          var hrefs = Array.prototype.map.call(r.querySelectorAll('a[href]'), function (a) {
+            return a.getAttribute('href');
+          });
+          if (hrefs.length) v = (v ? v + '\n' : '') + 'Files: ' + hrefs.join(', ');
+          if (v) { lines.push(k + ':'); lines.push(v); lines.push(''); }
+        });
+        var text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
+        var done = function () {
+          var old = btn.textContent;
+          btn.textContent = 'Copied';
+          setTimeout(function () { btn.textContent = old; }, 1400);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+        } else { fallback(text, done); }
+      });
+    });
+
+    function fallback(text, done) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      setTimeout(function () { ta.remove(); }, 100);
+    }
+  })();
+</script>
+
+</body>
+</html>
