@@ -7,3 +7,4 @@ mcp-output/
 .browser-profile/
 har/
 artifacts/
+reports/*/*-auto/

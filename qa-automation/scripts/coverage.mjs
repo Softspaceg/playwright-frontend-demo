@@ -45,8 +45,8 @@ function findPlanFiles(dir) {
   return found;
 }
 
-/** Every scenario in every plan, with its id, title and declared status. */
-function readPlans() {
+/** Every scenario in every plan, with its id, title and declared status. Also used by fill-report.mjs. */
+export function readPlans() {
   const scenarios = [];
   if (!fs.existsSync(SPECS_DIR)) return scenarios;
 
@@ -266,4 +266,7 @@ function main() {
   if (orphans.length) console.log(`  ${orphans.length} automated case(s) not present in any plan`);
 }
 
-main();
+
+// Run only when called as a script, so fill-report.mjs can import readPlans() without side effects.
+// Compared by file name: on Windows the drive letter case of argv and import.meta.url can differ.
+if (path.basename(process.argv[1] ?? '') === 'coverage.mjs') main();

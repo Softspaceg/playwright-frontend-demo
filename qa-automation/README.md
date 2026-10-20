@@ -107,6 +107,7 @@ DEMO_PASS=password123
 | `scripts/coverage.mjs` | Plan vs tests: which planned cases are automated, which are blocked |
 | `scripts/cases.mjs` | Lists the automated cases of a tab |
 | `scripts/keep-run.mjs` | Copies each run's results into `reports/runs/<date>_<time>_<tab>/` |
+| `scripts/fill-report.mjs` | Fills the team report template from a run (failures, plan questions, blocked cases, timings) and builds it into `reports/<module>/<tab>-auto/`. Runs on every `npm run tab` and on CI |
 | `scripts/build-report.mjs` | Builds a filled report into one folder you can hand over (inlines images, redacts tokens) |
 | `reports/_template/` | The agreed HTML report format (seven tabs) and how to fill it |
 | `reports/<module>/` | Latest summary, coverage and case list per tab, and built reports (`products-v1/`) |
@@ -114,11 +115,19 @@ DEMO_PASS=password123
 | `prompts/` | One file per tab with every prompt in the order it was sent (`products-tab.prompts.md`) |
 | `docs/run-commands.md` | Every command, in order, with its expected result |
 | `docs/test-batches.md` | How cases move from plan to suite in batches, and the current batches |
+| `docs/defects.md` | QA's reading of each `@SHOP-BUG-<n>` (title, owner, impact), written once and reused by every generated report |
 | `docs/RELEASES.md` | Dated decisions |
 | `handoffs/` | One note per finished tab: where it stopped and what comes next |
 
 Git-ignored, created by runs: `node_modules/`, `auth/` (saved session), `test-results/`,
-`playwright-report/`, `artifacts/`, `mcp-output/`, `har/`.
+`playwright-report/`, `artifacts/`, `mcp-output/`, `har/`, `reports/*/*-auto/`.
+
+### CI
+
+`.github/workflows/qa-automation.yml` (workflow **QA Automation**) runs on every push and pull
+request to `main`. It starts the app from that commit, runs the Products tab headless, and
+uploads the generated team report as the artifact **qa-report-products**. A known defect keeps
+its test red, so the job stays red until the defect is fixed.
 
 ---
 
