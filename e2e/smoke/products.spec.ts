@@ -12,8 +12,7 @@ test(
   { tag: ["@smoke", "@products"] },
   async ({ page }) => {
     await expect(page.getByRole("heading", { name: "Products" })).toBeVisible();
-    // INTENTIONAL FAILURE: the app has 12 products. Used to test how CI reports a failing run.
-    await expect(page.getByTestId("product-card")).toHaveCount(13);
+    await expect(page.getByTestId("product-card")).toHaveCount(12);
     await expect(page.getByTestId("product-count")).toHaveText("Showing 12 of 12 products");
   },
 );
