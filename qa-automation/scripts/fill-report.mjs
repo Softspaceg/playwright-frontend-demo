@@ -197,6 +197,15 @@ const devCards = failed.map((t, i) => {
     fs.copyFileSync(harFile, path.join(evidenceDir, name));
     files.push(name);
   }
+  // Playwright's recording of the failing test (video: 'retain-on-failure' in the config).
+  const videoAtt = t.attachments.find(a => a.name === 'video' && a.path && fs.existsSync(a.path));
+  if (videoAtt) {
+    const name = `${slug}.webm`;
+    fs.copyFileSync(videoAtt.path, path.join(evidenceDir, name));
+    shotHtml += `
+            <video class="shot" controls preload="metadata" src="evidence/${name}" style="display:block;width:100%;margin-top:12px"></video>`;
+    files.push(name);
+  }
 
   const app = entries.filter(isAppCall);
   const wire = app.length
@@ -439,6 +448,7 @@ const body = `<header class="top">
         <tbody>
           <tr><td><code>.png</code></td><td>The screen at the moment of the finding, with the part that matters ringed in red and the rest dimmed.</td><td>Any image viewer. They are also embedded in this page.</td></tr>
           <tr><td><code>.har</code></td><td>Every network request the browser made during that test.</td><td>DevTools &rarr; Network &rarr; the import arrow, then drop the file in.</td></tr>
+          <tr><td><code>.webm</code></td><td>A video of the failing test from start to finish.</td><td>Plays on the failure's card above, or in any browser.</td></tr>
         </tbody>
       </table>
     </div>

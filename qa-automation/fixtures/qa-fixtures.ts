@@ -2,6 +2,7 @@ import { test as base, expect } from '@playwright/test';
 import { AUTH_FILE } from '../constants';
 import { isAppCall } from './traffic';
 import * as fs from 'fs';
+import * as path from 'path';
 
 /** One app call observed during a test, with everything a developer needs to diagnose it. */
 export type ApiCall = {
@@ -85,20 +86,37 @@ function buildReport(calls: ApiCall[], title: string): string {
  *   - a readable API evidence report: endpoint, method, status, timing, payload, response
  */
 export const test = base.extend<{ api: ApiCall[] }>({
-  context: async ({ browser }, use, testInfo) => {
+  context: async ({ browser, video }, use, testInfo) => {
     const harPath = testInfo.outputPath('network.har');
+
+    // This context replaces Playwright's own, so the config's `video` option has to be
+    // honoured here: Playwright only applies it to the context it creates itself.
+    const videoMode = typeof video === 'string' ? video : video.mode;
+    const videoDir = testInfo.outputPath('video');
 
     const context = await browser.newContext({
       storageState: AUTH_FILE,
       recordHar: { path: harPath, content: 'embed' },
+      ...(videoMode === 'off' ? {} : { recordVideo: { dir: videoDir, size: { width: 1440, height: 900 } } }),
       viewport: { width: 1440, height: 900 },
       ignoreHTTPSErrors: true,
     });
 
     await use(context);
 
-    // The HAR is only flushed to disk once the context closes.
+    // The HAR and the video are only flushed to disk once the context closes.
     await context.close();
+
+    if (videoMode !== 'off' && fs.existsSync(videoDir)) {
+      const failed = testInfo.status !== testInfo.expectedStatus;
+      if (videoMode === 'on' || failed) {
+        for (const file of fs.readdirSync(videoDir).filter(f => f.endsWith('.webm'))) {
+          await testInfo.attach('video', { path: path.join(videoDir, file), contentType: 'video/webm' });
+        }
+      } else {
+        fs.rmSync(videoDir, { recursive: true, force: true });
+      }
+    }
 
     // Verify the evidence actually exists rather than assuming the option took effect.
     const stat = fs.existsSync(harPath) ? fs.statSync(harPath) : null;
