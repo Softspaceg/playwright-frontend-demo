@@ -1,0 +1,9 @@
+node_modules/
+/auth/
+.env
+test-results/
+playwright-report/
+mcp-output/
+.browser-profile/
+har/
+artifacts/

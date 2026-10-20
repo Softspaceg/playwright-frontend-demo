@@ -1,0 +1,618 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/products/products.spec.ts",
+      "--headed"
+    ],
+    "configFile": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\playwright.config.ts",
+    "rootDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "setup",
+        "name": "setup",
+        "testDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/auth\\.setup\\.ts/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "harness",
+        "name": "harness",
+        "testDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/tests[\\\\/](harness|smoke)[\\\\/].*\\.spec\\.ts|tests[\\\\/]seed\\.spec\\.ts/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/tests",
+        "testIgnore": [
+          "/tests[\\\\/](harness|smoke)[\\\\/]/",
+          "/tests[\\\\/]seed\\.spec\\.ts/"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "artifacts/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "auth.setup.ts",
+      "file": "auth.setup.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "log in to Demo Shop and save the session",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "setup",
+              "projectName": "setup",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1083,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "Logged in. Landed on: https://softspaceg.github.io/playwright-frontend-demo/products\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T13:58:52.026Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "17e3fe6f4d9d8bd79c6b-804af1e611c585b72b33",
+          "file": "auth.setup.ts",
+          "line": 7,
+          "column": 6
+        }
+      ]
+    },
+    {
+      "title": "harness\\api-setup.spec.ts",
+      "file": "harness/api-setup.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "QA harness",
+          "file": "harness/api-setup.spec.ts",
+          "line": 9,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HRN-API-001 preconditions can be created through the API",
+              "ok": true,
+              "tags": [
+                "HRN-API-001",
+                "high",
+                "harness"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\harness\\api-setup.spec.ts",
+                        "line": 10,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "harness",
+                  "projectName": "harness",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-19T13:58:54.489Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\harness\\api-setup.spec.ts",
+                            "line": 10,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6f20bc145b3b1216252b-9f35da7cc2f63a410435",
+              "file": "harness/api-setup.spec.ts",
+              "line": 10,
+              "column": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "seed.spec.ts",
+      "file": "seed.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Test group",
+          "file": "seed.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "seed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "harness",
+                  "projectName": "harness",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 398,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-19T13:58:54.815Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "11ceb7af692008938f3b-590992ac37d22cefb0c3",
+              "file": "seed.spec.ts",
+              "line": 4,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "smoke\\evidence-capture.spec.ts",
+      "file": "smoke/evidence-capture.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "QA harness",
+          "file": "smoke/evidence-capture.spec.ts",
+          "line": 12,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HRN-EVD-001 the session and the evidence pipeline work",
+              "ok": true,
+              "tags": [
+                "HRN-EVD-001",
+                "high",
+                "harness"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "harness",
+                  "projectName": "harness",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 844,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "the saved session is still valid",
+                          "duration": 35
+                        },
+                        {
+                          "title": "the api fixture is recording",
+                          "duration": 1
+                        },
+                        {
+                          "title": "no uncaught errors on the page",
+                          "duration": 0
+                        }
+                      ],
+                      "startTime": "2026-10-19T13:58:56.044Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIEhSTi1FVkQtMDAxIHRoZSBzZXNzaW9uIGFuZCB0aGUgZXZpZGVuY2UgcGlwZWxpbmUgd29yawoKTm8gZmV0Y2gvWEhSIGNhbGxzIHdlcmUgb2JzZXJ2ZWQgZHVyaW5nIHRoaXMgdGVzdC4K"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\smoke-evidence-capture-QA--7a027--the-evidence-pipeline-work-harness\\attachments\\network-har-29ec9f8bc0494c6887cab696b8b7bf5e70af523a.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "354f69ed8f5ea7366139-f09366c46a7cb7542a5a",
+              "file": "smoke/evidence-capture.spec.ts",
+              "line": 13,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "products\\products.spec.ts",
+      "file": "products/products.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Products",
+          "file": "products/products.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "SHOP-PRD-002 Every card shows a name, a category and a price",
+              "ok": true,
+              "tags": [
+                "SHOP-PRD-002",
+                "critical",
+                "case",
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1869,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "every card is complete: first load",
+                          "duration": 387
+                        },
+                        {
+                          "title": "every card is complete: after reload",
+                          "duration": 361
+                        }
+                      ],
+                      "startTime": "2026-10-19T13:58:57.655Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAwMiBFdmVyeSBjYXJkIHNob3dzIGEgbmFtZSwgYSBjYXRlZ29yeSBhbmQgYSBwcmljZQoKTm8gZmV0Y2gvWEhSIGNhbGxzIHdlcmUgb2JzZXJ2ZWQgZHVyaW5nIHRoaXMgdGVzdC4K"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-ee6da-name-a-category-and-a-price-chromium\\attachments\\network-har-123f0b0d45c6b28a26298ff696971e65f20b026e.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-84c75a2772354b319c7a",
+              "file": "products/products.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "SHOP-PRD-003 Every price is US dollars written $N.NN",
+              "ok": true,
+              "tags": [
+                "SHOP-PRD-003",
+                "critical",
+                "case",
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1252,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "every price matches $N.NN with no other currency",
+                          "duration": 252
+                        },
+                        {
+                          "title": "format is unchanged by search and filter",
+                          "duration": 49
+                        }
+                      ],
+                      "startTime": "2026-10-19T13:59:00.252Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAwMyBFdmVyeSBwcmljZSBpcyBVUyBkb2xsYXJzIHdyaXR0ZW4gJE4uTk4KCk5vIGZldGNoL1hIUiBjYWxscyB3ZXJlIG9ic2VydmVkIGR1cmluZyB0aGlzIHRlc3QuCg=="
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-a400c--is-US-dollars-written-N-NN-chromium\\attachments\\network-har-11d413f92c44001fa1e61b1a1297683468bc8f5e.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-d934b317af71a9d95a1e",
+              "file": "products/products.spec.ts",
+              "line": 51,
+              "column": 7
+            },
+            {
+              "title": "SHOP-PRD-004 Every price is greater than zero",
+              "ok": true,
+              "tags": [
+                "SHOP-PRD-004",
+                "critical",
+                "case",
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1005,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-19T13:59:01.513Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAwNCBFdmVyeSBwcmljZSBpcyBncmVhdGVyIHRoYW4gemVybwoKTm8gZmV0Y2gvWEhSIGNhbGxzIHdlcmUgb2JzZXJ2ZWQgZHVyaW5nIHRoaXMgdGVzdC4K"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-105ba--price-is-greater-than-zero-chromium\\attachments\\network-har-6913131d396cb7a14575c40d24d07ca95f1d4ed3.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-5ac27892b277be66458f",
+              "file": "products/products.spec.ts",
+              "line": 77,
+              "column": 7
+            },
+            {
+              "title": "SHOP-PRD-005 Name, category and price of each product match the expected catalogue",
+              "ok": true,
+              "tags": [
+                "SHOP-PRD-005",
+                "critical",
+                "case",
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1334,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "catalogue matches: first load",
+                          "duration": 311
+                        },
+                        {
+                          "title": "catalogue matches: after reload",
+                          "duration": 239
+                        }
+                      ],
+                      "startTime": "2026-10-19T13:59:02.526Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAwNSBOYW1lLCBjYXRlZ29yeSBhbmQgcHJpY2Ugb2YgZWFjaCBwcm9kdWN0IG1hdGNoIHRoZSBleHBlY3RlZCBjYXRhbG9ndWUKCk5vIGZldGNoL1hIUiBjYWxscyB3ZXJlIG9ic2VydmVkIGR1cmluZyB0aGlzIHRlc3QuCg=="
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-7192d-atch-the-expected-catalogue-chromium\\attachments\\network-har-7243a99b7890ae03a02605225220d94c2c83af46.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-75119e900ea953c57870",
+              "file": "products/products.spec.ts",
+              "line": 92,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-19T13:58:51.702Z",
+    "duration": 12540.487,
+    "expected": 7,
+    "skipped": 1,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
