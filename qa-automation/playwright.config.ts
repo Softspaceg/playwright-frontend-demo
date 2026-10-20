@@ -44,11 +44,12 @@ export default defineConfig({
     actionTimeout: 15_000,
     navigationTimeout: 30_000,
 
-    // Evidence policy, same as UAPP: HAR and API report on every test, trace and
-    // screenshot only when a test fails.
+    // Evidence policy, same as UAPP: HAR and API report on every test; trace, screenshot
+    // and video only when a test fails. The video goes on the failure's card in the team
+    // report (scripts/fill-report.mjs).
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    video: 'off',
+    video: 'retain-on-failure',
 
     viewport: { width: 1440, height: 900 },
     ignoreHTTPSErrors: true,
