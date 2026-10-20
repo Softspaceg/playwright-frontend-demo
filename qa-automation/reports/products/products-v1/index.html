@@ -1,0 +1,728 @@
+<title>Products QA Findings</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg:#f4f6f7; --surface:#fff; --surface-2:#eceff2; --surface-3:#e3e8ec;
+    --line:#dce2e7; --line-2:#c2ccd4;
+    --ink:#151e27; --ink-2:#3f4e5b; --muted:#687784;
+    --accent:#2c5f7d; --accent-soft:#e4eef4;
+    --bug:#a52f3c; --bug-bg:#fbe5e7;
+    --enh:#8a6118; --enh-bg:#fbeed6;
+    --ask:#5b4a92; --ask-bg:#ece8f8;
+    --ok:#2c6b4f; --ok-bg:#e0efe7;
+    --fe:#1d6a75; --fe-bg:#ddf0f2;
+    --be:#7a4a86; --be-bg:#f2e6f5;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg:#10151a; --surface:#171f26; --surface-2:#1e2830; --surface-3:#26323c;
+      --line:#2a3640; --line-2:#3b4a57;
+      --ink:#e7edf2; --ink-2:#bcc8d2; --muted:#8a98a5;
+      --accent:#7cafd0; --accent-soft:#1b2a35;
+      --bug:#ef8b96; --bug-bg:#33191d;
+      --enh:#dfae64; --enh-bg:#332711;
+      --ask:#b5a5e8; --ask-bg:#262039;
+      --ok:#7ac6a0; --ok-bg:#172a21;
+      --fe:#79c4cd; --fe-bg:#15292c;
+      --be:#c4a0d0; --be-bg:#291f2d;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg:#10151a; --surface:#171f26; --surface-2:#1e2830; --surface-3:#26323c;
+    --line:#2a3640; --line-2:#3b4a57;
+    --ink:#e7edf2; --ink-2:#bcc8d2; --muted:#8a98a5;
+    --accent:#7cafd0; --accent-soft:#1b2a35;
+    --bug:#ef8b96; --bug-bg:#33191d;
+    --enh:#dfae64; --enh-bg:#332711;
+    --ask:#b5a5e8; --ask-bg:#262039;
+    --ok:#7ac6a0; --ok-bg:#172a21;
+    --fe:#79c4cd; --fe-bg:#15292c;
+    --be:#c4a0d0; --be-bg:#291f2d;
+  }
+
+  body{background:var(--bg);color:var(--ink);font-family:"Public Sans",system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding-inline:20px;padding-block:0 64px}
+
+  header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+  .top-in{max-width:980px;margin:0 auto;padding-inline:20px;padding-block:26px 20px}
+  .eyebrow{font-family:Archivo,sans-serif;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:Archivo,sans-serif;font-size:clamp(25px,4.4vw,34px);font-weight:700;line-height:1.12;margin:6px 0 10px;letter-spacing:-.015em;text-wrap:balance}
+  .meta{display:flex;flex-wrap:wrap;gap:4px 20px;font-size:13px;color:var(--muted)}
+  .meta b{color:var(--ink-2);font-weight:500}
+
+  .lead{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+  .lead p{margin:0;font-size:15px;color:var(--ink-2)}
+  .lead strong{color:var(--ink);font-weight:600}
+  .counts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+  .c{border-left:3px solid var(--line-2);padding-left:11px}
+  .c .n{font-family:Archivo,sans-serif;font-size:25px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+  .c .l{font-size:12px;color:var(--muted);margin-top:4px}
+  .c.bug{border-color:var(--bug)}.c.bug .n{color:var(--bug)}
+  .c.enh{border-color:var(--enh)}.c.enh .n{color:var(--enh)}
+  .c.ask{border-color:var(--ask)}.c.ask .n{color:var(--ask)}
+  .c.ok{border-color:var(--ok)}.c.ok .n{color:var(--ok)}
+
+  nav.tabs{display:flex;gap:2px;margin-top:26px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  .tab{appearance:none;background:none;border:0;cursor:pointer;font-family:Archivo,sans-serif;font-size:13.5px;font-weight:600;color:var(--muted);padding:11px 14px;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
+  .tab:hover{color:var(--ink-2)}
+  .tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+  .tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:4px}
+  .tab .cnt{opacity:.6;margin-left:5px;font-weight:500;font-variant-numeric:tabular-nums}
+
+  .panel{padding-top:22px}
+  h2{font-family:Archivo,sans-serif;font-size:17px;font-weight:600;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 18px}
+  .audience{display:inline-block;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:5px;background:var(--accent-soft);color:var(--accent);margin-bottom:12px}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:16px;overflow:hidden}
+  .card.bug{border-left:4px solid var(--bug)}
+  .card.enh{border-left:4px solid var(--enh)}
+  .card-h{padding:14px 16px 12px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .chip{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:5px}
+  .chip.bug{background:var(--bug-bg);color:var(--bug)}
+  .chip.enh{background:var(--enh-bg);color:var(--enh)}
+  .chip.id{background:var(--accent-soft);color:var(--accent)}
+  .chip.fe{background:var(--fe-bg);color:var(--fe)}
+  .chip.be{background:var(--be-bg);color:var(--be)}
+  .card-h h3{font-family:Archivo,sans-serif;font-size:16px;font-weight:600;margin:0;line-height:1.35}
+
+  .rows{border-top:1px solid var(--line)}
+  .row{display:grid;grid-template-columns:104px 1fr;gap:4px 14px;padding:11px 16px;border-bottom:1px solid var(--line);font-size:14px}
+  .row:last-child{border-bottom:0}
+  .row dt{color:var(--muted);font-size:12.5px;padding-top:2px}
+  .row dd{margin:0;color:var(--ink-2)}
+  .row.impact{background:var(--surface-2)}
+  .row.impact dd{color:var(--ink)}
+  .row.fix dd{color:var(--ink)}
+
+  pre{margin:6px 0 0;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:10px 12px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink-2)}
+  code{font-family:var(--mono);font-size:.9em;background:var(--accent-soft);padding:1px 5px;border-radius:4px;color:var(--ink-2)}
+  .hl{background:var(--bug-bg);color:var(--bug);font-weight:600;padding:1px 4px;border-radius:3px}
+
+  figure{margin:6px 0 0}
+  figure img{width:100%;border-radius:6px;display:block}
+  figcaption{font-size:12.5px;color:var(--muted);margin-top:9px;line-height:1.55}
+  figcaption b{color:var(--ink-2);font-weight:600}
+
+  /* A screenshot with the problem ringed. The box is positioned in percentages so it
+     stays on the right spot at any width, including on a phone. */
+  .shot{position:relative;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;line-height:0}
+  .mark{position:absolute;border:3px solid #e11d48;border-radius:4px;pointer-events:none;box-shadow:0 0 0 2px rgba(255,255,255,.55)}
+  .mark i{position:absolute;top:-11px;left:-11px;width:22px;height:22px;border-radius:50%;background:#e11d48;color:#fff;font:700 12px/22px Archivo,sans-serif;font-style:normal;text-align:center}
+  .caps{display:flex;flex-direction:column;gap:7px;margin-top:10px}
+  .cap{display:grid;grid-template-columns:22px 1fr;gap:9px;font-size:13px;color:var(--ink-2);line-height:1.5}
+  .cap span{width:20px;height:20px;border-radius:50%;background:#e11d48;color:#fff;font:700 11px/20px Archivo,sans-serif;text-align:center}
+
+  .filelink{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;color:var(--accent);text-decoration:none}
+  .filelink:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .filelink .sz{color:var(--muted);font-size:10.5px}
+
+  .files{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .file{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;color:var(--ink-2)}
+  .file .sz{color:var(--muted);font-size:10.5px}
+
+  .copybar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--surface-2);border-top:1px solid var(--line);flex-wrap:wrap}
+  .copybtn{appearance:none;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;padding:6px 12px;border-radius:6px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);cursor:pointer}
+  .copybtn:hover{border-color:var(--accent);color:var(--accent)}
+  .copybtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .copyhint{font-size:12px;color:var(--muted)}
+
+  ol.q,ul.p{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:12px}
+  ul.p{list-style:none;padding-left:0}
+  ol.q li,ul.p li{font-size:14.5px;color:var(--ink-2)}
+  ul.p li strong,ol.q li strong{color:var(--ink);font-weight:600}
+  .why{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+
+  .note{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:14px;color:var(--ink-2)}
+  .note strong{color:var(--ink)}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+  table.t th{text-align:left;font-family:Archivo,sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px 8px 0;border-bottom:1px solid var(--line-2)}
+  table.t td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:top}
+
+  @media (max-width:640px){
+    .counts{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .row{grid-template-columns:1fr}
+    .row dt{font-weight:600}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<style>
+  /* ── Collapsible findings ───────────────────────────────────────────────────
+     Every finding is a closed row by default, so the reader sees the whole list
+     of problems on one screen and opens only the one they own. */
+  .card-btn{
+    width:100%;appearance:none;background:none;border:0;cursor:pointer;color:inherit;font:inherit;
+    display:grid;grid-template-columns:1fr auto;align-items:start;gap:14px;text-align:left;padding:14px 16px;
+  }
+  .card-btn:hover{background:var(--surface-2)}
+  .card-btn:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  .card-btn h3{font-family:Archivo,sans-serif;font-size:16px;font-weight:600;margin:0;line-height:1.35}
+  .card-btn .where{display:block;color:var(--muted);font-size:12.5px;font-weight:400;margin-top:3px}
+  .caret{color:var(--muted);font-size:11px;transition:transform .18s ease;padding-top:4px}
+  .card-btn[aria-expanded="true"] .caret{transform:rotate(90deg)}
+
+  /* ── Who fixes it ───────────────────────────────────────────────────────────
+     Splitting the work by team at the top of the finding, so neither side has to
+     read the whole card to find out whether it is theirs. */
+  .own{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:6px 0 0}
+  .own .o{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--surface)}
+  .own .o.fe{border-left:3px solid var(--fe)}
+  .own .o.be{border-left:3px solid var(--be)}
+  .own .o.none{border-left:3px solid var(--line-2);opacity:.8}
+  .own .o h5{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 5px}
+  .own .o.fe h5{color:var(--fe)}
+  .own .o.be h5{color:var(--be)}
+  .own .o.none h5{color:var(--muted)}
+  .own .o p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.5}
+
+  /* ── The wire ───────────────────────────────────────────────────────────────
+     Endpoint, request and response quoted from the recording, so a developer can
+     reproduce without opening the HAR first. */
+  .wire{margin-top:6px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+  .wire .w-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:9px 12px;background:var(--surface-2);border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px}
+  .verb{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:3px 7px;border-radius:4px;background:var(--accent-soft);color:var(--accent)}
+  .verb.post{background:var(--ok-bg);color:var(--ok)}
+  .verb.patch{background:var(--enh-bg);color:var(--enh)}
+  .verb.del{background:var(--bug-bg);color:var(--bug)}
+  .st{margin-left:auto;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;padding:3px 7px;border-radius:4px;background:var(--ok-bg);color:var(--ok)}
+  .st.bad{background:var(--bug-bg);color:var(--bug)}
+  .ms{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .wire .w-b{padding:10px 12px}
+  .wire .w-b + .w-b{border-top:1px dashed var(--line)}
+  .wire h6{font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 5px}
+  .wire pre{margin:0}
+
+  .src{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.5}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px;margin:0}
+  .kv dt{color:var(--muted)}
+  .kv dd{margin:0;color:var(--ink-2)}
+  .c.shf{border-color:var(--enh)}.c.shf .n{color:var(--enh)}
+  .tag{display:inline-block;font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:var(--surface-3);color:var(--muted)}
+
+  /* ── Blocked cases ───────────────────────────────────────────────────────────
+     Labelled rather than tabulated. A four-column table needed headers to be read at
+     all, and the case id wrapped onto three lines. Here each card says "Cannot test"
+     and "We need" in words, so no column has to be inferred. */
+  .needs{display:flex;flex-direction:column;gap:12px}
+  .need{
+    background:var(--surface);border:1px solid var(--line);
+    border-left:3px solid var(--ask);border-radius:10px;overflow:hidden;
+  }
+  .n-top{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:10px 15px;background:var(--surface-2);border-bottom:1px solid var(--line);
+  }
+  .n-id{font-family:var(--mono);font-size:12px;color:var(--accent);white-space:nowrap}
+  .n-from{
+    font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--ask);background:var(--ask-bg);
+    padding:3px 9px;border-radius:5px;white-space:nowrap;
+  }
+  .n-block,.n-ask{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;padding:12px 15px}
+  .n-ask{background:var(--accent-soft);border-top:1px solid var(--line)}
+  .n-lbl{
+    font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--muted);padding-top:3px;
+  }
+  .n-ask .n-lbl{color:var(--accent)}
+  .n-block p,.n-ask p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.5}
+  .n-ask p b{color:var(--ink);font-weight:600}
+  @media (max-width:640px){
+    .n-block,.n-ask{grid-template-columns:1fr;gap:5px}
+  }
+</style>
+<header class="top">
+  <div class="top-in">
+    <div class="eyebrow">Demo Shop · Products · Product list</div>
+    <h1>Products — QA Findings</h1>
+    <div class="meta">
+      <span><b>Environment</b> softspaceg.github.io/playwright-frontend-demo</span>
+      <span><b>Run</b> 19 Oct 2026, 17:34 (kept as reports/runs/2026-10-19_1734_products-products)</span>
+      <span><b>Scope</b> Products · cases SHOP-PRD-001 to SHOP-PRD-023</span>
+      <span><b>Method</b> Automated browser tests, all network traffic recorded (static site, no API)</span>
+      <span><b>Version</b> v1</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="lead">
+    <p><strong>1 defect for developers, no enhancements, 13 items for Product (9 questions, 4 recommendations), 6 cases blocked.</strong>
+      A shopper who types a category such as “Home” into the search box is told “No products found”, although three Home products exist.
+      Everything else that was automated works: every price is in US dollars as $N.NN and above zero, every card shows a name, a category and a price, the catalogue is the same after a reload, and the category filter and the empty state behave correctly.</p>
+    <div class="counts">
+      <div class="c bug"><div class="n">1</div><div class="l">For developers</div></div>
+      <div class="c enh"><div class="n">0</div><div class="l">Enhancements</div></div>
+      <div class="c ask"><div class="n">13</div><div class="l">For business</div></div>
+      <div class="c ok"><div class="n">6/7</div><div class="l">Automated cases passing</div></div>
+    </div>
+  </section>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" aria-selected="true" aria-controls="p-dev" id="t-dev">For developers <span class="cnt">1</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-enh" id="t-enh">Enhancements <span class="cnt">0</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-biz" id="t-biz">For business <span class="cnt">13</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-need" id="t-need">What we need <span class="cnt">6</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-perf" id="t-perf">Performance <span class="cnt">0</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-qa" id="t-qa">What was tested <span class="cnt">7</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-api" id="t-api">Storage reference</button>
+  </nav>
+
+  <!-- ══════════ FOR DEVELOPERS ══════════ -->
+  <section class="panel" role="tabpanel" id="p-dev" aria-labelledby="t-dev">
+    <div class="audience">Assign to: Frontend</div>
+    <h2>Defects and shortcomings</h2>
+    <p class="sub">Ordered by cost. A <b>defect</b> is wrong behaviour; a <b>shortcoming</b> is something
+      expected that is missing. Both need fixing.</p>
+
+    <div class="card bug">
+      <button class="card-btn" aria-expanded="false" aria-controls="d1">
+        <span>
+          <h3>Searching for a category shows “No products found”, although products in that category exist</h3>
+          <span class="where">High · Frontend · SHOP-PRD-011 · @SHOP-BUG-1 · Products, search box</span>
+        </span>
+        <span class="caret">▶</span>
+      </button>
+      <div id="d1" hidden>
+      <div class="card-h" style="padding-top:0">
+        <div class="chips"><span class="chip bug">Defect · High</span><span class="chip id">SHOP-PRD-011</span><span class="chip id">SHOP-BUG-1</span><span class="chip fe">Frontend</span></div>
+      </div>
+      <dl class="rows">
+        <div class="row"><dt>What is going on</dt><dd>
+          <div class="own">
+            <div class="o fe"><h5>Frontend</h5><p>The search compares the typed text with the product name only. “lamp”, “LAMP” and “  lamp  ” all find Desk Lamp, so trimming and case are handled; the category is simply not part of the match. Our reading: the filter in the product list does not look at the category field.</p></div>
+            <div class="o none"><h5>Backend — nothing to do</h5><p>The recording shows no request while searching: the only traffic is the page, its script and its stylesheet. The catalogue is in the page and filtered in the browser.</p></div>
+          </div>
+        </dd></div>
+        <div class="row"><dt>Steps</dt><dd>1. Log in as demo@example.com / password123.<br>2. On Products, type <code>Home</code> in “Search products”.<br>3. Leave the category on “All categories”.</dd></div>
+        <div class="row"><dt>Expected</dt><dd>Coffee Mug, Desk Lamp and Indoor Plant are listed and the count reads “Showing 3 of 12 products” (owner's rule R4, 19 Oct 2026: search matches the product name or its category).</dd></div>
+        <div class="row"><dt>Actual</dt><dd>No cards, the message <span class="hl">No products found</span> and the count <span class="hl">Showing 0 of 12 products</span>. Choosing category Home, then All categories, with “Home” still in the box, keeps “Showing 0 of 12 products”.</dd></div>
+        <div class="row impact"><dt>Impact</dt><dd>A shopper who searches by what kind of product they want, rather than its exact name, is told the shop has nothing and may leave. The category select still works, so the products are reachable, but only if the shopper thinks to use it.</dd></div>
+        <div class="row"><dt>On the wire</dt><dd>
+          <div class="wire">
+            <div class="w-h"><span class="verb">GET</span><span>/playwright-frontend-demo/products</span><span class="st bad">404</span><span class="ms">57 ms</span></div>
+            <div class="w-b"><h6>Request</h6><pre>Page load only (document). Followed by GET assets/index-ChNJ1vFi.js 200 (116 ms)
+and GET assets/index-D1ZnGwpx.css 200 (60 ms).</pre></div>
+            <div class="w-b"><h6>Response</h6><pre>No request at all while typing “Home” or changing the category.</pre></div>
+          </div>
+          <div class="src">From evidence/shop-prd-011.har, the recording of this test. The 404 on the page itself is GitHub Pages' SPA fallback: the app still renders. It is not this defect (see recommendation R2).</div>
+        </dd></div>
+        <div class="row"><dt>Evidence</dt><dd>
+          <figure>
+            <div class="shot">
+              <img src="data:image/png;base64,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wRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAALjFVUgAADWFJREFUBE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgvf/AwAA//8XfoLfAAAABklEQVQDAIWEfI2aWldcAAAAAElFTkSuQmCC" alt="Products screen with “Home” in the search box, “Showing 0 of 12 products” and the “No products found” message ringed in red">
+              <span class="mark" style="left:12.8%;top:20.9%;width:74.5%;height:13.7%"><i>1</i></span>
+            </div>
+            <div class="caps">
+              <div class="cap"><span>1</span><div>With “Home” typed and “All categories” selected, the app shows “No products found” and “Showing 0 of 12 products”. Rule R4 expects Coffee Mug, Desk Lamp and Indoor Plant and “Showing 3 of 12 products”.</div></div>
+            </div>
+          </figure>
+          <div class="files" style="margin-top:12px">
+            <a class="filelink" href="evidence/shop-bug-1-search-home.png">evidence/shop-bug-1-search-home.png <span class="sz">19 KB</span></a>
+            <a class="filelink" href="evidence/shop-prd-011.har">evidence/shop-prd-011.har <span class="sz">185 KB</span></a>
+          </div>
+        </dd></div>
+      </dl>
+      <div class="copybar"><button class="copybtn">Copy for tracker</button><span class="copyhint">Attach shop-bug-1-search-home.png</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ENHANCEMENTS ══════════ -->
+  <section class="panel" role="tabpanel" id="p-enh" aria-labelledby="t-enh" hidden>
+    <div class="audience">Assign to: Frontend · prioritise with Product</div>
+    <h2>Enhancements</h2>
+    <p class="sub">None on this run. QA's suggestions for this screen are under For business as
+      recommendations, because each one needs Product to decide first.</p>
+  </section>
+
+  <!-- ══════════ FOR BUSINESS ══════════ -->
+  <section class="panel" role="tabpanel" id="p-biz" aria-labelledby="t-biz" hidden>
+    <div class="audience">Assign to: Product Manager &amp; BA</div>
+    <h2>Questions and recommendations</h2>
+    <p class="sub">None of these are defects and none need a developer yet. A <b>question</b> has no
+      agreed answer, so the suite cannot say whether today's behaviour is right. A
+      <b>recommendation</b> is what QA would do and why, for Product to accept or reject. Each one
+      names the screen to open, so it can be checked in under a minute.</p>
+
+    <div class="rows" style="display:flex;flex-direction:column;gap:8px;border-top:0">
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q1">
+          <span><h3>Should shoppers be able to add a product to a cart from this screen?</h3>
+          <span class="where">Q1 · Blocks SHOP-PRD-007, 008</span></span><span class="caret">▶</span></button>
+        <div id="q1" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Products: no Add to cart button on any card, no cart link or badge in the header.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Nobody has said a cart is in scope for this app, so its absence cannot be called a defect.</dd></div>
+          <div class="row fix"><dt>If confirmed</dt><dd>SHOP-PRD-007 and 008 become testable, and a Cart tab is planned. A typical shop has both.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q2">
+          <span><h3>Should clicking a card open the product's details?</h3>
+          <span class="where">Q2 · Blocks SHOP-PRD-006</span></span><span class="caret">▶</span></button>
+        <div id="q2" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Products: clicking a card does nothing; the address and storage do not change.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>There is no stated requirement for a detail view.</dd></div>
+          <div class="row fix"><dt>If confirmed</dt><dd>SHOP-PRD-006 checks that the detail matches the card.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q3">
+          <span><h3>Should the list be sortable, by price or by name?</h3>
+          <span class="where">Q3 · Blocks SHOP-PRD-016</span></span><span class="caret">▶</span></button>
+        <div id="q3" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Products: no sort control; the order is the order of the data.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>No requirement asks for a sort.</dd></div>
+          <div class="row fix"><dt>If confirmed</dt><dd>SHOP-PRD-016 checks each sort order.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q5">
+          <span><h3>Should the search text and category survive a reload, or be in the address?</h3>
+          <span class="where">Q5 · Affects SHOP-PRD-017</span></span><span class="caret">▶</span></button>
+        <div id="q5" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Products: after a reload the box is empty and the select is back on “All categories”.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Either behaviour is defensible until Product chooses.</dd></div>
+          <div class="row fix"><dt>If confirmed</dt><dd>SHOP-PRD-017 asserts the chosen behaviour.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q6">
+          <span><h3>Should logging out ask for confirmation?</h3>
+          <span class="where">Q6 · Affects SHOP-PRD-021</span></span><span class="caret">▶</span></button>
+        <div id="q6" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Not observed: QA's exploration does not trigger logout.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Typical shops log out without asking; the team's rules treat logout as destructive.</dd></div>
+          <div class="row fix"><dt>If confirmed</dt><dd>SHOP-PRD-021 checks the dialog, Cancel and Confirm.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q7">
+          <span><h3>What should happen to a cart when the shopper logs out and back in?</h3>
+          <span class="where">Q7 · Depends on Q1</span></span><span class="caret">▶</span></button>
+        <div id="q7" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>No cart exists today.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Kept or cleared are both common; the choice is Product's.</dd></div>
+          <div class="row fix"><dt>If confirmed</dt><dd>A Cart tab case asserts it.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q8">
+          <span><h3>Should a visitor who is not logged in see the products?</h3>
+          <span class="where">Q8 · Affects SHOP-PRD-019</span></span><span class="caret">▶</span></button>
+        <div id="q8" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Not observed yet; the planner works with the saved session.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Some shops allow anonymous browsing, others do not.</dd></div>
+          <div class="row fix"><dt>If confirmed</dt><dd>SHOP-PRD-019 asserts the redirect or the open list.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q9">
+          <span><h3>In “Showing N of 12 products”, should 12 stay the whole catalogue under a filter?</h3>
+          <span class="where">Q9 · Products count line</span></span><span class="caret">▶</span></button>
+        <div id="q9" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Products, category Home: “Showing 3 of 12 products”. The 12 never changes.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Both readings are reasonable; the tests assert today's wording only where it is uncontested.</dd></div>
+          <div class="row fix"><dt>If confirmed</dt><dd>SHOP-PRD-014 asserts the agreed denominator.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q10">
+          <span><h3>Should search also match words in the product description?</h3>
+          <span class="where">Q10 · Follows from rule R4</span></span><span class="caret">▶</span></button>
+        <div id="q10" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Products: “battery”, a word in a description, gives “No products found”.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Rule R4 covers name and category only; description is not settled.</dd></div>
+          <div class="row fix"><dt>If confirmed</dt><dd>SHOP-PRD-011 gains a description step.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--enh)">
+        <button class="card-btn" aria-expanded="false" aria-controls="r1">
+          <span><h3>Give the empty-state message a test id</h3>
+          <span class="where">R1 · QA recommendation · Products</span></span><span class="caret">▶</span></button>
+        <div id="r1" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Every control has a test id except “No products found” and the card description, which the tests find by text and by position.</dd></div>
+          <div class="row"><dt>Our view</dt><dd>Add test ids to both, and to any future logout dialog, add button and cart badge.</dd></div>
+          <div class="row impact"><dt>Cost of doing nothing</dt><dd>A wording or markup change breaks tests that have found no defect.</dd></div>
+          <div class="row"><dt>Status</dt><dd>QA's opinion, not a requirement. No test fails because of this.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--enh)">
+        <button class="card-btn" aria-expanded="false" aria-controls="r2">
+          <span><h3>Stop deep links answering HTTP 404</h3>
+          <span class="where">R2 · QA recommendation · Hosting</span></span><span class="caret">▶</span></button>
+        <div id="r2" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>A direct load or reload of /products returns 404 from GitHub Pages and the app still renders (evidence/shop-prd-011.har).</dd></div>
+          <div class="row"><dt>Our view</dt><dd>Use hash routing or another fallback that answers 200.</dd></div>
+          <div class="row impact"><dt>Cost of doing nothing</dt><dd>Monitoring and crawlers see every deep link as broken, and the console shows red errors.</dd></div>
+          <div class="row"><dt>Status</dt><dd>QA's opinion, not a requirement. No test fails because of this.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--enh)">
+        <button class="card-btn" aria-expanded="false" aria-controls="r3">
+          <span><h3>Put the search and category in the address</h3>
+          <span class="where">R3 · QA recommendation · Products</span></span><span class="caret">▶</span></button>
+        <div id="r3" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Both reset on reload (see Q5).</dd></div>
+          <div class="row"><dt>Our view</dt><dd>A query string keeps them on reload and lets a shopper share a filtered list.</dd></div>
+          <div class="row impact"><dt>Cost of doing nothing</dt><dd>A shopper loses the filter on every reload.</dd></div>
+          <div class="row"><dt>Status</dt><dd>QA's opinion, not a requirement. No test fails because of this.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--enh)">
+        <button class="card-btn" aria-expanded="false" aria-controls="r4">
+          <span><h3>Offer a way out of “No products found”</h3>
+          <span class="where">R4 · QA recommendation · Products</span></span><span class="caret">▶</span></button>
+        <div id="r4" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>The empty state shows only the message; clearing is done with the × in the box.</dd></div>
+          <div class="row"><dt>Our view</dt><dd>A “Clear search” link inside the message.</dd></div>
+          <div class="row impact"><dt>Cost of doing nothing</dt><dd>A dead end for the shopper who does not notice the ×.</dd></div>
+          <div class="row"><dt>Status</dt><dd>QA's opinion, not a requirement. No test fails because of this.</dd></div>
+        </dl></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ WHAT WE NEED ══════════ -->
+  <section class="panel" role="tabpanel" id="p-need" aria-labelledby="t-need" hidden>
+    <div class="audience">Owner named on each card</div>
+    <h2>What we need to finish this tab</h2>
+    <p class="sub">6 cases are blocked on someone else. They stay in the plan and keep counting as gaps.</p>
+
+    <div class="needs">
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-006</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>A shopper opens a product and sees the same details as on the card.</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>A decision on a product detail view (Q2).</b> There is nothing to open today.</p></div>
+      </div>
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-007</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>A shopper adds a product to the cart and it is still there after a reload.</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>A decision on Add to cart (Q1).</b> No add control exists.</p></div>
+      </div>
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-008</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>The cart badge shows the right count without a reload.</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>A decision on a cart link or badge (Q1).</b> None exists.</p></div>
+      </div>
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-009</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>A shopper changes a quantity and nothing else in the cart changes.</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>A cart with a quantity control (Q1).</b> None exists.</p></div>
+      </div>
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-010</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>A shopper removes an item or clears the cart, with Cancel changing nothing.</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>A cart with remove and clear (Q1).</b> None exists.</p></div>
+      </div>
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-016</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>A shopper sorts the list by price or by name.</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>A decision on sorting (Q3).</b> No sort control exists.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PERFORMANCE ══════════ -->
+  <section class="panel" role="tabpanel" id="p-perf" aria-labelledby="t-perf" hidden>
+    <div class="audience">Assign to: Frontend &amp; hosting</div>
+    <h2>Response times</h2>
+    <p class="sub">Measured on this run, not estimated. 0 API calls across 7 tests: the app has no backend.
+      The only traffic is loading the page itself, shown here from the SHOP-PRD-011 recording.</p>
+
+    <div class="note" style="margin-bottom:18px;border-left:4px solid var(--ok)">
+      <strong>Nothing a shopper waits on.</strong> Search and the category filter run in the browser
+      with no request, so they respond as fast as the page can redraw.
+    </div>
+
+    <div style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Request</th><th style="text-align:right">Time</th><th style="text-align:right">Status</th></tr></thead>
+        <tbody style="font-variant-numeric:tabular-nums">
+          <tr><td><code>GET /playwright-frontend-demo/products</code> (page)</td><td style="text-align:right">57 ms</td><td style="text-align:right">404, app renders</td></tr>
+          <tr><td><code>GET assets/index-ChNJ1vFi.js</code></td><td style="text-align:right">116 ms</td><td style="text-align:right">200</td></tr>
+          <tr><td><code>GET assets/index-D1ZnGwpx.css</code></td><td style="text-align:right">60 ms</td><td style="text-align:right">200</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note" style="margin-top:20px">
+      <strong>What this measurement cannot tell you.</strong> These are round-trip times seen by the
+      browser from one run on one machine. They show where time goes, not why.
+    </div>
+  </section>
+
+  <!-- ══════════ WHAT WAS TESTED ══════════ -->
+  <section class="panel" role="tabpanel" id="p-qa" aria-labelledby="t-qa" hidden>
+    <div class="audience">For QA &amp; anyone re-running this</div>
+    <h2>What was tested</h2>
+    <p class="sub"><b>7 of 23 planned cases automated · 6 pass · 1 fail.</b> 6 are blocked (What we need);
+      10 are planned for later batches. SHOP-PRD-001 is held back on purpose, to be added when the suite
+      runs in CI.</p>
+
+    <h2 style="margin-top:26px">Every planned case</h2>
+    <div style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Case</th><th>What it checks</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td><code>SHOP-PRD-001</code></td><td>Products screen lists the full catalogue</td><td style="color:var(--muted)">Held for CI</td></tr>
+          <tr><td><code>SHOP-PRD-002</code></td><td>Every card shows a name, a category and a price</td><td style="color:var(--ok)">Passed</td></tr>
+          <tr><td><code>SHOP-PRD-003</code></td><td>Every price is US dollars written $N.NN</td><td style="color:var(--ok)">Passed</td></tr>
+          <tr><td><code>SHOP-PRD-004</code></td><td>Every price is greater than zero</td><td style="color:var(--ok)">Passed</td></tr>
+          <tr><td><code>SHOP-PRD-005</code></td><td>Name, category and price of each product match the expected catalogue</td><td style="color:var(--ok)">Passed</td></tr>
+          <tr><td><code>SHOP-PRD-006</code></td><td>Opening a product</td><td style="color:var(--ask)">Blocked</td></tr>
+          <tr><td><code>SHOP-PRD-007</code></td><td>Add a product to the cart and see it after a reload</td><td style="color:var(--ask)">Blocked</td></tr>
+          <tr><td><code>SHOP-PRD-008</code></td><td>Cart badge or link updates without reload</td><td style="color:var(--ask)">Blocked</td></tr>
+          <tr><td><code>SHOP-PRD-009</code></td><td>Change a quantity; the rest of the cart is unchanged</td><td style="color:var(--ask)">Blocked</td></tr>
+          <tr><td><code>SHOP-PRD-010</code></td><td>Remove an item and clear the cart</td><td style="color:var(--ask)">Blocked</td></tr>
+          <tr><td><code>SHOP-PRD-011</code></td><td>Search by name or category finds the product and updates the count</td><td style="color:var(--bug);font-weight:600">Failed · SHOP-BUG-1</td></tr>
+          <tr><td><code>SHOP-PRD-012</code></td><td>Search with no match shows the empty state</td><td style="color:var(--ok)">Passed</td></tr>
+          <tr><td><code>SHOP-PRD-013</code></td><td>Search treats special characters as plain text</td><td style="color:var(--muted)">Not automated yet</td></tr>
+          <tr><td><code>SHOP-PRD-014</code></td><td>Category filter shows only that category (each option used)</td><td style="color:var(--ok)">Passed</td></tr>
+          <tr><td><code>SHOP-PRD-015</code></td><td>Search and category work together and reset correctly</td><td style="color:var(--muted)">Not automated yet</td></tr>
+          <tr><td><code>SHOP-PRD-016</code></td><td>Sort</td><td style="color:var(--ask)">Blocked</td></tr>
+          <tr><td><code>SHOP-PRD-017</code></td><td>The list survives a reload</td><td style="color:var(--muted)">Not automated yet</td></tr>
+          <tr><td><code>SHOP-PRD-018</code></td><td>Browsing does not write anything to storage</td><td style="color:var(--muted)">Not automated yet</td></tr>
+          <tr><td><code>SHOP-PRD-019</code></td><td>Logged-out visitor cannot use the Products screen</td><td style="color:var(--muted)">Not automated yet</td></tr>
+          <tr><td><code>SHOP-PRD-020</code></td><td>Header shows who is logged in and offers Log out</td><td style="color:var(--muted)">Not automated yet</td></tr>
+          <tr><td><code>SHOP-PRD-021</code></td><td>Log out: confirmation, Cancel, Confirm</td><td style="color:var(--muted)">Not automated yet</td></tr>
+          <tr><td><code>SHOP-PRD-022</code></td><td>Direct link, reload and unknown routes land on the list</td><td style="color:var(--muted)">Not automated yet</td></tr>
+          <tr><td><code>SHOP-PRD-023</code></td><td>Controls have accessible names</td><td style="color:var(--muted)">Not automated yet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 style="margin-top:26px">Re-running</h2>
+    <p class="sub" style="margin-top:6px">From <code>qa-automation/</code>: <code>npm run tab -- products/products</code> for the tab,
+      <code>npx playwright test --grep "@SHOP-BUG-1"</code> to retest the defect.</p>
+  </section>
+
+  <!-- ══════════ STORAGE REFERENCE ══════════ -->
+  <section class="panel" role="tabpanel" id="p-api" aria-labelledby="t-api" hidden>
+    <div class="audience">Reference</div>
+    <h2>Confirmed storage behaviour</h2>
+    <p class="sub">The app has no API, so this tab records where state lives instead. Every line was
+      observed on this run or in the plan's exploration of 19 Oct 2026.</p>
+    <div style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Action</th><th>Where</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Logged in</td><td><code>localStorage demo_session</code></td><td><code>{"name":"Demo User","email":"demo@example.com"}</code></td></tr>
+          <tr><td>Search, category filter</td><td>none</td><td>No request and no storage change; reset on reload</td></tr>
+          <tr><td>Reload or direct load of /products</td><td><code>GET /products</code></td><td>404 from GitHub Pages; the app still renders</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 style="margin-top:30px">About the attached files</h2>
+    <div style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>File</th><th>What it is</th><th>How to open it</th></tr></thead>
+        <tbody>
+          <tr><td><code>.png</code></td><td>The screen at the moment of the finding, with the part that matters ringed in red and the rest dimmed.</td><td>Any image viewer. They are also embedded in this page.</td></tr>
+          <tr><td><code>.har</code></td><td>Every network request the browser made during that test, with headers, bodies, status codes and timings.</td><td>DevTools &rarr; Network &rarr; the import arrow, then drop the file in.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src" style="margin-top:12px">Session tokens in the HARs are replaced with
+      <code>REDACTED</code>; nothing else is altered. No trace is attached — ask QA for one.</p>
+  </section>
+</div>
+<script>
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        var p = document.getElementById(t.getAttribute('aria-controls'));
+        if (p) p.hidden = !on;
+      });
+    }
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () { select(t); });
+      t.addEventListener('keydown', function (e) {
+        var i = tabs.indexOf(t);
+        if (e.key === 'ArrowRight') { var n = tabs[(i + 1) % tabs.length]; n.focus(); select(n); }
+        if (e.key === 'ArrowLeft') { var p = tabs[(i - 1 + tabs.length) % tabs.length]; p.focus(); select(p); }
+      });
+    });
+
+    // Findings start closed, so the list of problems fits on one screen.
+    document.querySelectorAll('.card-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        var body = document.getElementById(btn.getAttribute('aria-controls'));
+        if (body) body.hidden = open;
+      });
+    });
+
+    // Copies one finding as plain text, ready to paste into a tracker task.
+    document.querySelectorAll('.copybtn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var card = btn.closest('.card');
+        var head = card.querySelector('h3');
+        var title = head ? head.textContent.trim() : '';
+        var chips = Array.prototype.map.call(card.querySelectorAll('.chip, .tag'), function (c) {
+          return c.textContent.trim();
+        }).join(' · ');
+        var lines = [title, chips, ''];
+        card.querySelectorAll('.row').forEach(function (r) {
+          var dt = r.querySelector('dt'), dd = r.querySelector('dd');
+          if (!dt || !dd) return;
+          var k = dt.textContent.trim();
+          var v = dd.innerText.trim();
+          // innerText skips href values, so the evidence filenames would be lost.
+          var hrefs = Array.prototype.map.call(r.querySelectorAll('a[href]'), function (a) {
+            return a.getAttribute('href');
+          });
+          if (hrefs.length) v = (v ? v + '\n' : '') + 'Files: ' + hrefs.join(', ');
+          if (v) { lines.push(k + ':'); lines.push(v); lines.push(''); }
+        });
+        var text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
+        var done = function () {
+          var old = btn.textContent;
+          btn.textContent = 'Copied';
+          setTimeout(function () { btn.textContent = old; }, 1400);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+        } else { fallback(text, done); }
+      });
+    });
+
+    function fallback(text, done) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      setTimeout(function () { ta.remove(); }, 100);
+    }
+  })();
+</script>
+
+</body>
+</html>
