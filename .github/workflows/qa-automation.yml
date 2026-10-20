@@ -6,6 +6,11 @@
 #
 # A known product defect keeps its test red (e.g. SHOP-BUG-1), so this job fails until the
 # defect is fixed. The report is published either way: a failing run is when it is needed.
+#
+# The team report also goes to https://e2e-reports.uapp.ae/<run>/, next to the e2e
+# reports, the same way e2e-playwright.yml publishes them (see the notes there on the key).
+# The host's index has no column for the suite, so the branch is prefixed "[QA] " to tell
+# the two apart. Pull requests from forks get no secrets and keep only the run artifact.
 name: QA Automation
 
 on:
@@ -33,6 +38,10 @@ jobs:
       # The public demo account (also in README.md). Secrets win when they are set.
       DEMO_USER: ${{ secrets.DEMO_USER || 'demo@example.com' }}
       DEMO_PASS: ${{ secrets.DEMO_PASS || 'password123' }}
+      REPORT_DIR: qa-automation/reports/products/products-auto
+      REPORT_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+      REPORTS_URL: https://e2e-reports.uapp.ae
+      REPORTS_USER: e2ereports
 
     steps:
       - name: Checkout
@@ -91,13 +100,84 @@ jobs:
             qa-automation/playwright-report/
           retention-days: 14
 
+      - name: Check the publish key
+        id: publish
+        if: ${{ !cancelled() }}
+        env:
+          GCP_E2E_REPORTS_SSH_KEY: ${{ secrets.GCP_E2E_REPORTS_SSH_KEY }}
+        run: |
+          if [ ! -f "$REPORT_DIR/index.html" ]; then
+            echo "::notice::No team report was built in $REPORT_DIR; nothing to publish."
+          elif [ -n "$GCP_E2E_REPORTS_SSH_KEY" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::GCP_E2E_REPORTS_SSH_KEY is not available to this run; the report stays a run artifact only."
+          fi
+
+      - name: Write the reports key
+        if: ${{ !cancelled() && steps.publish.outputs.enabled == 'true' }}
+        env:
+          GCP_E2E_REPORTS_SSH_KEY: ${{ secrets.GCP_E2E_REPORTS_SSH_KEY }}
+          GCP_DEPLOY_KNOWN_HOSTS: ${{ secrets.GCP_DEPLOY_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$GCP_E2E_REPORTS_SSH_KEY" > ~/.ssh/gcp_e2e_reports
+          printf '%s\n' "$GCP_DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/gcp_e2e_reports ~/.ssh/known_hosts
+
+      # Read by the host's index page. Passed through env, never interpolated
+      # into the script: a pull request's branch name is attacker-controlled.
+      - name: Describe the run for the reports index
+        if: ${{ !cancelled() && steps.publish.outputs.enabled == 'true' }}
+        env:
+          OUTCOME: ${{ steps.run.outcome }}
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+          SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          PR: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/attempts/${{ github.run_attempt }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          status=failed
+          [ "$OUTCOME" = "success" ] && status=passed
+          {
+            echo "status=$status"
+            echo "branch=[QA] $BRANCH"
+            echo "sha=$SHA"
+            echo "pr=$PR"
+            echo "repo=$REPO"
+            echo "run_url=$RUN_URL"
+            echo "actor=$ACTOR"
+            echo "finished=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > "$REPORT_DIR/meta.txt"
+
+      - name: Publish the report to prod-server
+        if: ${{ !cancelled() && steps.publish.outputs.enabled == 'true' }}
+        env:
+          GCP_DEPLOY_HOST: ${{ secrets.GCP_DEPLOY_HOST }}
+        run: |
+          tar -C "$REPORT_DIR" -czf - . | \
+            ssh -i ~/.ssh/gcp_e2e_reports -o StrictHostKeyChecking=yes -o ConnectTimeout=30 \
+              "$REPORTS_USER@$GCP_DEPLOY_HOST" "upload $REPORT_ID"
+
       - name: Link the report
         if: ${{ !cancelled() }}
+        env:
+          PUBLISHED: ${{ steps.publish.outputs.enabled }}
         run: |
           {
             echo "### QA Automation — Products"
             echo ""
-            echo "Tests: **${{ steps.run.outcome }}**. Team report: download **qa-report-products** below and open \`index.html\`."
+            if [ "$PUBLISHED" = "true" ]; then
+              echo "Tests: **${{ steps.run.outcome }}**. Team report: $REPORTS_URL/$REPORT_ID/ (also attached below as **qa-report-products**)."
+            else
+              echo "Tests: **${{ steps.run.outcome }}**. Team report: download **qa-report-products** below and open \`index.html\`."
+            fi
             echo ""
             sed -n '1,40p' qa-automation/reports/products/dev-summary.md 2>/dev/null || true
           } >> "$GITHUB_STEP_SUMMARY"
+          [ "$PUBLISHED" = "true" ] && echo "Report: $REPORTS_URL/$REPORT_ID/" || true
+
+      - name: Remove the key from the runner
+        if: always()
+        run: rm -f ~/.ssh/gcp_e2e_reports
