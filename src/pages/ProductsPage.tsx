@@ -11,7 +11,7 @@ export default function ProductsPage() {
     return products.filter(
       (p) =>
         (category === 'all' || p.category === category) &&
-        (!q || p.name.toLowerCase().includes(q)),
+        (!q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)),
     );
   }, [search, category]);
 
