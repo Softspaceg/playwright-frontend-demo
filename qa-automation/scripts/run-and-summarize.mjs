@@ -49,8 +49,10 @@ const scope = tabName ? tab(tabName) : null;
 // `npm run tab -- employees/job-positions` with nothing else runs that tab's specs with
 // the browser visible, which is how testing is done here. Anything passed explicitly
 // still wins, so a single file or a --grep can be run inside the same tab.
+// On CI (GitHub Actions sets CI=true) there is no screen, so the browser runs headless.
+const headed = !process.env.CI && !argv.includes('--headed') ? ['--headed'] : [];
 const passthrough = scope && !argv.some(a => a.endsWith('.spec.ts'))
-  ? [...scope.specs, ...(argv.includes('--headed') ? [] : ['--headed']), ...argv]
+  ? [...scope.specs, ...headed, ...argv]
   : argv;
 
 // Node is started directly, never through a shell. On Windows a shell concatenates the
@@ -111,6 +113,18 @@ if (scope) {
   node(['scripts/cases.mjs', tabName, ...scope.specs]);
 }
 
+// The team report, filled from this run by fill-report.mjs (no person, no AI).
+let autoReport = null;
+if (scope) {
+  console.log('\n--- building the team report ---\n');
+  autoReport = path.join('reports', tabName.split('/')[0], `${path.basename(tabName)}-auto`);
+  const filled = node(['scripts/fill-report.mjs', tabName, '--out', autoReport]);
+  if (filled.status !== 0) {
+    console.error('The team report could not be built. The run itself is reported above.');
+    autoReport = null;
+  }
+}
+
 // ── Keep this run ──────────────────────────────────────────────────────────────
 // Copied rather than moved, so the familiar paths still hold the latest run and
 // nothing that reads them has to change.
@@ -139,6 +153,7 @@ for (const entry of fs.existsSync('reports') ? fs.readdirSync('reports', { withF
   keep(path.join('reports', entry.name, 'dev-summary.md'), `dev-summary-${entry.name}.md`);
 }
 keep('reports/dev-summary.md', 'dev-summary-all.md');
+if (autoReport) keep(autoReport, 'report');
 
 // What was asked for is part of the record: a run limited to one tab and a run of the
 // whole suite produce very different numbers, and six weeks later nobody remembers which.
@@ -149,9 +164,9 @@ fs.writeFileSync(
     `command:   npx playwright test ${passthrough.join(' ')}`.trimEnd(),
     `exit code: ${test.status ?? 'unknown'}`,
     '',
-    'The HTML report for these findings is built separately, because it is written',
-    'rather than generated:',
-    '  node scripts/build-report.mjs <source.html> reports/<module>/<tab>-<version>',
+    'The team report generated from this run is in report/ (scripts/fill-report.mjs).',
+    'A hand-edited version for a meeting is built separately:',
+    '  node scripts/build-report.mjs <source.html> reports/<module>/<tab>-<version> --evidence <dir>',
     '',
   ].join('\n'),
   'utf8',

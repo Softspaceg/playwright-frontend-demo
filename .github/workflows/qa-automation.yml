@@ -1,0 +1,103 @@
+# Runs the QA automation project (qa-automation/) against the app built from this commit,
+# then publishes the team report filled from the run by scripts/fill-report.mjs.
+#
+# Separate from e2e-playwright.yml on purpose: it has its own config, login setup and
+# fixtures, and a failure here never stops the e2e suite.
+#
+# A known product defect keeps its test red (e.g. SHOP-BUG-1), so this job fails until the
+# defect is fixed. The report is published either way: a failing run is when it is needed.
+name: QA Automation
+
+on:
+  push:
+    branches: [main, "zainab/**"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qa-automation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  products:
+    name: Products tab (team report)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # The app is served from this commit, so a pull request is tested on its own code.
+      BASE_URL: http://localhost:5173/
+      # The public demo account (also in README.md). Secrets win when they are set.
+      DEMO_USER: ${{ secrets.DEMO_USER || 'demo@example.com' }}
+      DEMO_PASS: ${{ secrets.DEMO_PASS || 'password123' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+          cache-dependency-path: |
+            package-lock.json
+            qa-automation/package-lock.json
+
+      - name: Install the app
+        run: npm ci
+
+      - name: Start the app
+        run: |
+          nohup npm run dev -- --port 5173 --strictPort > vite.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:5173/ > /dev/null && exit 0
+            sleep 1
+          done
+          echo "The app did not start:"; cat vite.log; exit 1
+
+      - name: Install the QA project
+        working-directory: qa-automation
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        working-directory: qa-automation
+        run: npx playwright install --with-deps chromium
+
+      - name: Run the Products tab
+        id: run
+        working-directory: qa-automation
+        run: npm run tab -- products/products
+
+      - name: Keep the team report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-report-products
+          path: qa-automation/reports/products/products-auto/
+          retention-days: 14
+
+      - name: Keep the run (summary, coverage, results)
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-run-products
+          path: |
+            qa-automation/reports/products/
+            qa-automation/artifacts/results.json
+            qa-automation/playwright-report/
+          retention-days: 14
+
+      - name: Link the report
+        if: ${{ !cancelled() }}
+        run: |
+          {
+            echo "### QA Automation — Products"
+            echo ""
+            echo "Tests: **${{ steps.run.outcome }}**. Team report: download **qa-report-products** below and open \`index.html\`."
+            echo ""
+            sed -n '1,40p' qa-automation/reports/products/dev-summary.md 2>/dev/null || true
+          } >> "$GITHUB_STEP_SUMMARY"
