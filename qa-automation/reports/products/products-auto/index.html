@@ -1,0 +1,630 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Products QA Findings</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg:#f4f6f7; --surface:#fff; --surface-2:#eceff2; --surface-3:#e3e8ec;
+    --line:#dce2e7; --line-2:#c2ccd4;
+    --ink:#151e27; --ink-2:#3f4e5b; --muted:#687784;
+    --accent:#2c5f7d; --accent-soft:#e4eef4;
+    --bug:#a52f3c; --bug-bg:#fbe5e7;
+    --enh:#8a6118; --enh-bg:#fbeed6;
+    --ask:#5b4a92; --ask-bg:#ece8f8;
+    --ok:#2c6b4f; --ok-bg:#e0efe7;
+    --fe:#1d6a75; --fe-bg:#ddf0f2;
+    --be:#7a4a86; --be-bg:#f2e6f5;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg:#10151a; --surface:#171f26; --surface-2:#1e2830; --surface-3:#26323c;
+      --line:#2a3640; --line-2:#3b4a57;
+      --ink:#e7edf2; --ink-2:#bcc8d2; --muted:#8a98a5;
+      --accent:#7cafd0; --accent-soft:#1b2a35;
+      --bug:#ef8b96; --bug-bg:#33191d;
+      --enh:#dfae64; --enh-bg:#332711;
+      --ask:#b5a5e8; --ask-bg:#262039;
+      --ok:#7ac6a0; --ok-bg:#172a21;
+      --fe:#79c4cd; --fe-bg:#15292c;
+      --be:#c4a0d0; --be-bg:#291f2d;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg:#10151a; --surface:#171f26; --surface-2:#1e2830; --surface-3:#26323c;
+    --line:#2a3640; --line-2:#3b4a57;
+    --ink:#e7edf2; --ink-2:#bcc8d2; --muted:#8a98a5;
+    --accent:#7cafd0; --accent-soft:#1b2a35;
+    --bug:#ef8b96; --bug-bg:#33191d;
+    --enh:#dfae64; --enh-bg:#332711;
+    --ask:#b5a5e8; --ask-bg:#262039;
+    --ok:#7ac6a0; --ok-bg:#172a21;
+    --fe:#79c4cd; --fe-bg:#15292c;
+    --be:#c4a0d0; --be-bg:#291f2d;
+  }
+
+  body{background:var(--bg);color:var(--ink);font-family:"Public Sans",system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding-inline:20px;padding-block:0 64px}
+
+  header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+  .top-in{max-width:980px;margin:0 auto;padding-inline:20px;padding-block:26px 20px}
+  .eyebrow{font-family:Archivo,sans-serif;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:Archivo,sans-serif;font-size:clamp(25px,4.4vw,34px);font-weight:700;line-height:1.12;margin:6px 0 10px;letter-spacing:-.015em;text-wrap:balance}
+  .meta{display:flex;flex-wrap:wrap;gap:4px 20px;font-size:13px;color:var(--muted)}
+  .meta b{color:var(--ink-2);font-weight:500}
+
+  .lead{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+  .lead p{margin:0;font-size:15px;color:var(--ink-2)}
+  .lead strong{color:var(--ink);font-weight:600}
+  .counts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+  .c{border-left:3px solid var(--line-2);padding-left:11px}
+  .c .n{font-family:Archivo,sans-serif;font-size:25px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+  .c .l{font-size:12px;color:var(--muted);margin-top:4px}
+  .c.bug{border-color:var(--bug)}.c.bug .n{color:var(--bug)}
+  .c.enh{border-color:var(--enh)}.c.enh .n{color:var(--enh)}
+  .c.ask{border-color:var(--ask)}.c.ask .n{color:var(--ask)}
+  .c.ok{border-color:var(--ok)}.c.ok .n{color:var(--ok)}
+
+  nav.tabs{display:flex;gap:2px;margin-top:26px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  .tab{appearance:none;background:none;border:0;cursor:pointer;font-family:Archivo,sans-serif;font-size:13.5px;font-weight:600;color:var(--muted);padding:11px 14px;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
+  .tab:hover{color:var(--ink-2)}
+  .tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+  .tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:4px}
+  .tab .cnt{opacity:.6;margin-left:5px;font-weight:500;font-variant-numeric:tabular-nums}
+
+  .panel{padding-top:22px}
+  h2{font-family:Archivo,sans-serif;font-size:17px;font-weight:600;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 18px}
+  .audience{display:inline-block;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:5px;background:var(--accent-soft);color:var(--accent);margin-bottom:12px}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:16px;overflow:hidden}
+  .card.bug{border-left:4px solid var(--bug)}
+  .card.enh{border-left:4px solid var(--enh)}
+  .card-h{padding:14px 16px 12px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .chip{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:5px}
+  .chip.bug{background:var(--bug-bg);color:var(--bug)}
+  .chip.enh{background:var(--enh-bg);color:var(--enh)}
+  .chip.id{background:var(--accent-soft);color:var(--accent)}
+  .chip.fe{background:var(--fe-bg);color:var(--fe)}
+  .chip.be{background:var(--be-bg);color:var(--be)}
+  .card-h h3{font-family:Archivo,sans-serif;font-size:16px;font-weight:600;margin:0;line-height:1.35}
+
+  .rows{border-top:1px solid var(--line)}
+  .row{display:grid;grid-template-columns:104px 1fr;gap:4px 14px;padding:11px 16px;border-bottom:1px solid var(--line);font-size:14px}
+  .row:last-child{border-bottom:0}
+  .row dt{color:var(--muted);font-size:12.5px;padding-top:2px}
+  .row dd{margin:0;color:var(--ink-2)}
+  .row.impact{background:var(--surface-2)}
+  .row.impact dd{color:var(--ink)}
+  .row.fix dd{color:var(--ink)}
+
+  pre{margin:6px 0 0;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:10px 12px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink-2)}
+  code{font-family:var(--mono);font-size:.9em;background:var(--accent-soft);padding:1px 5px;border-radius:4px;color:var(--ink-2)}
+  .hl{background:var(--bug-bg);color:var(--bug);font-weight:600;padding:1px 4px;border-radius:3px}
+
+  figure{margin:6px 0 0}
+  figure img{width:100%;border-radius:6px;display:block}
+  figcaption{font-size:12.5px;color:var(--muted);margin-top:9px;line-height:1.55}
+  figcaption b{color:var(--ink-2);font-weight:600}
+
+  /* A screenshot with the problem ringed. The box is positioned in percentages so it
+     stays on the right spot at any width, including on a phone. */
+  .shot{position:relative;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;line-height:0}
+  .mark{position:absolute;border:3px solid #e11d48;border-radius:4px;pointer-events:none;box-shadow:0 0 0 2px rgba(255,255,255,.55)}
+  .mark i{position:absolute;top:-11px;left:-11px;width:22px;height:22px;border-radius:50%;background:#e11d48;color:#fff;font:700 12px/22px Archivo,sans-serif;font-style:normal;text-align:center}
+  .caps{display:flex;flex-direction:column;gap:7px;margin-top:10px}
+  .cap{display:grid;grid-template-columns:22px 1fr;gap:9px;font-size:13px;color:var(--ink-2);line-height:1.5}
+  .cap span{width:20px;height:20px;border-radius:50%;background:#e11d48;color:#fff;font:700 11px/20px Archivo,sans-serif;text-align:center}
+
+  .filelink{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;color:var(--accent);text-decoration:none}
+  .filelink:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .filelink .sz{color:var(--muted);font-size:10.5px}
+
+  .files{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .file{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;color:var(--ink-2)}
+  .file .sz{color:var(--muted);font-size:10.5px}
+
+  .copybar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--surface-2);border-top:1px solid var(--line);flex-wrap:wrap}
+  .copybtn{appearance:none;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;padding:6px 12px;border-radius:6px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);cursor:pointer}
+  .copybtn:hover{border-color:var(--accent);color:var(--accent)}
+  .copybtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .copyhint{font-size:12px;color:var(--muted)}
+
+  ol.q,ul.p{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:12px}
+  ul.p{list-style:none;padding-left:0}
+  ol.q li,ul.p li{font-size:14.5px;color:var(--ink-2)}
+  ul.p li strong,ol.q li strong{color:var(--ink);font-weight:600}
+  .why{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+
+  .note{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:14px;color:var(--ink-2)}
+  .note strong{color:var(--ink)}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+  table.t th{text-align:left;font-family:Archivo,sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px 8px 0;border-bottom:1px solid var(--line-2)}
+  table.t td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:top}
+
+  @media (max-width:640px){
+    .counts{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .row{grid-template-columns:1fr}
+    .row dt{font-weight:600}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<style>
+  /* ── Collapsible findings ───────────────────────────────────────────────────
+     Every finding is a closed row by default, so the reader sees the whole list
+     of problems on one screen and opens only the one they own. */
+  .card-btn{
+    width:100%;appearance:none;background:none;border:0;cursor:pointer;color:inherit;font:inherit;
+    display:grid;grid-template-columns:1fr auto;align-items:start;gap:14px;text-align:left;padding:14px 16px;
+  }
+  .card-btn:hover{background:var(--surface-2)}
+  .card-btn:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  .card-btn h3{font-family:Archivo,sans-serif;font-size:16px;font-weight:600;margin:0;line-height:1.35}
+  .card-btn .where{display:block;color:var(--muted);font-size:12.5px;font-weight:400;margin-top:3px}
+  .caret{color:var(--muted);font-size:11px;transition:transform .18s ease;padding-top:4px}
+  .card-btn[aria-expanded="true"] .caret{transform:rotate(90deg)}
+
+  /* ── Who fixes it ───────────────────────────────────────────────────────────
+     Splitting the work by team at the top of the finding, so neither side has to
+     read the whole card to find out whether it is theirs. */
+  .own{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:6px 0 0}
+  .own .o{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--surface)}
+  .own .o.fe{border-left:3px solid var(--fe)}
+  .own .o.be{border-left:3px solid var(--be)}
+  .own .o.none{border-left:3px solid var(--line-2);opacity:.8}
+  .own .o h5{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 5px}
+  .own .o.fe h5{color:var(--fe)}
+  .own .o.be h5{color:var(--be)}
+  .own .o.none h5{color:var(--muted)}
+  .own .o p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.5}
+
+  /* ── The wire ───────────────────────────────────────────────────────────────
+     Endpoint, request and response quoted from the recording, so a developer can
+     reproduce without opening the HAR first. */
+  .wire{margin-top:6px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+  .wire .w-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:9px 12px;background:var(--surface-2);border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px}
+  .verb{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:3px 7px;border-radius:4px;background:var(--accent-soft);color:var(--accent)}
+  .verb.post{background:var(--ok-bg);color:var(--ok)}
+  .verb.patch{background:var(--enh-bg);color:var(--enh)}
+  .verb.del{background:var(--bug-bg);color:var(--bug)}
+  .st{margin-left:auto;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;padding:3px 7px;border-radius:4px;background:var(--ok-bg);color:var(--ok)}
+  .st.bad{background:var(--bug-bg);color:var(--bug)}
+  .ms{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .wire .w-b{padding:10px 12px}
+  .wire .w-b + .w-b{border-top:1px dashed var(--line)}
+  .wire h6{font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 5px}
+  .wire pre{margin:0}
+
+  .src{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.5}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px;margin:0}
+  .kv dt{color:var(--muted)}
+  .kv dd{margin:0;color:var(--ink-2)}
+  .c.shf{border-color:var(--enh)}.c.shf .n{color:var(--enh)}
+  .tag{display:inline-block;font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:var(--surface-3);color:var(--muted)}
+
+  /* ── Blocked cases ───────────────────────────────────────────────────────────
+     Labelled rather than tabulated. A four-column table needed headers to be read at
+     all, and the case id wrapped onto three lines. Here each card says "Cannot test"
+     and "We need" in words, so no column has to be inferred. */
+  .needs{display:flex;flex-direction:column;gap:12px}
+  .need{
+    background:var(--surface);border:1px solid var(--line);
+    border-left:3px solid var(--ask);border-radius:10px;overflow:hidden;
+  }
+  .n-top{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:10px 15px;background:var(--surface-2);border-bottom:1px solid var(--line);
+  }
+  .n-id{font-family:var(--mono);font-size:12px;color:var(--accent);white-space:nowrap}
+  .n-from{
+    font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--ask);background:var(--ask-bg);
+    padding:3px 9px;border-radius:5px;white-space:nowrap;
+  }
+  .n-block,.n-ask{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;padding:12px 15px}
+  .n-ask{background:var(--accent-soft);border-top:1px solid var(--line)}
+  .n-lbl{
+    font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--muted);padding-top:3px;
+  }
+  .n-ask .n-lbl{color:var(--accent)}
+  .n-block p,.n-ask p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.5}
+  .n-ask p b{color:var(--ink);font-weight:600}
+  @media (max-width:640px){
+    .n-block,.n-ask{grid-template-columns:1fr;gap:5px}
+  }
+</style>
+<header class="top">
+  <div class="top-in">
+    <div class="eyebrow">Demo Shop · Products · generated from the run</div>
+    <h1>Products — QA Findings</h1>
+    <div class="meta">
+      <span><b>Environment</b> localhost:5173</span>
+      <span><b>Run</b> 2026-10-20 17:23 UTC · local run</span>
+      <span><b>Scope</b> products/products · cases SHOP-PRD-001 to SHOP-PRD-023</span>
+      <span><b>Method</b> Automated browser tests, all network traffic recorded</span>
+      <span><b>Version</b> auto, built by scripts/fill-report.mjs</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="lead">
+    <p><strong>0 for developers, 13 for Product (9 questions, 4 recommendations), 6 cases blocked.</strong>
+      No automated case failed on this run.
+      7 of 7 automated cases pass.</p>
+    <div class="counts">
+      <div class="c bug"><div class="n">0</div><div class="l">For developers</div></div>
+      <div class="c enh"><div class="n">0</div><div class="l">Enhancements</div></div>
+      <div class="c ask"><div class="n">13</div><div class="l">For business</div></div>
+      <div class="c ok"><div class="n">7/7</div><div class="l">Automated cases passing</div></div>
+    </div>
+  </section>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" aria-selected="true" aria-controls="p-dev" id="t-dev">For developers <span class="cnt">0</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-enh" id="t-enh">Enhancements <span class="cnt">0</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-biz" id="t-biz">For business <span class="cnt">13</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-need" id="t-need">What we need <span class="cnt">6</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-perf" id="t-perf">Performance <span class="cnt">0</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-qa" id="t-qa">What was tested <span class="cnt">7</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-api" id="t-api">Storage reference</button>
+  </nav>
+
+  <section class="panel" role="tabpanel" id="p-dev" aria-labelledby="t-dev">
+    <div class="audience">Assign to: the owner on each card</div>
+    <h2>Defects and failures</h2>
+    <p class="sub">Every automated case that failed on this run, most severe first. A <b>defect</b> carries a
+      <code>@SHOP-BUG</code> tag and QA's reading; a failure marked <b>needs triage</b> has not yet been judged
+      test-wrong or product-wrong.</p>
+    <div class="note">No automated case failed on this run.</div>
+  </section>
+
+  <section class="panel" role="tabpanel" id="p-enh" aria-labelledby="t-enh" hidden>
+    <div class="audience">Assign to: Frontend · prioritise with Product</div>
+    <h2>Enhancements</h2>
+    <p class="sub">Enhancements are a QA judgement and are not generated from a run. None are recorded here;
+      QA's suggestions are under For business as recommendations.</p>
+  </section>
+
+  <section class="panel" role="tabpanel" id="p-biz" aria-labelledby="t-biz" hidden>
+    <div class="audience">Assign to: Product Manager &amp; BA</div>
+    <h2>Questions and recommendations</h2>
+    <p class="sub">Taken from the plan. None of these are defects. A <b>question</b> has no agreed answer, so
+      the suite cannot say whether today's behaviour is right. A <b>recommendation</b> is QA's opinion.</p>
+    <div class="rows" style="display:flex;flex-direction:column;gap:8px;border-top:0">
+      
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q1">
+          <span><h3>Where is Add to cart?</h3><span class="where">Q1 · from specs/products/products.plan.md</span></span><span class="caret">▶</span></button>
+        <div id="q1" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>The brief says there is a cart but the Products screen has no add control and no cart link. Is it missing, or planned? A typical shop has an Add to cart button on each card and a cart badge in the header.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Nobody has settled the rule, so the suite does not assert it either way.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q2">
+          <span><h3>Should a card open a product detail view?</h3><span class="where">Q2 · from specs/products/products.plan.md</span></span><span class="caret">▶</span></button>
+        <div id="q2" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Today clicking does nothing. A typical shop opens a detail page.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Nobody has settled the rule, so the suite does not assert it either way.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q3">
+          <span><h3>Should there be a sort (price low to high, name)?</h3><span class="where">Q3 · from specs/products/products.plan.md</span></span><span class="caret">▶</span></button>
+        <div id="q3" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Absent today. Typical shops offer one.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Nobody has settled the rule, so the suite does not assert it either way.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q5">
+          <span><h3>Should search/category survive a reload or be in the URL?</h3><span class="where">Q5 · from specs/products/products.plan.md</span></span><span class="caret">▶</span></button>
+        <div id="q5" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Today they reset. Typical shops put them in the URL so they can be shared.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Nobody has settled the rule, so the suite does not assert it either way.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q6">
+          <span><h3>Should logging out show a confirmation?</h3><span class="where">Q6 · from specs/products/products.plan.md</span></span><span class="caret">▶</span></button>
+        <div id="q6" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Typical shops do not, but the team's rules treat logout as destructive.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Nobody has settled the rule, so the suite does not assert it either way.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q7">
+          <span><h3>What happens to a cart on logout and login (kept or cleared)?</h3><span class="where">Q7 · from specs/products/products.plan.md</span></span><span class="caret">▶</span></button>
+        <div id="q7" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Cannot be tested until a cart exists.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Nobody has settled the rule, so the suite does not assert it either way.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q8">
+          <span><h3>Should a logged-out visitor see the products at all?</h3><span class="where">Q8 · from specs/products/products.plan.md</span></span><span class="caret">▶</span></button>
+        <div id="q8" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Not observed.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Nobody has settled the rule, so the suite does not assert it either way.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q9">
+          <span><h3>Is the &quot;of 12&quot; in &quot;Showing N of 12 products&quot; the total catalogue or the total after the category filter?</h3><span class="where">Q9 · from specs/products/products.plan.md</span></span><span class="caret">▶</span></button>
+        <div id="q9" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Observed: it stays 12 under any filter (e.g. &quot;Showing 3 of 12 products&quot; for Home).</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Nobody has settled the rule, so the suite does not assert it either way.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--ask)">
+        <button class="card-btn" aria-expanded="false" aria-controls="q10">
+          <span><h3>The owner's rule covers name and category only. Should search also match the description?</h3><span class="where">Q10 · from specs/products/products.plan.md</span></span><span class="caret">▶</span></button>
+        <div id="q10" hidden><dl class="rows">
+          <div class="row"><dt>Observed</dt><dd>Observed today: &quot;battery&quot; (a word in a description) gives 0 results. A typical shop searches name, category and description. No assertion made.</dd></div>
+          <div class="row"><dt>Why here</dt><dd>Nobody has settled the rule, so the suite does not assert it either way.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--enh)">
+        <button class="card-btn" aria-expanded="false" aria-controls="r1">
+          <span><h3>Add stable test ids to the logout confirmation, the add button and the cart badge when they exist.</h3><span class="where">R1 · QA recommendation</span></span><span class="caret">▶</span></button>
+        <div id="r1" hidden><dl class="rows">
+          <div class="row impact"><dt>Cost of doing nothing</dt><dd>tests fall back to fragile text locators.</dd></div>
+          <div class="row"><dt>Status</dt><dd>QA's opinion, not a requirement. No test fails because of this.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--enh)">
+        <button class="card-btn" aria-expanded="false" aria-controls="r2">
+          <span><h3>Serve a real `404.html`/hash routing so a reload does not return HTTP 404 and put red errors in the console.</h3><span class="where">R2 · QA recommendation</span></span><span class="caret">▶</span></button>
+        <div id="r2" hidden><dl class="rows">
+          <div class="row impact"><dt>Cost of doing nothing</dt><dd>monitoring tools and crawlers see every deep link as broken.</dd></div>
+          <div class="row"><dt>Status</dt><dd>QA's opinion, not a requirement. No test fails because of this.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--enh)">
+        <button class="card-btn" aria-expanded="false" aria-controls="r3">
+          <span><h3>Put the search and category in the URL query string.</h3><span class="where">R3 · QA recommendation</span></span><span class="caret">▶</span></button>
+        <div id="r3" hidden><dl class="rows">
+          <div class="row impact"><dt>Cost of doing nothing</dt><dd>a shopper loses their filter on every reload.</dd></div>
+          <div class="row"><dt>Status</dt><dd>QA's opinion, not a requirement. No test fails because of this.</dd></div>
+        </dl></div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;border-left:4px solid var(--enh)">
+        <button class="card-btn" aria-expanded="false" aria-controls="r4">
+          <span><h3>Show a clear-search hint on &quot;No products found&quot;.</h3><span class="where">R4 · QA recommendation</span></span><span class="caret">▶</span></button>
+        <div id="r4" hidden><dl class="rows">
+          <div class="row impact"><dt>Cost of doing nothing</dt><dd>dead end for the shopper.</dd></div>
+          <div class="row"><dt>Status</dt><dd>QA's opinion, not a requirement. No test fails because of this.</dd></div>
+        </dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" role="tabpanel" id="p-need" aria-labelledby="t-need" hidden>
+    <div class="audience">Owner named on each card</div>
+    <h2>What we need to finish this tab</h2>
+    <p class="sub">6 cases are blocked on someone else. They stay in the plan and keep counting as gaps.</p>
+    <div class="needs">
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-006</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>Opening a product (click a card)</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>No product detail view in the app — question for Product.</b></p></div>
+      </div>
+
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-007</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>Add a product to the cart and see it after a reload</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>No add-to-cart control in the app — question for Product.</b></p></div>
+      </div>
+
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-008</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>Cart badge or link is visible and updates without reload</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>No cart badge or link in the app — question for Product.</b></p></div>
+      </div>
+
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-009</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>Change the quantity of an item; everything else in the cart is unchanged</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>No cart or quantity control in the app — question for Product.</b></p></div>
+      </div>
+
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-010</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>Remove an item and clear the cart (confirm / Cancel / Confirm)</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>No cart, remove or clear in the app — question for Product.</b></p></div>
+      </div>
+
+      <div class="need">
+        <div class="n-top"><span class="n-id">SHOP-PRD-016</span><span class="n-from">Product</span></div>
+        <div class="n-block"><span class="n-lbl">Cannot test</span><p>Sort — no sort control exists</p></div>
+        <div class="n-ask"><span class="n-lbl">We need</span><p><b>No sort control in the app — question for Product.</b></p></div>
+      </div></div>
+  </section>
+
+  <section class="panel" role="tabpanel" id="p-perf" aria-labelledby="t-perf" hidden>
+    <div class="audience">Assign to: Frontend &amp; Backend</div>
+    <h2>Response times</h2>
+    <p class="sub">Measured on this run, not estimated. 0 app calls (fetch or XHR) across 7 tests;
+      the table also lists page loads, grouped by method and path. Slowest request: 58 ms.</p>
+    <div style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Request</th><th style="text-align:right">Worst</th><th style="text-align:right">Average</th><th style="text-align:right">Calls</th><th style="text-align:right">Status</th></tr></thead>
+        <tbody style="font-variant-numeric:tabular-nums"><tr><td><code>GET /@react-refresh</code> <span class="tag">page load</span></td><td style="text-align:right;">58 ms</td><td style="text-align:right">23 ms</td><td style="text-align:right">9</td><td style="text-align:right">200, 304</td></tr>
+<tr><td><code>GET /node_modules/.vite/deps/chunk-XPR23Y44.js</code> <span class="tag">page load</span></td><td style="text-align:right;">57 ms</td><td style="text-align:right">32 ms</td><td style="text-align:right">9</td><td style="text-align:right">200</td></tr>
+<tr><td><code>GET /node_modules/.vite/deps/react-router-dom.js</code> <span class="tag">page load</span></td><td style="text-align:right;">50 ms</td><td style="text-align:right">24 ms</td><td style="text-align:right">9</td><td style="text-align:right">200</td></tr>
+<tr><td><code>GET /src/auth/AuthContext.tsx</code> <span class="tag">page load</span></td><td style="text-align:right;">42 ms</td><td style="text-align:right">20 ms</td><td style="text-align:right">9</td><td style="text-align:right">200, 304</td></tr>
+<tr><td><code>GET /src/App.tsx</code> <span class="tag">page load</span></td><td style="text-align:right;">35 ms</td><td style="text-align:right">18 ms</td><td style="text-align:right">9</td><td style="text-align:right">200, 304</td></tr>
+<tr><td><code>GET /src/index.css</code> <span class="tag">page load</span></td><td style="text-align:right;">30 ms</td><td style="text-align:right">14 ms</td><td style="text-align:right">9</td><td style="text-align:right">200, 304</td></tr>
+<tr><td><code>GET /src/main.tsx</code> <span class="tag">page load</span></td><td style="text-align:right;">30 ms</td><td style="text-align:right">18 ms</td><td style="text-align:right">9</td><td style="text-align:right">200, 304</td></tr>
+<tr><td><code>GET /src/auth/ProtectedRoute.tsx</code> <span class="tag">page load</span></td><td style="text-align:right;">29 ms</td><td style="text-align:right">13 ms</td><td style="text-align:right">9</td><td style="text-align:right">200, 304</td></tr>
+<tr><td><code>GET /src/pages/ProductsPage.tsx</code> <span class="tag">page load</span></td><td style="text-align:right;">29 ms</td><td style="text-align:right">15 ms</td><td style="text-align:right">9</td><td style="text-align:right">200, 304</td></tr>
+<tr><td><code>GET /@vite/client</code> <span class="tag">page load</span></td><td style="text-align:right;">29 ms</td><td style="text-align:right">15 ms</td><td style="text-align:right">9</td><td style="text-align:right">200, 304</td></tr>
+<tr><td><code>GET /src/pages/LoginPage.tsx</code> <span class="tag">page load</span></td><td style="text-align:right;">28 ms</td><td style="text-align:right">14 ms</td><td style="text-align:right">9</td><td style="text-align:right">200, 304</td></tr>
+<tr><td><code>GET /src/pages/SignupPage.tsx</code> <span class="tag">page load</span></td><td style="text-align:right;">28 ms</td><td style="text-align:right">14 ms</td><td style="text-align:right">9</td><td style="text-align:right">200, 304</td></tr>
+<tr><td><code>GET /node_modules/.vite/deps/chunk-I4MZPW7S.js</code> <span class="tag">page load</span></td><td style="text-align:right;">27 ms</td><td style="text-align:right">11 ms</td><td style="text-align:right">9</td><td style="text-align:right">200</td></tr>
+<tr><td><code>GET /node_modules/vite/dist/client/env.mjs</code> <span class="tag">page load</span></td><td style="text-align:right;">27 ms</td><td style="text-align:right">14 ms</td><td style="text-align:right">9</td><td style="text-align:right">200, 304</td></tr>
+<tr><td><code>GET /node_modules/.vite/deps/react-dom_client.js</code> <span class="tag">page load</span></td><td style="text-align:right;">24 ms</td><td style="text-align:right">11 ms</td><td style="text-align:right">9</td><td style="text-align:right">200</td></tr></tbody>
+      </table>
+    </div>
+    <div class="note" style="margin-top:20px">
+      <strong>What this measurement cannot tell you.</strong> These are round-trip times seen by the browser on
+      one run. They show where time goes, not why.
+    </div>
+  </section>
+
+  <section class="panel" role="tabpanel" id="p-qa" aria-labelledby="t-qa" hidden>
+    <div class="audience">For QA &amp; anyone re-running this</div>
+    <h2>What was tested</h2>
+    <p class="sub"><b>7 of 23 planned cases automated · 7 pass · 0 fail.</b>
+      6 are blocked (What we need).</p>
+    <div style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Case</th><th>What it checks</th><th>Result</th></tr></thead>
+        <tbody><tr><td><code>SHOP-PRD-001</code></td><td>Products screen lists the full catalogue</td><td style="color:var(--muted)">Not automated yet</td></tr>
+<tr><td><code>SHOP-PRD-002</code></td><td>Every card shows a name, a category and a price</td><td style="color:var(--ok)">Passed</td></tr>
+<tr><td><code>SHOP-PRD-003</code></td><td>Every price is US dollars written $N.NN</td><td style="color:var(--ok)">Passed</td></tr>
+<tr><td><code>SHOP-PRD-004</code></td><td>Every price is greater than zero</td><td style="color:var(--ok)">Passed</td></tr>
+<tr><td><code>SHOP-PRD-005</code></td><td>Name, category and price of each product match the expected catalogue</td><td style="color:var(--ok)">Passed</td></tr>
+<tr><td><code>SHOP-PRD-006</code></td><td>Opening a product (click a card)</td><td style="color:var(--ask)">Blocked</td></tr>
+<tr><td><code>SHOP-PRD-007</code></td><td>Add a product to the cart and see it after a reload</td><td style="color:var(--ask)">Blocked</td></tr>
+<tr><td><code>SHOP-PRD-008</code></td><td>Cart badge or link is visible and updates without reload</td><td style="color:var(--ask)">Blocked</td></tr>
+<tr><td><code>SHOP-PRD-009</code></td><td>Change the quantity of an item; everything else in the cart is unchanged</td><td style="color:var(--ask)">Blocked</td></tr>
+<tr><td><code>SHOP-PRD-010</code></td><td>Remove an item and clear the cart (confirm / Cancel / Confirm)</td><td style="color:var(--ask)">Blocked</td></tr>
+<tr><td><code>SHOP-PRD-011</code></td><td>Search by name or category finds the product, ignores case and spaces, and updates the count</td><td style="color:var(--ok)">Passed (SHOP-BUG-1 did not reproduce)</td></tr>
+<tr><td><code>SHOP-PRD-012</code></td><td>Search with no match shows the empty state</td><td style="color:var(--ok)">Passed</td></tr>
+<tr><td><code>SHOP-PRD-013</code></td><td>Search treats special characters as plain text</td><td style="color:var(--muted)">Not automated yet</td></tr>
+<tr><td><code>SHOP-PRD-014</code></td><td>Category filter shows only that category (each option used)</td><td style="color:var(--ok)">Passed</td></tr>
+<tr><td><code>SHOP-PRD-015</code></td><td>Search and category work together and reset correctly</td><td style="color:var(--muted)">Not automated yet</td></tr>
+<tr><td><code>SHOP-PRD-016</code></td><td>Sort — no sort control exists</td><td style="color:var(--ask)">Blocked</td></tr>
+<tr><td><code>SHOP-PRD-017</code></td><td>The list survives a reload; search and category do not</td><td style="color:var(--muted)">Not automated yet</td></tr>
+<tr><td><code>SHOP-PRD-018</code></td><td>Browsing does not write anything to storage</td><td style="color:var(--muted)">Not automated yet</td></tr>
+<tr><td><code>SHOP-PRD-019</code></td><td>Logged-out visitor cannot use the Products screen</td><td style="color:var(--muted)">Not automated yet</td></tr>
+<tr><td><code>SHOP-PRD-020</code></td><td>Header shows who is logged in and offers Log out</td><td style="color:var(--muted)">Not automated yet</td></tr>
+<tr><td><code>SHOP-PRD-021</code></td><td>Log out: confirmation, Cancel changes nothing, Confirm logs out</td><td style="color:var(--muted)">Not automated yet</td></tr>
+<tr><td><code>SHOP-PRD-022</code></td><td>Direct link, reload and unknown routes land on the product list</td><td style="color:var(--muted)">Not automated yet</td></tr>
+<tr><td><code>SHOP-PRD-023</code></td><td>Controls have accessible names</td><td style="color:var(--muted)">Not automated yet</td></tr></tbody>
+      </table>
+    </div>
+    <h2 style="margin-top:26px">Re-running</h2>
+    <p class="sub" style="margin-top:6px">From <code>qa-automation/</code>: <code>npm run tab -- products/products</code>.</p>
+  </section>
+
+  <section class="panel" role="tabpanel" id="p-api" aria-labelledby="t-api" hidden>
+    <div class="audience">Reference</div>
+    <h2>Where state is kept</h2>
+    <p class="sub">From the plan's exploration. The app's calls on this run are under Performance.</p>
+    <ul class="p"><li>localStorage <code>demo_session</code> = <code>{&quot;name&quot;:&quot;Demo User&quot;,&quot;email&quot;:&quot;demo@example.com&quot;}</code>. sessionStorage empty. No cookies. No fetch/XHR app calls were seen: the catalogue is not loaded from an API.</li>
+<li>No <code>cart</code> key exists today. Any test that needs a cart key is a recorded gap until the Cart tab confirms the key name.</li>
+<li>Search text and category are NOT kept after a reload (observed: after reload the box was empty and the select was &quot;all&quot;).</li></ul>
+    <h2 style="margin-top:30px">About the attached files</h2>
+    <div style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>File</th><th>What it is</th><th>How to open it</th></tr></thead>
+        <tbody>
+          <tr><td><code>.png</code></td><td>The screen at the moment of the finding, with the part that matters ringed in red and the rest dimmed.</td><td>Any image viewer. They are also embedded in this page.</td></tr>
+          <tr><td><code>.har</code></td><td>Every network request the browser made during that test.</td><td>DevTools &rarr; Network &rarr; the import arrow, then drop the file in.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src" style="margin-top:12px">Session tokens in the HARs are replaced with <code>REDACTED</code>; nothing else is altered.</p>
+  </section>
+</div>
+<script>
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        var p = document.getElementById(t.getAttribute('aria-controls'));
+        if (p) p.hidden = !on;
+      });
+    }
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () { select(t); });
+      t.addEventListener('keydown', function (e) {
+        var i = tabs.indexOf(t);
+        if (e.key === 'ArrowRight') { var n = tabs[(i + 1) % tabs.length]; n.focus(); select(n); }
+        if (e.key === 'ArrowLeft') { var p = tabs[(i - 1 + tabs.length) % tabs.length]; p.focus(); select(p); }
+      });
+    });
+
+    // Findings start closed, so the list of problems fits on one screen.
+    document.querySelectorAll('.card-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        var body = document.getElementById(btn.getAttribute('aria-controls'));
+        if (body) body.hidden = open;
+      });
+    });
+
+    // Copies one finding as plain text, ready to paste into a tracker task.
+    document.querySelectorAll('.copybtn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var card = btn.closest('.card');
+        var head = card.querySelector('h3');
+        var title = head ? head.textContent.trim() : '';
+        var chips = Array.prototype.map.call(card.querySelectorAll('.chip, .tag'), function (c) {
+          return c.textContent.trim();
+        }).join(' · ');
+        var lines = [title, chips, ''];
+        card.querySelectorAll('.row').forEach(function (r) {
+          var dt = r.querySelector('dt'), dd = r.querySelector('dd');
+          if (!dt || !dd) return;
+          var k = dt.textContent.trim();
+          var v = dd.innerText.trim();
+          // innerText skips href values, so the evidence filenames would be lost.
+          var hrefs = Array.prototype.map.call(r.querySelectorAll('a[href]'), function (a) {
+            return a.getAttribute('href');
+          });
+          if (hrefs.length) v = (v ? v + '\n' : '') + 'Files: ' + hrefs.join(', ');
+          if (v) { lines.push(k + ':'); lines.push(v); lines.push(''); }
+        });
+        var text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
+        var done = function () {
+          var old = btn.textContent;
+          btn.textContent = 'Copied';
+          setTimeout(function () { btn.textContent = old; }, 1400);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+        } else { fallback(text, done); }
+      });
+    });
+
+    function fallback(text, done) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      setTimeout(function () { ta.remove(); }, 100);
+    }
+  })();
+</script>
+
+</body>
+</html>

@@ -113,16 +113,15 @@ if (scope) {
   node(['scripts/cases.mjs', tabName, ...scope.specs]);
 }
 
-// The team report, filled from this run by fill-report.mjs (no person, no AI).
-let autoReport = null;
+// The team report, filled from this run by fill-report.mjs (no person, no AI), in its own
+// new version folder: reports/<module>/<tab>-v2, -v3 …
+let teamReport = null;
 if (scope) {
   console.log('\n--- building the team report ---\n');
-  autoReport = path.join('reports', tabName.split('/')[0], `${path.basename(tabName)}-auto`);
-  const filled = node(['scripts/fill-report.mjs', tabName, '--out', autoReport]);
-  if (filled.status !== 0) {
-    console.error('The team report could not be built. The run itself is reported above.');
-    autoReport = null;
-  }
+  const filled = node(['scripts/fill-report.mjs', tabName]);
+  const latest = path.join('reports', tabName.split('/')[0], `.${path.basename(tabName)}-latest`);
+  if (filled.status === 0 && fs.existsSync(latest)) teamReport = fs.readFileSync(latest, 'utf8').trim();
+  else console.error('The team report could not be built. The run itself is reported above.');
 }
 
 // ── Keep this run ──────────────────────────────────────────────────────────────
@@ -153,7 +152,7 @@ for (const entry of fs.existsSync('reports') ? fs.readdirSync('reports', { withF
   keep(path.join('reports', entry.name, 'dev-summary.md'), `dev-summary-${entry.name}.md`);
 }
 keep('reports/dev-summary.md', 'dev-summary-all.md');
-if (autoReport) keep(autoReport, 'report');
+// The report already has its own folder; the run only records which one, so its videos are not stored twice.
 
 // What was asked for is part of the record: a run limited to one tab and a run of the
 // whole suite produce very different numbers, and six weeks later nobody remembers which.
@@ -164,7 +163,8 @@ fs.writeFileSync(
     `command:   npx playwright test ${passthrough.join(' ')}`.trimEnd(),
     `exit code: ${test.status ?? 'unknown'}`,
     '',
-    'The team report generated from this run is in report/ (scripts/fill-report.mjs).',
+    `team report: ${teamReport ?? '(not built)'}`,
+    '',
     'A hand-edited version for a meeting is built separately:',
     '  node scripts/build-report.mjs <source.html> reports/<module>/<tab>-<version> --evidence <dir>',
     '',
@@ -173,6 +173,7 @@ fs.writeFileSync(
 );
 
 console.log(`\nThis run is kept at ${dir}`);
+if (teamReport) console.log(`Team report: ${teamReport}/index.html`);
 
 // Exit with the test result, not the summary's, so a failing suite still fails the build.
 process.exit(test.status ?? 1);

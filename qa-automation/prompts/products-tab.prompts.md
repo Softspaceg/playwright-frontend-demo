@@ -133,3 +133,62 @@ Expect: one failure, SHOP-PRD-011 (`@SHOP-BUG-1`); everything else green.
 
 Written from the kept run of step 4 with `reports/_template/report-template.html`, then
 `handoffs/<stamp>-products.md`. Prompts for these are added here when they are sent.
+
+---
+
+## Step 6 — Planner: owner's answer to Question 10 (search the description) → SHOP-BUG-2
+
+**Send when:** SHOP-BUG-1 is fixed and you want the next rule asserted.
+**Change before sending:** the rule under "Owner's answer".
+**Result:** a new case SHOP-PRD-024 in the plan. If the app breaks the rule, Observations say
+what it does today and the expected result is not changed.
+
+```
+Mode: PLAN ONLY. Do not write test code.
+
+Use the playwright-test-planner agent to update qa-automation/specs/products/products.plan.md.
+Do not renumber or remove any existing case.
+
+Owner's answer to Question 10 — this is now a confirmed rule, assert it:
+- R5: Search matches the product name, its category, or any word in its description.
+  Searching "battery" shows the product whose description mentions a battery.
+
+Add one new case, SHOP-PRD-024, for this rule: the exact product(s) and count line expected
+for "battery" and for one more description word you confirm on the live app. Move Question 10
+to "Answered by Product", dated 21 Oct 2026. Also record that SHOP-BUG-1 was fixed on main
+(PR #9, 20 Oct 2026) and SHOP-PRD-011 now passes. If the live app does not follow R5, record
+what it does today under Observations; do not change the expected result to match it.
+
+Then stop for my review.
+```
+
+---
+
+## Step 7 — Generator: SHOP-PRD-024 (expected to fail as SHOP-BUG-2)
+
+**Send when:** you have reviewed SHOP-PRD-024 in the plan.
+**Change before sending:** nothing, unless the case ID changed.
+
+```
+Use the playwright-test-generator agent. From specs/products/products.plan.md,
+write a test for exactly this case ID: SHOP-PRD-024.
+
+Approved by the owner: this case ID only, on BASE_URL from qa-automation/.env
+(https://softspaceg.github.io/playwright-frontend-demo/), read-only browsing with the
+saved session. No records are created.
+
+SHOP-PRD-024 asserts owner's rule R5 (search matches name, category or description). If the
+live app breaks it, do not weaken the assertion and do not add skip, fixme or test.fail: the
+test stays red. Tag it with @SHOP-BUG-2 and capture the evidence with annotatedShot from
+fixtures/evidence.ts, ringed in red with a caption saying what it proves.
+
+Add it to tests/products/products.spec.ts. Use page objects; no locators inline.
+Run it and show me the real result before telling me it works.
+```
+
+**Then you run:**
+```cmd
+npm run tab -- products/products
+```
+Expect: one failure, SHOP-PRD-024 (`@SHOP-BUG-2`), and a new report version with it under
+"Bugs for developers", with its screenshot and video.

@@ -6,7 +6,8 @@ What it cannot measure is the judgement: what the problem is in a sentence, whic
 it, and what it costs a shopper. That is written here, once, by QA, and reused on every run.
 
 A failing test tagged `@SHOP-BUG-<n>` with no entry here still appears in the report,
-marked **"Needs QA reading"**, so a new defect is never hidden while it waits.
+marked **"Not reviewed by QA yet"**, with the owner the run infers from the recording (labelled as an
+inference), so a new defect is never hidden while it waits.
 
 Format: one `## SHOP-BUG-<n>` section per defect. Each field is a `- Key: value` line; a
 value can continue on following lines indented by two spaces. `==text==` is highlighted,

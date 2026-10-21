@@ -1,6 +1,6 @@
 # Demo Shop QA — developer summary — harness
 
-Generated 2026-10-19 14:34 from a real run against the dev environment.
+Generated 2026-10-21 14:30 from a real run against the dev environment.
 
 **3 passed · 0 need attention · 0 tracked defects open**
 

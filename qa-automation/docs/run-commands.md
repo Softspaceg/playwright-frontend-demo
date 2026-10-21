@@ -48,15 +48,18 @@ npx playwright test --grep "@SHOP-BUG-12"
 ## 5. The team report (custom template)
 
 Built automatically by `npm run tab`, from the run, with no person and no AI:
-`reports/<module>/<tab>-auto/index.html` (also kept in the run folder as `report/`).
-To build it again from the last run:
+a new version folder every time: `reports/<module>/<tab>-v2/index.html`, then `-v3`, and so on.
+Nothing is overwritten; the run folder's `run.txt` names the version it produced.
+To build the last run's report again (it becomes the next version, e.g. after editing
+`docs/defects.md`):
 
 ```cmd
 node scripts/fill-report.mjs products/products
 ```
 
 The judgement on each defect (what it is, who owns it, what it costs) is written once in
-`docs/defects.md`. A defect without an entry shows "Needs QA reading".
+`docs/defects.md`. A defect without an entry shows "Not reviewed by QA yet" and the owner the run infers
+(Frontend when no request was sent, Backend when a request failed), labelled as an inference.
 
 On GitHub Actions the same report is the **qa-report-products** artifact of the
 **QA Automation** workflow.

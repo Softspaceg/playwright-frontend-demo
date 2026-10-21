@@ -1,0 +1,8 @@
+when:      2026-10-21T14:30:36.495Z
+command:   npx playwright test tests/products/products.spec.ts --headed
+exit code: 1
+
+team report: reports/products/products-v5
+
+A hand-edited version for a meeting is built separately:
+  node scripts/build-report.mjs <source.html> reports/<module>/<tab>-<version> --evidence <dir>

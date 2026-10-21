@@ -9,8 +9,9 @@
 #
 # The team report also goes to https://e2e-reports.uapp.ae/<run>/, next to the e2e
 # reports, the same way e2e-playwright.yml publishes them (see the notes there on the key).
-# The host's index has no column for the suite, so the branch is prefixed "[QA] " to tell
-# the two apart. Pull requests from forks get no secrets and keep only the run artifact.
+# It is published with suite=qa, so the dashboard shows it in the QA column of the same
+# row as the e2e report for that commit. Pull requests from forks get no secrets and keep
+# only the run artifact.
 name: QA Automation
 
 on:
@@ -38,7 +39,6 @@ jobs:
       # The public demo account (also in README.md). Secrets win when they are set.
       DEMO_USER: ${{ secrets.DEMO_USER || 'demo@example.com' }}
       DEMO_PASS: ${{ secrets.DEMO_PASS || 'password123' }}
-      REPORT_DIR: qa-automation/reports/products/products-auto
       REPORT_ID: ${{ github.run_id }}-${{ github.run_attempt }}
       REPORTS_URL: https://e2e-reports.uapp.ae
       REPORTS_USER: e2ereports
@@ -81,12 +81,20 @@ jobs:
         working-directory: qa-automation
         run: npm run tab -- products/products
 
-      - name: Keep the team report
+      # Each run builds its report in a new version folder (products-v2, -v3, ...), and
+      # fill-report.mjs exports its path as QA_REPORT_DIR. Empty when no report was built.
+      - name: Find the team report
         if: ${{ !cancelled() }}
+        run: |
+          echo "REPORT_DIR=${QA_REPORT_DIR:-}" >> "$GITHUB_ENV"
+          echo "Team report: ${QA_REPORT_DIR:-(none was built)}"
+
+      - name: Keep the team report
+        if: ${{ !cancelled() && env.REPORT_DIR != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: qa-report-products
-          path: qa-automation/reports/products/products-auto/
+          path: ${{ env.REPORT_DIR }}/
           retention-days: 14
 
       - name: Keep the run (summary, coverage, results)
@@ -142,7 +150,8 @@ jobs:
           [ "$OUTCOME" = "success" ] && status=passed
           {
             echo "status=$status"
-            echo "branch=[QA] $BRANCH"
+            echo "suite=qa"
+            echo "branch=$BRANCH"
             echo "sha=$SHA"
             echo "pr=$PR"
             echo "repo=$REPO"

@@ -1,0 +1,1133 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/products/products.spec.ts",
+      "--headed"
+    ],
+    "configFile": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\playwright.config.ts",
+    "rootDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "setup",
+        "name": "setup",
+        "testDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/auth\\.setup\\.ts/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "harness",
+        "name": "harness",
+        "testDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/tests[\\\\/](harness|smoke)[\\\\/].*\\.spec\\.ts|tests[\\\\/]seed\\.spec\\.ts/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/SoftSapce_Projects/demo-playwright/qa-automation/tests",
+        "testIgnore": [
+          "/tests[\\\\/](harness|smoke)[\\\\/]/",
+          "/tests[\\\\/]seed\\.spec\\.ts/"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "artifacts/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "auth.setup.ts",
+      "file": "auth.setup.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "log in to Demo Shop and save the session",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "setup",
+              "projectName": "setup",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1274,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "Logged in. Landed on: https://softspaceg.github.io/playwright-frontend-demo/products\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-21T14:29:58.933Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "17e3fe6f4d9d8bd79c6b-804af1e611c585b72b33",
+          "file": "auth.setup.ts",
+          "line": 7,
+          "column": 6
+        }
+      ]
+    },
+    {
+      "title": "harness\\api-setup.spec.ts",
+      "file": "harness/api-setup.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "QA harness",
+          "file": "harness/api-setup.spec.ts",
+          "line": 9,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HRN-API-001 preconditions can be created through the API",
+              "ok": true,
+              "tags": [
+                "HRN-API-001",
+                "high",
+                "harness"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\harness\\api-setup.spec.ts",
+                        "line": 10,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "harness",
+                  "projectName": "harness",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-21T14:30:01.291Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\harness\\api-setup.spec.ts",
+                            "line": 10,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6f20bc145b3b1216252b-9f35da7cc2f63a410435",
+              "file": "harness/api-setup.spec.ts",
+              "line": 10,
+              "column": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "seed.spec.ts",
+      "file": "seed.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Test group",
+          "file": "seed.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "seed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "harness",
+                  "projectName": "harness",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 515,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-21T14:30:01.771Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "11ceb7af692008938f3b-590992ac37d22cefb0c3",
+              "file": "seed.spec.ts",
+              "line": 4,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "smoke\\evidence-capture.spec.ts",
+      "file": "smoke/evidence-capture.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "QA harness",
+          "file": "smoke/evidence-capture.spec.ts",
+          "line": 12,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HRN-EVD-001 the session and the evidence pipeline work",
+              "ok": true,
+              "tags": [
+                "HRN-EVD-001",
+                "high",
+                "harness"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "harness",
+                  "projectName": "harness",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1106,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "the saved session is still valid",
+                          "duration": 34
+                        },
+                        {
+                          "title": "the api fixture is recording",
+                          "duration": 2
+                        },
+                        {
+                          "title": "no uncaught errors on the page",
+                          "duration": 0
+                        }
+                      ],
+                      "startTime": "2026-10-21T14:30:02.782Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIEhSTi1FVkQtMDAxIHRoZSBzZXNzaW9uIGFuZCB0aGUgZXZpZGVuY2UgcGlwZWxpbmUgd29yawoKTm8gZmV0Y2gvWEhSIGNhbGxzIHdlcmUgb2JzZXJ2ZWQgZHVyaW5nIHRoaXMgdGVzdC4K"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\smoke-evidence-capture-QA--7a027--the-evidence-pipeline-work-harness\\attachments\\video-219c347b880c033903d7c5d33b97406393b6fd50.webm"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\smoke-evidence-capture-QA--7a027--the-evidence-pipeline-work-harness\\attachments\\network-har-29ec9f8bc0494c6887cab696b8b7bf5e70af523a.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "354f69ed8f5ea7366139-f09366c46a7cb7542a5a",
+              "file": "smoke/evidence-capture.spec.ts",
+              "line": 13,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "products\\products.spec.ts",
+      "file": "products/products.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Products",
+          "file": "products/products.spec.ts",
+          "line": 26,
+          "column": 6,
+          "specs": [
+            {
+              "title": "SHOP-PRD-002 Every card shows a name, a category and a price",
+              "ok": true,
+              "tags": [
+                "SHOP-PRD-002",
+                "critical",
+                "case",
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2973,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "every card is complete: first load",
+                          "duration": 419
+                        },
+                        {
+                          "title": "every card is complete: after reload",
+                          "duration": 490
+                        }
+                      ],
+                      "startTime": "2026-10-21T14:30:04.608Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAwMiBFdmVyeSBjYXJkIHNob3dzIGEgbmFtZSwgYSBjYXRlZ29yeSBhbmQgYSBwcmljZQoKTm8gZmV0Y2gvWEhSIGNhbGxzIHdlcmUgb2JzZXJ2ZWQgZHVyaW5nIHRoaXMgdGVzdC4K"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-ee6da-name-a-category-and-a-price-chromium\\attachments\\video-17906320dcf2958f5b7f7e388023603ba63ddfea.webm"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-ee6da-name-a-category-and-a-price-chromium\\attachments\\network-har-123f0b0d45c6b28a26298ff696971e65f20b026e.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-84c75a2772354b319c7a",
+              "file": "products/products.spec.ts",
+              "line": 27,
+              "column": 7
+            },
+            {
+              "title": "SHOP-PRD-003 Every price is US dollars written $N.NN",
+              "ok": false,
+              "tags": [
+                "SHOP-PRD-003",
+                "critical",
+                "case",
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2078,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://softspaceg.github.io/playwright-frontend-demo/products\nCall log:\n\u001b[2m  - navigating to \"https://softspaceg.github.io/playwright-frontend-demo/products\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://softspaceg.github.io/playwright-frontend-demo/products\nCall log:\n\u001b[2m  - navigating to \"https://softspaceg.github.io/playwright-frontend-demo/products\", waiting until \"load\"\u001b[22m\n\n    at ProductsPage.open (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\pages\\products\\products.page.ts:11:21)\n    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:56:22",
+                        "location": {
+                          "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\pages\\products\\products.page.ts",
+                          "column": 21,
+                          "line": 11
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39m..\\pages\\products\\products.page.ts:11\n\n\u001b[0m \u001b[90m  9 |\u001b[39m\n \u001b[90m 10 |\u001b[39m   \u001b[36masync\u001b[39m open()\u001b[33m:\u001b[39m \u001b[33mPromise\u001b[39m\u001b[33m<\u001b[39m\u001b[36mvoid\u001b[39m\u001b[33m>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mgoto(\u001b[32m'products'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mheading\u001b[33m.\u001b[39mwaitFor()\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m   }\n \u001b[90m 14 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\pages\\products\\products.page.ts",
+                            "column": 21,
+                            "line": 11
+                          },
+                          "message": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://softspaceg.github.io/playwright-frontend-demo/products\nCall log:\n\u001b[2m  - navigating to \"https://softspaceg.github.io/playwright-frontend-demo/products\", waiting until \"load\"\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\pages\\products\\products.page.ts:11\n\n\u001b[0m \u001b[90m  9 |\u001b[39m\n \u001b[90m 10 |\u001b[39m   \u001b[36masync\u001b[39m open()\u001b[33m:\u001b[39m \u001b[33mPromise\u001b[39m\u001b[33m<\u001b[39m\u001b[36mvoid\u001b[39m\u001b[33m>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mgoto(\u001b[32m'products'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mheading\u001b[33m.\u001b[39mwaitFor()\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m   }\n \u001b[90m 14 |\u001b[39m\u001b[0m\n\u001b[2m    at ProductsPage.open (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\pages\\products\\products.page.ts:11:21)\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:56:22\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-21T14:30:07.989Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-a400c--is-US-dollars-written-N-NN-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAwMyBFdmVyeSBwcmljZSBpcyBVUyBkb2xsYXJzIHdyaXR0ZW4gJE4uTk4KCk5vIGZldGNoL1hIUiBjYWxscyB3ZXJlIG9ic2VydmVkIGR1cmluZyB0aGlzIHRlc3QuCg=="
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-a400c--is-US-dollars-written-N-NN-chromium\\attachments\\video-d9798d90898a0c62ee7ba622d8ce7dff1fea615e.webm"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-a400c--is-US-dollars-written-N-NN-chromium\\attachments\\network-har-11d413f92c44001fa1e61b1a1297683468bc8f5e.har"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-a400c--is-US-dollars-written-N-NN-chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-a400c--is-US-dollars-written-N-NN-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\pages\\products\\products.page.ts",
+                        "column": 21,
+                        "line": 11
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-d934b317af71a9d95a1e",
+              "file": "products/products.spec.ts",
+              "line": 52,
+              "column": 7
+            },
+            {
+              "title": "SHOP-PRD-004 Every price is greater than zero",
+              "ok": true,
+              "tags": [
+                "SHOP-PRD-004",
+                "critical",
+                "case",
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1779,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-21T14:30:10.976Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAwNCBFdmVyeSBwcmljZSBpcyBncmVhdGVyIHRoYW4gemVybwoKTm8gZmV0Y2gvWEhSIGNhbGxzIHdlcmUgb2JzZXJ2ZWQgZHVyaW5nIHRoaXMgdGVzdC4K"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-105ba--price-is-greater-than-zero-chromium\\attachments\\video-9d27d4b0118507cef113d1f4486c957a2691da51.webm"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-105ba--price-is-greater-than-zero-chromium\\attachments\\network-har-6913131d396cb7a14575c40d24d07ca95f1d4ed3.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-5ac27892b277be66458f",
+              "file": "products/products.spec.ts",
+              "line": 78,
+              "column": 7
+            },
+            {
+              "title": "SHOP-PRD-005 Name, category and price of each product match the expected catalogue",
+              "ok": true,
+              "tags": [
+                "SHOP-PRD-005",
+                "critical",
+                "case",
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6099,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "catalogue matches: first load",
+                          "duration": 1843
+                        },
+                        {
+                          "title": "catalogue matches: after reload",
+                          "duration": 1363
+                        }
+                      ],
+                      "startTime": "2026-10-21T14:30:13.159Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAwNSBOYW1lLCBjYXRlZ29yeSBhbmQgcHJpY2Ugb2YgZWFjaCBwcm9kdWN0IG1hdGNoIHRoZSBleHBlY3RlZCBjYXRhbG9ndWUKCk5vIGZldGNoL1hIUiBjYWxscyB3ZXJlIG9ic2VydmVkIGR1cmluZyB0aGlzIHRlc3QuCg=="
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-7192d-atch-the-expected-catalogue-chromium\\attachments\\video-7c2ec4482ba9be0919e600d1321c57b051ec85bc.webm"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-7192d-atch-the-expected-catalogue-chromium\\attachments\\network-har-7243a99b7890ae03a02605225220d94c2c83af46.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-75119e900ea953c57870",
+              "file": "products/products.spec.ts",
+              "line": 93,
+              "column": 7
+            },
+            {
+              "title": "SHOP-PRD-011 Search by name or category finds the product, ignores case and spaces, and updates the count",
+              "ok": true,
+              "tags": [
+                "SHOP-PRD-011",
+                "high",
+                "case",
+                "products",
+                "SHOP-BUG-1"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2938,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "search \"lamp\" finds only Desk Lamp",
+                          "duration": 244
+                        },
+                        {
+                          "title": "case and surrounding spaces are ignored; \"mug\" finds Coffee Mug",
+                          "duration": 344
+                        },
+                        {
+                          "title": "search \"Home\" (a category) shows the three Home products (rule R4)",
+                          "duration": 175
+                        },
+                        {
+                          "title": "search \"Home\" with category Home, then All categories, gives no stale result",
+                          "duration": 125
+                        },
+                        {
+                          "title": "clearing the box brings back all 12 and stores nothing",
+                          "duration": 145
+                        }
+                      ],
+                      "startTime": "2026-10-21T14:30:19.280Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAxMSBTZWFyY2ggYnkgbmFtZSBvciBjYXRlZ29yeSBmaW5kcyB0aGUgcHJvZHVjdCwgaWdub3JlcyBjYXNlIGFuZCBzcGFjZXMsIGFuZCB1cGRhdGVzIHRoZSBjb3VudAoKTm8gZmV0Y2gvWEhSIGNhbGxzIHdlcmUgb2JzZXJ2ZWQgZHVyaW5nIHRoaXMgdGVzdC4K"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-9fc09-paces-and-updates-the-count-chromium\\attachments\\video-42b12f3c4f72e4803d2b8d3b45ae16a9343a4c43.webm"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-9fc09-paces-and-updates-the-count-chromium\\attachments\\network-har-8e369c6783722a77ea30a4224248077861a1b35d.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-2bee44e5fe3d684815f1",
+              "file": "products/products.spec.ts",
+              "line": 111,
+              "column": 7
+            },
+            {
+              "title": "SHOP-PRD-012 Search with no match shows the empty state",
+              "ok": true,
+              "tags": [
+                "SHOP-PRD-012",
+                "high",
+                "case",
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2190,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "\"zzzz\" shows the empty state",
+                          "duration": 139
+                        },
+                        {
+                          "title": "clearing the box restores the list",
+                          "duration": 106
+                        }
+                      ],
+                      "startTime": "2026-10-21T14:30:22.257Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAxMiBTZWFyY2ggd2l0aCBubyBtYXRjaCBzaG93cyB0aGUgZW1wdHkgc3RhdGUKCk5vIGZldGNoL1hIUiBjYWxscyB3ZXJlIG9ic2VydmVkIGR1cmluZyB0aGlzIHRlc3QuCg=="
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-223e4-match-shows-the-empty-state-chromium\\attachments\\video-7847919bd31c99abb3b7c057be6d21fe665cce30.webm"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-223e4-match-shows-the-empty-state-chromium\\attachments\\network-har-337dbe9bb5d52f4bd8ac23bb397ce53cdc328e6e.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-cbf76c9b29373c774e08",
+              "file": "products/products.spec.ts",
+              "line": 181,
+              "column": 7
+            },
+            {
+              "title": "SHOP-PRD-014 Category filter shows only that category (each option used)",
+              "ok": true,
+              "tags": [
+                "SHOP-PRD-014",
+                "high",
+                "case",
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2633,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "options are in the expected order",
+                          "duration": 73
+                        },
+                        {
+                          "title": "choose Accessories",
+                          "duration": 150
+                        },
+                        {
+                          "title": "choose Clothing",
+                          "duration": 124
+                        },
+                        {
+                          "title": "choose Electronics",
+                          "duration": 137
+                        },
+                        {
+                          "title": "choose Home",
+                          "duration": 135
+                        },
+                        {
+                          "title": "choose All categories",
+                          "duration": 113
+                        }
+                      ],
+                      "startTime": "2026-10-21T14:30:24.483Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAxNCBDYXRlZ29yeSBmaWx0ZXIgc2hvd3Mgb25seSB0aGF0IGNhdGVnb3J5IChlYWNoIG9wdGlvbiB1c2VkKQoKTm8gZmV0Y2gvWEhSIGNhbGxzIHdlcmUgb2JzZXJ2ZWQgZHVyaW5nIHRoaXMgdGVzdC4K"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-db722--category-each-option-used--chromium\\attachments\\video-a2fa0d5bedfe4bb7ddae1adc3ffc708d83f71839.webm"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-db722--category-each-option-used--chromium\\attachments\\network-har-92193986182c4f0610f2aa4f6da7d82a14c6aed6.har"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-692c69fbd4f9b0aca382",
+              "file": "products/products.spec.ts",
+              "line": 202,
+              "column": 7
+            },
+            {
+              "title": "SHOP-PRD-024 Search matches words in the product description (rule R5)",
+              "ok": false,
+              "tags": [
+                "SHOP-PRD-024",
+                "high",
+                "case",
+                "products",
+                "SHOP-BUG-2"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4728,
+                      "error": {
+                        "message": "Error: search \"battery\": cards shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Wireless Headphones\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m",
+                        "stack": "Error: search \"battery\": cards shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Wireless Headphones\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:254:53)\n    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:261:9\n    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:259:7",
+                        "location": {
+                          "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                          "column": 53,
+                          "line": 254
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 252 |\u001b[39m           )\u001b[33m;\u001b[39m\n \u001b[90m 253 |\u001b[39m         }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n \u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                            "column": 53,
+                            "line": 254
+                          },
+                          "message": "Error: search \"battery\": cards shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Wireless Headphones\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n\n\u001b[0m \u001b[90m 252 |\u001b[39m           )\u001b[33m;\u001b[39m\n \u001b[90m 253 |\u001b[39m         }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n \u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:254:53)\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:261:9\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:259:7\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                            "column": 56,
+                            "line": 255
+                          },
+                          "message": "Error: search \"battery\": count line\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"Showing \u001b[7m1\u001b[27m of 12 products\"\u001b[39m\nReceived: \u001b[31m\"Showing \u001b[7m0\u001b[27m of 12 products\"\u001b[39m\n\n\u001b[0m \u001b[90m 253 |\u001b[39m         }\n \u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\n \u001b[90m 258 |\u001b[39m\u001b[0m\n\u001b[2m    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:255:56)\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:261:9\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:259:7\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                            "column": 80,
+                            "line": 256
+                          },
+                          "message": "Error: search \"battery\": \"No products found\" must not show\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\n\u001b[0m \u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n \u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\n \u001b[90m 258 |\u001b[39m\n \u001b[90m 259 |\u001b[39m       \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'search \"battery\" finds Wireless Headphones by its description'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:256:80)\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:261:9\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:259:7\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                            "column": 53,
+                            "line": 254
+                          },
+                          "message": "Error: search \"ceramic\": cards shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 4\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Coffee Mug\",\u001b[39m\n\u001b[32m-   \"Indoor Plant\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n\n\u001b[0m \u001b[90m 252 |\u001b[39m           )\u001b[33m;\u001b[39m\n \u001b[90m 253 |\u001b[39m         }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n \u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:254:53)\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:266:9\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:264:7\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                            "column": 56,
+                            "line": 255
+                          },
+                          "message": "Error: search \"ceramic\": count line\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"Showing \u001b[7m2\u001b[27m of 12 products\"\u001b[39m\nReceived: \u001b[31m\"Showing \u001b[7m0\u001b[27m of 12 products\"\u001b[39m\n\n\u001b[0m \u001b[90m 253 |\u001b[39m         }\n \u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\n \u001b[90m 258 |\u001b[39m\u001b[0m\n\u001b[2m    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:255:56)\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:266:9\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:264:7\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                            "column": 80,
+                            "line": 256
+                          },
+                          "message": "Error: search \"ceramic\": \"No products found\" must not show\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\n\u001b[0m \u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n \u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\n \u001b[90m 258 |\u001b[39m\n \u001b[90m 259 |\u001b[39m       \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'search \"battery\" finds Wireless Headphones by its description'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:256:80)\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:266:9\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:264:7\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                            "column": 53,
+                            "line": 254
+                          },
+                          "message": "Error: \"ceramic\" + Home: cards shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 4\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Coffee Mug\",\u001b[39m\n\u001b[32m-   \"Indoor Plant\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n\n\u001b[0m \u001b[90m 252 |\u001b[39m           )\u001b[33m;\u001b[39m\n \u001b[90m 253 |\u001b[39m         }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n \u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:254:53)\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:276:9\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:269:7\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                            "column": 56,
+                            "line": 255
+                          },
+                          "message": "Error: \"ceramic\" + Home: count line\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"Showing \u001b[7m2\u001b[27m of 12 products\"\u001b[39m\nReceived: \u001b[31m\"Showing \u001b[7m0\u001b[27m of 12 products\"\u001b[39m\n\n\u001b[0m \u001b[90m 253 |\u001b[39m         }\n \u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\n \u001b[90m 258 |\u001b[39m\u001b[0m\n\u001b[2m    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:255:56)\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:276:9\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:269:7\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                            "column": 80,
+                            "line": 256
+                          },
+                          "message": "Error: \"ceramic\" + Home: \"No products found\" must not show\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\n\u001b[0m \u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n \u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\n \u001b[90m 258 |\u001b[39m\n \u001b[90m 259 |\u001b[39m       \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'search \"battery\" finds Wireless Headphones by its description'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:256:80)\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:276:9\u001b[22m\n\u001b[2m    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:269:7\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "search \"battery\" finds Wireless Headphones by its description",
+                          "duration": 626,
+                          "error": {
+                            "message": "Error: search \"battery\": cards shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Wireless Headphones\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m",
+                            "stack": "Error: search \"battery\": cards shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Wireless Headphones\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:254:53)\n    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:261:9\n    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:259:7",
+                            "location": {
+                              "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                              "column": 53,
+                              "line": 254
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 252 |\u001b[39m           )\u001b[33m;\u001b[39m\n \u001b[90m 253 |\u001b[39m         }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n \u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\u001b[0m"
+                          }
+                        },
+                        {
+                          "title": "search \"ceramic\" finds Coffee Mug and Indoor Plant by their descriptions",
+                          "duration": 408,
+                          "error": {
+                            "message": "Error: search \"ceramic\": cards shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 4\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Coffee Mug\",\u001b[39m\n\u001b[32m-   \"Indoor Plant\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m",
+                            "stack": "Error: search \"ceramic\": cards shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 4\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Coffee Mug\",\u001b[39m\n\u001b[32m-   \"Indoor Plant\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:254:53)\n    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:266:9\n    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:264:7",
+                            "location": {
+                              "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                              "column": 53,
+                              "line": 254
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 252 |\u001b[39m           )\u001b[33m;\u001b[39m\n \u001b[90m 253 |\u001b[39m         }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n \u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\u001b[0m"
+                          }
+                        },
+                        {
+                          "title": "\"ceramic\" with Electronics shows nothing; with Home shows the two Home products",
+                          "duration": 526,
+                          "error": {
+                            "message": "Error: \"ceramic\" + Home: cards shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 4\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Coffee Mug\",\u001b[39m\n\u001b[32m-   \"Indoor Plant\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m",
+                            "stack": "Error: \"ceramic\" + Home: cards shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 4\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Coffee Mug\",\u001b[39m\n\u001b[32m-   \"Indoor Plant\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n    at checkResult (D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:254:53)\n    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:276:9\n    at D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts:269:7",
+                            "location": {
+                              "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                              "column": 53,
+                              "line": 254
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 252 |\u001b[39m           )\u001b[33m;\u001b[39m\n \u001b[90m 253 |\u001b[39m         }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 254 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(names\u001b[33m,\u001b[39m \u001b[32m`${label}: cards shown`\u001b[39m)\u001b[33m.\u001b[39mtoEqual(expectedNames)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 255 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(countText\u001b[33m,\u001b[39m \u001b[32m`${label}: count line`\u001b[39m)\u001b[33m.\u001b[39mtoBe(expectedCount)\u001b[33m;\u001b[39m\n \u001b[90m 256 |\u001b[39m         expect\u001b[33m.\u001b[39msoft(emptyShown\u001b[33m,\u001b[39m \u001b[32m`${label}: \"No products found\" must not show`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 257 |\u001b[39m       }\u001b[33m;\u001b[39m\u001b[0m"
+                          }
+                        },
+                        {
+                          "title": "clearing the search and category, then reloading, restores all 12 and stores nothing",
+                          "duration": 398
+                        }
+                      ],
+                      "startTime": "2026-10-21T14:30:27.178Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "defect — screenshot",
+                          "contentType": "image/png",
+                          "body": "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AAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcxIOCCgAADmpJREFUAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOD9/wAAAP//vsO6GwAAAAZJREFUAwC75fJqWNW7xwAAAABJRU5ErkJggg=="
+                        },
+                        {
+                          "name": "defect — what this shows",
+                          "contentType": "text/plain",
+                          "body": "U0hPUC1CVUctMjogc2VhcmNoICJiYXR0ZXJ5Ii4gUnVsZSBSNSBleHBlY3RzIFtXaXJlbGVzcyBIZWFkcGhvbmVzXSBhbmQgIlNob3dpbmcgMSBvZiAxMiBwcm9kdWN0cyIuIFRoZSBhcHAgc2hvd2VkIFtdLCBlbXB0eSBtZXNzYWdlIHZpc2libGU6IHRydWUsIGNvdW50IGxpbmU6ICJTaG93aW5nIDAgb2YgMTIgcHJvZHVjdHMiLiBTZWFyY2ggaXMgbm90IG1hdGNoaW5nIHRoZSBwcm9kdWN0IGRlc2NyaXB0aW9uLg=="
+                        },
+                        {
+                          "name": "defect — screenshot",
+                          "contentType": "image/png",
+                          "body": "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OAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP5ZnpZAAADe9JREFU4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABC8/x8AAP//Idl2ngAAAAZJREFUAwChKMjqNhdUdgAAAABJRU5ErkJggg=="
+                        },
+                        {
+                          "name": "defect — what this shows",
+                          "contentType": "text/plain",
+                          "body": "U0hPUC1CVUctMjogc2VhcmNoICJjZXJhbWljIi4gUnVsZSBSNSBleHBlY3RzIFtDb2ZmZWUgTXVnLCBJbmRvb3IgUGxhbnRdIGFuZCAiU2hvd2luZyAyIG9mIDEyIHByb2R1Y3RzIi4gVGhlIGFwcCBzaG93ZWQgW10sIGVtcHR5IG1lc3NhZ2UgdmlzaWJsZTogdHJ1ZSwgY291bnQgbGluZTogIlNob3dpbmcgMCBvZiAxMiBwcm9kdWN0cyIuIFNlYXJjaCBpcyBub3QgbWF0Y2hpbmcgdGhlIHByb2R1Y3QgZGVzY3JpcHRpb24u"
+                        },
+                        {
+                          "name": "defect — screenshot",
+                          "contentType": "image/png",
+                          "body": "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di5qjL8iAAAAuJpYRgEAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCYaIpIwAAC0ZJREFUBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAARP4AAAAACCJ3AAAAAAwRM4AAAAgOAJHAAAAEDwBA4AAAAgeAIHAAAAEDyBAwAAAAiewAEAAAAET+AAAAAAgidwAAAAAMETOAAAAIDgCRwAAABA8AQOAAAAIHgCBwAAABA8gQMAAAAInsABAAAABE/gAAAAAIIncAAAAADBEzgAAACA4AkcAAAAQPAEDgAAACB4AgcAAAAQPIEDAAAACJ7AAQAAAATv/wcAAP//gKqx/QAAAAZJREFUAwDYG1h5HkqoTQAAAABJRU5ErkJggg=="
+                        },
+                        {
+                          "name": "defect — what this shows",
+                          "contentType": "text/plain",
+                          "body": "U0hPUC1CVUctMjogImNlcmFtaWMiICsgSG9tZS4gUnVsZSBSNSBleHBlY3RzIFtDb2ZmZWUgTXVnLCBJbmRvb3IgUGxhbnRdIGFuZCAiU2hvd2luZyAyIG9mIDEyIHByb2R1Y3RzIi4gVGhlIGFwcCBzaG93ZWQgW10sIGVtcHR5IG1lc3NhZ2UgdmlzaWJsZTogdHJ1ZSwgY291bnQgbGluZTogIlNob3dpbmcgMCBvZiAxMiBwcm9kdWN0cyIuIFNlYXJjaCBpcyBub3QgbWF0Y2hpbmcgdGhlIHByb2R1Y3QgZGVzY3JpcHRpb24u"
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-2eba9-roduct-description-rule-R5--chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "api-evidence.md",
+                          "contentType": "text/markdown",
+                          "body": "IyBBUEkgZXZpZGVuY2Ug4oCUIFNIT1AtUFJELTAyNCBTZWFyY2ggbWF0Y2hlcyB3b3JkcyBpbiB0aGUgcHJvZHVjdCBkZXNjcmlwdGlvbiAocnVsZSBSNSkKCk5vIGZldGNoL1hIUiBjYWxscyB3ZXJlIG9ic2VydmVkIGR1cmluZyB0aGlzIHRlc3QuCg=="
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-2eba9-roduct-description-rule-R5--chromium\\attachments\\video-caeb1eae59ac9078816ec3d18b5ee1ea3cc8db58.webm"
+                        },
+                        {
+                          "name": "network.har",
+                          "contentType": "application/json",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-2eba9-roduct-description-rule-R5--chromium\\attachments\\network-har-669fbe62cf14a5f83b1194e919370122fd9344d4.har"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-2eba9-roduct-description-rule-R5--chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\test-results\\products-products-Products-2eba9-roduct-description-rule-R5--chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\SoftSapce_Projects\\demo-playwright\\qa-automation\\tests\\products\\products.spec.ts",
+                        "column": 53,
+                        "line": 254
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "05639c743d7c8d7016af-bec27de5269d29bc3e94",
+              "file": "products/products.spec.ts",
+              "line": 229,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-21T14:29:58.522Z",
+    "duration": 34376.234000000004,
+    "expected": 9,
+    "skipped": 1,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

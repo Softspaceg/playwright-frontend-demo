@@ -225,4 +225,66 @@ test.describe('Products', () => {
         });
       }
     });
+
+  test('SHOP-PRD-024 Search matches words in the product description (rule R5)',
+    { tag: tags('SHOP-PRD-024', PRIORITY.high, KIND.case, MODULE.products, defect('2')) },
+    async ({ page }) => {
+      // Rule R5 (owner, 21 Oct 2026): search matches the product name, its category, or any word
+      // in its description. The live app matches name and category only, so the description steps
+      // are expected to fail today. Do not weaken them. Case sensitivity and partial words are
+      // Question 11 in the plan and are not asserted: lower-case whole words only.
+      const products = new ProductsPage(page);
+      await products.open();
+
+      /** Reads what the app really shows, rings the evidence if it breaks the rule, then asserts softly. */
+      const checkResult = async (label: string, expectedNames: string[], expectedCount: string) => {
+        await expect(products.count).not.toHaveText('Showing 12 of 12 products');
+        const names = await products.visibleNames();
+        const countText = (await products.count.textContent())?.trim();
+        const emptyShown = await products.emptyMessage.isVisible();
+        if (JSON.stringify(names) !== JSON.stringify(expectedNames) || countText !== expectedCount || emptyShown) {
+          await annotatedShot(
+            page,
+            emptyShown ? products.emptyMessage : products.count,
+            `SHOP-BUG-2: ${label}. Rule R5 expects [${expectedNames.join(', ')}] and "${expectedCount}". ` +
+              `The app showed [${names.join(', ')}], empty message visible: ${emptyShown}, count line: "${countText}". ` +
+              `Search is not matching the product description.`,
+          );
+        }
+        expect.soft(names, `${label}: cards shown`).toEqual(expectedNames);
+        expect.soft(countText, `${label}: count line`).toBe(expectedCount);
+        expect.soft(emptyShown, `${label}: "No products found" must not show`).toBe(false);
+      };
+
+      await test.step('search "battery" finds Wireless Headphones by its description', async () => {
+        await products.search('battery');
+        await checkResult('search "battery"', ['Wireless Headphones'], 'Showing 1 of 12 products');
+      });
+
+      await test.step('search "ceramic" finds Coffee Mug and Indoor Plant by their descriptions', async () => {
+        await products.search('ceramic');
+        await checkResult('search "ceramic"', ['Coffee Mug', 'Indoor Plant'], 'Showing 2 of 12 products');
+      });
+
+      await test.step('"ceramic" with Electronics shows nothing; with Home shows the two Home products', async () => {
+        await products.filterByCategory('Electronics');
+        await expect(products.cards).toHaveCount(0);
+        await expect(products.emptyMessage).toBeVisible();
+        await expect(products.count).toHaveText('Showing 0 of 12 products');
+
+        await products.filterByCategory('Home');
+        await checkResult('"ceramic" + Home', ['Coffee Mug', 'Indoor Plant'], 'Showing 2 of 12 products');
+      });
+
+      await test.step('clearing the search and category, then reloading, restores all 12 and stores nothing', async () => {
+        await products.search('');
+        await products.filterByCategory('All categories');
+        await expect(products.cards).toHaveCount(12);
+        await expect(products.count).toHaveText('Showing 12 of 12 products');
+        await products.reload();
+        await expect(products.cards).toHaveCount(12);
+        await expect(products.count).toHaveText('Showing 12 of 12 products');
+        expect(await products.storageKeys()).toEqual(['demo_session']);
+      });
+    });
 });
