@@ -48,6 +48,8 @@ export default defineConfig({
     // screenshot only when a test fails.
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
+    // Off here on purpose: fixtures/qa-fixtures.ts records a video of every test itself,
+    // because it creates its own context (for the HAR) and this option does not reach it.
     video: 'off',
 
     viewport: { width: 1440, height: 900 },

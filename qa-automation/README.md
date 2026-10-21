@@ -107,7 +107,7 @@ DEMO_PASS=password123
 | `scripts/coverage.mjs` | Plan vs tests: which planned cases are automated, which are blocked |
 | `scripts/cases.mjs` | Lists the automated cases of a tab |
 | `scripts/keep-run.mjs` | Copies each run's results into `reports/runs/<date>_<time>_<tab>/` |
-| `scripts/fill-report.mjs` | Fills the team report template from a run (failures, plan questions, blocked cases, timings) and builds it into `reports/<module>/<tab>-auto/`. Runs on every `npm run tab` and on CI |
+| `scripts/fill-report.mjs` | Fills the team report template from a run (failures, plan questions, blocked cases, timings) and builds it into a new version folder, `reports/<module>/<tab>-v2`, `-v3` … (never overwritten). Runs on every `npm run tab` and on CI |
 | `scripts/build-report.mjs` | Builds a filled report into one folder you can hand over (inlines images, redacts tokens) |
 | `reports/_template/` | The agreed HTML report format (seven tabs) and how to fill it |
 | `reports/<module>/` | Latest summary, coverage and case list per tab, and built reports (`products-v1/`) |
@@ -120,7 +120,7 @@ DEMO_PASS=password123
 | `handoffs/` | One note per finished tab: where it stopped and what comes next |
 
 Git-ignored, created by runs: `node_modules/`, `auth/` (saved session), `test-results/`,
-`playwright-report/`, `artifacts/`, `mcp-output/`, `har/`, `reports/*/*-auto/`.
+`playwright-report/`, `artifacts/`, `mcp-output/`, `har/`, generated report versions (`reports/*/*-vN/`, except the hand-written `products-v1`).
 
 ### CI
 

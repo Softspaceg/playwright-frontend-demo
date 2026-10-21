@@ -2,6 +2,7 @@ import { test as base, expect } from '@playwright/test';
 import { AUTH_FILE } from '../constants';
 import { isAppCall } from './traffic';
 import * as fs from 'fs';
+import * as path from 'path';
 
 /** One app call observed during a test, with everything a developer needs to diagnose it. */
 export type ApiCall = {
@@ -82,23 +83,46 @@ function buildReport(calls: ApiCall[], title: string): string {
  *
  * Every test using this gets, automatically and whether it passes or fails:
  *   - a HAR file of the whole session, attached to the HTML report
+ *   - a video of the whole test, attached as `video` (shown in Playwright's report and in ours)
  *   - a readable API evidence report: endpoint, method, status, timing, payload, response
+ *
+ * The video is recorded here, not by `use.video` in playwright.config.ts: that option only
+ * applies to contexts Playwright creates itself, and this fixture creates its own.
  */
 export const test = base.extend<{ api: ApiCall[] }>({
   context: async ({ browser }, use, testInfo) => {
     const harPath = testInfo.outputPath('network.har');
+    const videoDir = testInfo.outputPath('videos');
 
     const context = await browser.newContext({
       storageState: AUTH_FILE,
       recordHar: { path: harPath, content: 'embed' },
+      recordVideo: { dir: videoDir, size: { width: 1280, height: 800 } },
       viewport: { width: 1440, height: 900 },
       ignoreHTTPSErrors: true,
     });
 
     await use(context);
 
-    // The HAR is only flushed to disk once the context closes.
+    // The HAR and the videos are only flushed to disk once the context closes.
     await context.close();
+
+    // One video per page the test opened; usually exactly one.
+    const videos = fs.existsSync(videoDir)
+      ? fs.readdirSync(videoDir).filter(f => f.endsWith('.webm')).sort()
+      : [];
+    for (const [i, file] of videos.entries()) {
+      await testInfo.attach(videos.length > 1 ? `video-${i + 1}` : 'video', {
+        path: path.join(videoDir, file),
+        contentType: 'video/webm',
+      });
+    }
+    if (videos.length === 0) {
+      await testInfo.attach('EVIDENCE WARNING — video', {
+        body: `No video was produced for this test. Expected .webm files in ${videoDir}.`,
+        contentType: 'text/plain',
+      });
+    }
 
     // Verify the evidence actually exists rather than assuming the option took effect.
     const stat = fs.existsSync(harPath) ? fs.statSync(harPath) : null;

@@ -1,14 +1,14 @@
 # Coverage — Demo Shop — Products
 
-Scoped to 23 of the 23 scenarios planned across all modules. The overall picture is in `reports/coverage.md`.
+Scoped to 24 of the 24 scenarios planned across all modules. The overall picture is in `reports/coverage.md`.
 
-Generated 2026-10-19 14:34.
+Generated 2026-10-21 14:30.
 
-**7 of 23 planned scenarios are automated (30%).**
+**8 of 24 planned scenarios are automated (33%).**
 
 The plans say what should be tested. The tests say what exists. This is the gap.
 
-## Demo Shop — Products — 7/23
+## Demo Shop — Products — 8/24
 
 | Case | Scenario | Automated | Blocked by |
 |---|---|---|---|
@@ -35,6 +35,7 @@ The plans say what should be tested. The tests say what exists. This is the gap.
 | `SHOP-PRD-021` | Log out: confirmation, Cancel changes nothing, Confirm logs out | No |  |
 | `SHOP-PRD-022` | Direct link, reload and unknown routes land on the product list | No |  |
 | `SHOP-PRD-023` | Controls have accessible names | No |  |
+| `SHOP-PRD-024` | Search matches words in the product description (rule R5) | Yes |  |
 
 ---
 
