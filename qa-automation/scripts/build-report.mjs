@@ -75,8 +75,12 @@ if (page.hits) console.log(`  redacted ${page.hits} credentials in the page`);
 // ── evidence beside the page ───────────────────────────────────────────────────
 // Only the files the report actually links to or shows. Copying the whole directory
 // would quietly ship recordings from tests this report never mentions.
+// Videos are played from <video src="evidence/…"> but stay files beside the page: inlined,
+// a few recordings would make the page tens of megabytes.
+const videos = [...new Set([...html.matchAll(/src="(evidence\/[^"]+\.(?:webm|mp4))"/g)].map(m => m[1]))];
 const linked = new Set([
   ...images.map(r => path.basename(r)),
+  ...videos.map(r => path.basename(r)),
   ...[...html.matchAll(/href="(evidence\/[^"]+)"/g)].map(m => path.basename(m[1])),
 ]);
 
@@ -101,7 +105,7 @@ fs.writeFileSync(out, html);
 console.log(`\n${out}  ${(fs.statSync(out).size / 1024).toFixed(0)} KB`);
 
 // A dead link costs the reader their trust in everything else on the page.
-const links = [...new Set([...html.matchAll(/href="(evidence\/[^"]+)"/g)].map(m => m[1]))];
+const links = [...new Set([...html.matchAll(/href="(evidence\/[^"]+)"/g)].map(m => m[1]).concat(videos))];
 const missing = links.filter(l => !fs.existsSync(path.join(outDir, l)));
 console.log(`${links.length} evidence links` + (missing.length ? `, MISSING: ${missing.join(', ')}` : ', all resolve'));
 if (missing.length) process.exit(1);

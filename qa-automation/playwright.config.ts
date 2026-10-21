@@ -44,12 +44,13 @@ export default defineConfig({
     actionTimeout: 15_000,
     navigationTimeout: 30_000,
 
-    // Evidence policy, same as UAPP: HAR and API report on every test; trace, screenshot
-    // and video only when a test fails. The video goes on the failure's card in the team
-    // report (scripts/fill-report.mjs).
+    // Evidence policy, same as UAPP: HAR and API report on every test, trace and
+    // screenshot only when a test fails.
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    // Off here on purpose: fixtures/qa-fixtures.ts records a video of every test itself,
+    // because it creates its own context (for the HAR) and this option does not reach it.
+    video: 'off',
 
     viewport: { width: 1440, height: 900 },
     ignoreHTTPSErrors: true,

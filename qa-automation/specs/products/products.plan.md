@@ -1,12 +1,17 @@
-# Demo Shop — Products Test Plan (SHOP-PRD-001 to SHOP-PRD-023)
+# Demo Shop — Products Test Plan (SHOP-PRD-001 to SHOP-PRD-024)
 
 ## Application Overview
 
-
 ## Changes made to the environment
-None. I only navigated, typed into the search box, changed the category select, reloaded, clicked one product card (nothing happened) and read localStorage. Search and category were reset to empty and "All categories" afterwards. localStorage was identical before and after: only `demo_session`. No form was submitted and no one was logged out. Revision of 19 Oct 2026 (owner's answer on search): I re-opened /products, typed "Home" in the search box, read the count line and cards, then cleared the box. No other change.
+None. Revision of 21 Oct 2026 (owner's answer on Question 10): I re-opened /products, typed 'battery', 'ceramic' and 'Home' in the search box one at a time, read the count line and card names, then cleared the box. I also read the card descriptions. No other change. localStorage was not modified (only `demo_session`). Earlier revision (19 Oct 2026): typed "Home", changed the category select, reloaded, clicked one product card (nothing happened); everything was reset. No form was submitted and no one was logged out.
 
-## What the module is (observed 19 Oct 2026)
+## Revision note, 21 Oct 2026
+- Added SHOP-PRD-024 (rule R5, description search). No existing case was renumbered or removed.
+- SHOP-BUG-1 (search did not match the category, rule R4) was fixed on main, PR #9, 20 Oct 2026. Re-observed on 21 Oct 2026: searching 'Home' shows Coffee Mug, Desk Lamp, Indoor Plant and 'Showing 3 of 12 products'. SHOP-PRD-011 now passes.
+- Question 10 moved to "Answered by Product" (21 Oct 2026).
+- The live app does NOT follow R5 yet (see Observations). SHOP-PRD-024 is expected to fail until that is fixed; its expected result was not changed.
+
+## What the module is (observed 19 Oct 2026, re-checked 21 Oct 2026)
 - Real address: https://softspaceg.github.io/playwright-frontend-demo/products. CLAUDE.md says `/playwright-templates/`. The login setup landed on `/playwright-frontend-demo/`. Check `BASE_URL` in `.env`.
 - The session was already logged in as demo@example.com (saved session). Every route I tried (`/cart`, `/login`, `/products/1`, `/nope`, `/`) ended on `/products`.
 - GitHub Pages answers a direct load or reload of `/products` with HTTP 404 and the app still renders (SPA fallback). The console shows "Failed to load resource: 404" for `/products` and `/favicon.ico`. This is expected hosting noise: the generator must not treat these console errors as failures without deciding.
@@ -21,34 +26,35 @@ None. I only navigated, typed into the search box, changed the category select, 
 - Search text and category are NOT kept after a reload (observed: after reload the box was empty and the select was "all").
 
 ## Catalogue observed (12 products; `Needs` lines refer to this table)
-| Name | Category | Price |
-|---|---|---|
-| Wireless Headphones | Electronics | $129.99 |
-| Smart Watch | Electronics | $199.00 |
-| Bluetooth Speaker | Electronics | $59.50 |
-| Laptop Stand | Accessories | $34.99 |
-| Mechanical Keyboard | Accessories | $89.00 |
-| Coffee Mug | Home | $12.00 |
-| Desk Lamp | Home | $42.25 |
-| Indoor Plant | Home | $24.99 |
-| Running Shoes | Clothing | $110.00 |
-| Hoodie | Clothing | $49.99 |
-| Baseball Cap | Clothing | $19.99 |
-| Backpack | Accessories | $74.00 |
+| Name | Category | Price | Description (observed 21 Oct 2026) |
+|---|---|---|---|
+| Wireless Headphones | Electronics | $129.99 | Noise-cancelling over-ear headphones with 30h battery. |
+| Smart Watch | Electronics | $199.00 | Fitness tracking, heart rate, and notifications. |
+| Bluetooth Speaker | Electronics | $59.50 | Portable waterproof speaker with deep bass. |
+| Laptop Stand | Accessories | $34.99 | Adjustable aluminium stand for better posture. |
+| Mechanical Keyboard | Accessories | $89.00 | Hot-swappable switches and RGB backlight. |
+| Coffee Mug | Home | $12.00 | Ceramic mug, 350ml, dishwasher safe. |
+| Desk Lamp | Home | $42.25 | LED lamp with three brightness levels. |
+| Indoor Plant | Home | $24.99 | Low-maintenance plant in a ceramic pot. |
+| Running Shoes | Clothing | $110.00 | Lightweight shoes with cushioned soles. |
+| Hoodie | Clothing | $49.99 | Soft cotton hoodie, unisex fit. |
+| Baseball Cap | Clothing | $19.99 | Adjustable cap with curved brim. |
+| Backpack | Accessories | $74.00 | Water-resistant backpack with laptop sleeve. |
 
 ## Owner's confirmed rules (asserted)
 R1 every card shows name, category and price. R2 every price is US dollars written `$N.NN`, never EGP or another currency. R3 every price is greater than zero. On the 12 products observed, all three hold. The cases below are written so they keep checking as products change.
-R4 (answered by the owner on 19 Oct 2026) Search matches the product name or its category. Searching "Home" shows the Home products. Asserted in SHOP-PRD-011. The live app does NOT follow R4 today (see Observations), so SHOP-PRD-011 is expected to fail until the app is fixed; the expected result was not changed to match the app.
+R4 (answered 19 Oct 2026) Search matches the product name or its category. Searching "Home" shows the Home products. Asserted in SHOP-PRD-011. Defect SHOP-BUG-1 was fixed on main (PR #9, 20 Oct 2026); re-observed 21 Oct 2026, SHOP-PRD-011 now passes.
+R5 (answered 21 Oct 2026, replaces and extends R4) Search matches the product name, its category, or any word in its description. Searching "battery" shows the product whose description mentions a battery. Asserted in SHOP-PRD-024. The live app does NOT follow R5 today (see Observations), so SHOP-PRD-024 is expected to fail until the app is fixed; the expected result was not changed to match the app.
 
 ## Case priority summary
-critical 6 (001, 002, 003, 004, 005, 007), high 11 (006, 008, 009, 010, 011, 012, 014, 015, 017, 019, 021), medium 6 (013, 016, 018, 020, 022, 023). Total 23. Unchanged by this revision.
+critical 6 (001, 002, 003, 004, 005, 007), high 12 (006, 008, 009, 010, 011, 012, 014, 015, 017, 019, 021, 024), medium 6 (013, 016, 018, 020, 022, 023). Total 24. Change in this revision: +1 high (024).
 
 ## Standard case matrix check
-Create (add to cart): 007, NOT AVAILABLE. Read: 001-006. Edit (quantity): 009, NOT AVAILABLE. Delete (remove/clear): 010, NOT AVAILABLE; logout 021 not observed. Search: 011-013. Filter and sort: 014, 015, 016 (no sort exists). Validation: 013 (no form validation exists on this screen). Empty state: 012. Persistence after reload: 017 (plus a reload step in 001, 005, 007, 009, 010). Permissions (logged out): 019, not observed.
+Create (add to cart): 007, NOT AVAILABLE. Read: 001-006. Edit (quantity): 009, NOT AVAILABLE. Delete (remove/clear): 010, NOT AVAILABLE; logout 021 not observed. Search: 011-013, 024. Filter and sort: 014, 015, 016 (no sort exists). Validation: 013 (no form validation exists on this screen). Empty state: 012. Persistence after reload: 017 (plus a reload step in 001, 005, 007, 009, 010). Permissions (logged out): 019, not observed.
 
 ## Button / control checklist
 - Log out button: 020 (visible), 021 (action not observed).
-- Search box: 011, 012, 013, 015, 023.
+- Search box: 011, 012, 013, 015, 023, 024.
 - Category select (5 options): 014, 015, 023.
 - Product card (x12): 002-006. Card has no button.
 - Add to cart / quantity / remove / clear / sort: do not exist, 007, 009, 010, 016 record the gap.
@@ -64,22 +70,25 @@ Create (add to cart): 007, NOT AVAILABLE. Read: 001-006. Edit (quantity): 009, N
 7. What happens to a cart on logout and login (kept or cleared)? Cannot be tested until a cart exists.
 8. Should a logged-out visitor see the products at all? Not observed.
 9. Is the "of 12" in "Showing N of 12 products" the total catalogue or the total after the category filter? Observed: it stays 12 under any filter (e.g. "Showing 3 of 12 products" for Home).
-10. (New, follows from the owner's answer.) The owner's rule covers name and category only. Should search also match the description? Observed today: "battery" (a word in a description) gives 0 results. A typical shop searches name, category and description. No assertion made.
+10. ANSWERED on 21 Oct 2026 and moved out of this list: see "Answered by Product" below. The number is kept so other references do not shift.
+11. (New, follows from R5.) Does a description match work on whole words or on any part of a word, and is it case-insensitive for descriptions? The owner's wording is "any word in its description". Not asserted beyond the whole-word examples in SHOP-PRD-024. A typical shop matches partial words, case-insensitively.
 
 ## Answered by Product
-- Former Question 4, answered by the owner on 19 Oct 2026: search matches the product name or its category; searching "Home" shows the Home products. Now rule R4, asserted in SHOP-PRD-011.
+- Former Question 4, answered by the owner on 19 Oct 2026: search matches the product name or its category; searching "Home" shows the Home products. Rule R4, asserted in SHOP-PRD-011. Fixed in SHOP-BUG-1 (PR #9, 20 Oct 2026).
+- Former Question 10, answered by the owner on 21 Oct 2026: search also matches any word in the description; searching "battery" shows the product whose description mentions a battery. Rule R5, asserted in SHOP-PRD-024.
 
 ## Recommendations (opinion, not assertions)
 - Add stable test ids to the logout confirmation, the add button and the cart badge when they exist. Cost of doing nothing: tests fall back to fragile text locators.
 - Serve a real `404.html`/hash routing so a reload does not return HTTP 404 and put red errors in the console. Cost: monitoring tools and crawlers see every deep link as broken.
 - Put the search and category in the URL query string. Cost of doing nothing: a shopper loses their filter on every reload.
 - Show a clear-search hint on "No products found". Cost: dead end for the shopper.
-- Fix search so it also matches the category (rule R4). Cost of doing nothing: a shopper typing a category such as "Home" is told "No products found" although three Home products exist, and may leave the shop.
+- Fix search so it also matches the description (rule R5). Cost of doing nothing: a shopper typing "battery" or "ceramic" is told "No products found" although matching products exist, and may leave the shop.
 
 ## Observations (cosmetic or low value, not cases)
-- DEVIATION FROM RULE R4 (observed 19 Oct 2026): typing "Home" in Search products shows no cards, the message "No products found" and the count line "Showing 0 of 12 products". The owner's rule says the 3 Home products (Coffee Mug, Desk Lamp, Indoor Plant) and "Showing 3 of 12 products". The app matches the name only. This is recorded as a defect candidate for SHOP-PRD-011; the expected result there was not changed.
+- DEVIATION FROM RULE R5 (observed 21 Oct 2026): typing 'battery' shows no cards, the message 'No products found' and 'Showing 0 of 12 products'. The rule expects Wireless Headphones (its description ends 'with 30h battery.') and 'Showing 1 of 12 products'. Typing 'ceramic' also shows 0 cards and 'Showing 0 of 12 products'; the rule expects Coffee Mug and Indoor Plant and 'Showing 2 of 12 products'. The app still matches name and category only. Recorded as a defect candidate for SHOP-PRD-024; the expected result was not changed. A defect ID is for the team to assign.
+- Rule R4 now holds (observed 21 Oct 2026): 'Home' shows Coffee Mug, Desk Lamp, Indoor Plant and 'Showing 3 of 12 products'. Earlier deviation (19 Oct 2026: 0 cards for 'Home') is closed by SHOP-BUG-1.
 - The icons are emoji, not images; they are marked aria-hidden.
-- Search is trimmed and case-insensitive (observed "  lamp  " and "LAMP" both find Desk Lamp).
+- Search is trimmed and case-insensitive for names (observed "  lamp  " and "LAMP" both find Desk Lamp).
 - Search with `$`, `<b>x</b>`, `.*` gave "No products found" and no script ran.
 - Product order on screen is by data order, not by category or price.
 - The favicon request returns 404.
@@ -89,10 +98,10 @@ Create (add to cart): 007, NOT AVAILABLE. Read: 001-006. Edit (quantity): 009, N
 - Logged-out behaviour could not be observed: I may not log out, and a second browser context I opened still showed the logged-in user (it appears to inherit the saved session). The generator must clear `demo_session` via an init script and confirm. (019, 021)
 - A second account is NOT AVAILABLE. Not needed for this tab.
 - The base URL in CLAUDE.md differs from the live address (see above).
+- SHOP-PRD-024 cannot pass until the app is fixed to search descriptions (not a blocker to writing or running it).
 
 ## Conventions used in the cases
 Every case gives: ID, priority, "If this breaks", Needs, steps, expected on-screen result, storage/network change, survives reload. Storage is localStorage; no network call is expected for any case (static data, no fetch/XHR seen). Where a result was not observed it says "Not observed — the generator confirms".
-
 
 ## Test Scenarios
 
@@ -160,7 +169,7 @@ Every case gives: ID, priority, "If this breaks", Needs, steps, expected on-scre
 **File:** `tests/products/products.spec.ts`
 
 **Steps:**
-  1. Case meta. If this breaks: a shopper is charged the wrong price or sees the wrong item. Needs: the catalogue table in the overview — OK (data observed 19 Oct 2026; update the table if the catalogue changes). Storage: none. Survives reload: yes.
+  1. Case meta. If this breaks: a shopper is charged the wrong price or sees the wrong item. Needs: the catalogue table in the overview — OK (data observed 19 Oct 2026, re-read 21 Oct 2026; update the table if the catalogue changes). Storage: none. Survives reload: yes.
     - expect: Plan only
   2. Read all 12 cards and compare with the catalogue table.
     - expect: Each name, category and price equals its row: e.g. Wireless Headphones / Electronics / $129.99, Desk Lamp / Home / $42.25, Backpack / Accessories / $74.00
@@ -231,7 +240,7 @@ Every case gives: ID, priority, "If this breaks", Needs, steps, expected on-scre
 **File:** `tests/products/products.spec.ts`
 
 **Steps:**
-  1. Case meta. If this breaks: a shopper cannot find a product by name or by its category. Owner rule R4 (answered 19 Oct 2026): search matches the product name or its category. Needs: any product list with products in the Home category — OK (Coffee Mug, Desk Lamp, Indoor Plant). Storage: none. Survives reload: the product list yes, the search text no (observed; see Question 5). KNOWN DEVIATION: the live app matches the name only, so steps 5 and 6 are expected to fail today (see Observations). Do not weaken them.
+  1. Case meta. If this breaks: a shopper cannot find a product by name or by its category. Owner rule R4 (answered 19 Oct 2026; now part of R5): search matches the product name or its category. Needs: any product list with products in the Home category — OK (Coffee Mug, Desk Lamp, Indoor Plant). Storage: none. Survives reload: the product list yes, the search text no (observed; see Question 5). STATUS 21 Oct 2026: SHOP-BUG-1 was fixed on main (PR #9, 20 Oct 2026) and this case now passes; re-observed 'Home' gives the 3 Home products and 'Showing 3 of 12 products'. The expected results were never changed.
     - expect: Plan only
   2. Type 'lamp' in the box labelled 'Search products' (placeholder 'Search products…').
     - expect: Only Desk Lamp ($42.25, Home) is shown
@@ -244,7 +253,7 @@ Every case gives: ID, priority, "If this breaks", Needs, steps, expected on-scre
     - expect: Every visible card's category is Home; no Accessories, Clothing or Electronics card is shown
     - expect: Count line updates without reload to exactly 'Showing 3 of 12 products'
     - expect: 'No products found' is NOT shown
-    - expect: Observed today (19 Oct 2026): 0 cards, 'No products found', 'Showing 0 of 12 products'. This differs from the rule and is recorded under Observations; the expected result above is not changed
+    - expect: Observed 21 Oct 2026 after the fix: exactly this result (3 Home cards, 'Showing 3 of 12 products'). Before the fix (19 Oct 2026) the app showed 0 cards and 'No products found'
   5. Replace the text with 'Home' and choose the category 'Home' in the select; then set the select back to All categories.
     - expect: With category Home and search 'Home': the same 3 Home products and 'Showing 3 of 12 products' (Not observed — the generator confirms)
     - expect: After All categories with search 'Home': 'Showing 3 of 12 products' again, no stale result
@@ -257,7 +266,7 @@ Every case gives: ID, priority, "If this breaks", Needs, steps, expected on-scre
 **File:** `tests/products/products.spec.ts`
 
 **Steps:**
-  1. Case meta. If this breaks: a shopper sees a blank screen and does not know why. Needs: any product list — OK. Storage: none. Survives reload: not applicable. Note (19 Oct 2026): checked against rule R4; 'zzzz' matches neither a product name nor a category, so the expected result is unchanged. Do not use a category word (for example 'Home') as the no-match text: under R4 it returns products.
+  1. Case meta. If this breaks: a shopper sees a blank screen and does not know why. Needs: any product list — OK. Storage: none. Survives reload: not applicable. Note (21 Oct 2026): checked against rules R4 and R5; 'zzzz' matches no name, category or description word, so the expected result is unchanged. Do not use a category word (for example 'Home') or a description word (for example 'battery') as the no-match text: under R4/R5 they return products.
     - expect: Plan only
   2. Type 'zzzz' in Search products.
     - expect: No cards are shown
@@ -278,7 +287,7 @@ Every case gives: ID, priority, "If this breaks", Needs, steps, expected on-scre
   2. Search each of: '$', '<b>x</b>', '.*', '%', and a very long string (300 characters).
     - expect: Observed for '$', '<b>x</b>' and '.*': 'No products found' and 'Showing 0 of 12 products'; no script runs, no console page error, no crash
     - expect: '%' and the long string: Not observed — the generator confirms (expect the same empty state)
-    - expect: 'Home' (a category) is NOT a special-character case: its expected result is asserted in SHOP-PRD-011 (rule R4). 'battery' (a description word) gives 0 results today; whether it should match is Question 10, so do not assert
+    - expect: 'Home' (a category) is NOT a special-character case: its expected result is asserted in SHOP-PRD-011 (rule R4). 'battery' (a description word) is NOT a special-character case either: its expected result is asserted in SHOP-PRD-024 (rule R5). Do not use either as a no-match text
 
 #### 1.14. SHOP-PRD-014 [high] Category filter shows only that category (each option used)
 
@@ -302,7 +311,7 @@ Every case gives: ID, priority, "If this breaks", Needs, steps, expected on-scre
 **File:** `tests/products/products.spec.ts`
 
 **Steps:**
-  1. Case meta. If this breaks: a shopper gets wrong or stale results when combining filters. Needs: any product list — OK. Storage: none. Survives reload: no. Note (19 Oct 2026): checked against rule R4; 'lamp' and 'watch' match neither the category 'Home' nor any Home product, so the expected results are unchanged.
+  1. Case meta. If this breaks: a shopper gets wrong or stale results when combining filters. Needs: any product list — OK. Storage: none. Survives reload: no. Note (21 Oct 2026): checked against rules R4 and R5; 'lamp' and 'watch' match neither the category 'Home' nor any Home product's name or description word, so the expected results are unchanged.
     - expect: Plan only
   2. Choose Home, then type 'lamp'.
     - expect: Only Desk Lamp; 'Showing 1 of 12 products'
@@ -408,3 +417,28 @@ Every case gives: ID, priority, "If this breaks", Needs, steps, expected on-scre
     - expect: Searchbox named 'Search products'; combobox named 'Filter by category'; button named 'Log out'; one heading level 1 'Products'; each product name is a level 2 heading
   3. Use the keyboard: Tab through the page, type in the search box, change the select with the arrow keys.
     - expect: Search and filter work with the keyboard and the count line updates; the cards take no focus (observed)
+
+#### 1.24. SHOP-PRD-024 [high] Search matches words in the product description (rule R5)
+
+**File:** `tests/products/products.spec.ts`
+
+**Steps:**
+  1. Case meta. If this breaks: a shopper who searches by a feature (battery, ceramic) is told 'No products found' although the product exists, so cannot find it. Owner rule R5 (answered 21 Oct 2026): search matches the product name, its category, or any word in its description. Needs: the catalogue table in the overview (Wireless Headphones description contains 'battery'; Coffee Mug and Indoor Plant descriptions contain 'ceramic') — OK (read 21 Oct 2026). Storage: none; localStorage stays with only demo_session. Network: none. Survives reload: the list yes, the search text no (Question 5). KNOWN DEVIATION: the live app matches name and category only, so steps 2 and 3 are expected to fail today (see Observations). Do not weaken them.
+    - expect: Plan only
+  2. Type 'battery' in the box labelled 'Search products'.
+    - expect: Exactly one card is shown: Wireless Headphones (Electronics, $129.99), whose description reads 'Noise-cancelling over-ear headphones with 30h battery.'
+    - expect: Count line updates without reload to exactly 'Showing 1 of 12 products'
+    - expect: 'No products found' is NOT shown
+    - expect: Observed today (21 Oct 2026): 0 cards, 'No products found', 'Showing 0 of 12 products'. Differs from the rule; recorded under Observations; the expected result above is not changed
+  3. Replace the text with 'ceramic' (a second description word; it appears in two products and in no name or category).
+    - expect: Exactly two cards are shown: Coffee Mug (Home, $12.00) and Indoor Plant (Home, $24.99), in catalogue order
+    - expect: Count line updates without reload to exactly 'Showing 2 of 12 products'
+    - expect: 'No products found' is NOT shown
+    - expect: Observed today (21 Oct 2026): 0 cards, 'No products found', 'Showing 0 of 12 products'. Differs from the rule; the expected result is not changed
+  4. Combine: choose the category 'Electronics' with search 'ceramic', then set the category to 'Home'.
+    - expect: Electronics + 'ceramic': no cards, 'No products found', 'Showing 0 of 12 products' (neither Electronics product mentions ceramic) — Not observed — the generator confirms
+    - expect: Home + 'ceramic': Coffee Mug and Indoor Plant, 'Showing 2 of 12 products' — Not observed — the generator confirms
+  5. Clear the box and set the category back to All categories. Then reload.
+    - expect: All 12 cards return and the count reads 'Showing 12 of 12 products'
+    - expect: localStorage unchanged: only demo_session
+    - expect: Whether description matching ignores case or matches part of a word is Question 11: do not assert beyond the lower-case whole words above

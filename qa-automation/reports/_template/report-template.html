@@ -125,6 +125,17 @@
   .filelink:hover{border-color:var(--accent);background:var(--accent-soft)}
   .filelink .sz{color:var(--muted);font-size:10.5px}
 
+  /* The recording of the whole test, played in the page. Kept as a file beside the page
+     (evidence/*.webm), never inlined: a video would make the page tens of megabytes. */
+  .vid{width:100%;display:block;border-radius:6px;border:1px solid var(--line-2);background:#000}
+  .vidlink{font-family:var(--mono);font-size:11.5px;color:var(--accent);text-decoration:none;white-space:nowrap}
+  .vidlink:hover{text-decoration:underline}
+  /* Speed buttons under each video. A test acts faster than a person can follow, so the
+     player starts at 0.5x; 0.25x shows each step on its own. */
+  .speed{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;color:var(--muted)}
+  .speed button{appearance:none;font:600 11.5px Archivo,sans-serif;padding:3px 9px;border-radius:5px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);cursor:pointer}
+  .speed button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+
   .files{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
   .file{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;color:var(--ink-2)}
   .file .sz{color:var(--muted);font-size:10.5px}
@@ -259,7 +270,7 @@
       {{The single costliest finding, in a sentence a person can say out loud in a meeting.}}
       {{What works correctly — say it plainly, it is as much a result as the failures.}}</p>
     <div class="counts">
-      <div class="c bug"><div class="n">{{N}}</div><div class="l">For developers</div></div>
+      <div class="c bug"><div class="n">{{N}}</div><div class="l">Bugs for developers</div></div>
       <div class="c enh"><div class="n">{{N}}</div><div class="l">Enhancements</div></div>
       <div class="c ask"><div class="n">{{N}}</div><div class="l">For business</div></div>
       <div class="c ok"><div class="n">{{Y}}/{{X}}</div><div class="l">Automated cases passing</div></div>
@@ -267,7 +278,7 @@
   </section>
 
   <nav class="tabs" role="tablist" aria-label="Sections">
-    <button class="tab" role="tab" aria-selected="true" aria-controls="p-dev" id="t-dev">For developers <span class="cnt">{{N}}</span></button>
+    <button class="tab" role="tab" aria-selected="true" aria-controls="p-dev" id="t-dev">Bugs for developers <span class="cnt">{{N}}</span></button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="p-enh" id="t-enh">Enhancements <span class="cnt">{{N}}</span></button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="p-biz" id="t-biz">For business <span class="cnt">{{N}}</span></button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="p-need" id="t-need">What we need <span class="cnt">{{N}}</span></button>
@@ -331,8 +342,14 @@
               <div class="cap"><span>1</span><div>{{What this marked area proves}}</div></div>
             </div>
           </figure>
+          <!-- The whole test, recorded by fixtures/qa-fixtures.ts. -->
+          <figure style="margin-top:14px">
+            <video class="vid" controls preload="metadata" src="evidence/{{file}}.webm"></video>
+            <figcaption>{{What the recording shows, and the second where the problem appears}}</figcaption>
+          </figure>
           <div class="files" style="margin-top:12px">
             <a class="filelink" href="evidence/{{file}}.png">evidence/{{file}}.png <span class="sz">{{N}} KB</span></a>
+            <a class="filelink" href="evidence/{{file}}.webm">evidence/{{file}}.webm <span class="sz">{{N}} KB</span></a>
           </div>
         </dd></div>
       </dl>
@@ -475,9 +492,9 @@
     <h2 style="margin-top:26px">Every planned case</h2>
     <div style="overflow-x:auto">
       <table class="t">
-        <thead><tr><th>Case</th><th>What it checks</th><th>Result</th></tr></thead>
+        <thead><tr><th>Case</th><th>What it checks</th><th>Result</th><th>Video</th></tr></thead>
         <tbody>
-          <tr><td><code>{{CASE-ID}}</code></td><td>{{what it checks}}</td><td style="color:var(--ok)">Passed</td></tr>
+          <tr><td><code>{{CASE-ID}}</code></td><td>{{what it checks}}</td><td style="color:var(--ok)">Passed</td><td><a class="vidlink" href="evidence/{{file}}.webm">▶ watch</a></td></tr>
         </tbody>
       </table>
     </div>
@@ -506,6 +523,7 @@
         <tbody>
           <tr><td><code>.png</code></td><td>The screen at the moment of the finding, with the part that matters ringed in red and the rest dimmed.</td><td>Any image viewer. They are also embedded in this page.</td></tr>
           <tr><td><code>.har</code></td><td>Every network request the browser made during that test, with headers, bodies, status codes and timings.</td><td>DevTools &rarr; Network &rarr; the import arrow, then drop the file in.</td></tr>
+          <tr><td><code>.webm</code></td><td>A video of the whole test, from opening the page to the last check.</td><td>Plays in the page. On its own: Chrome, Edge or Firefox, or VLC.</td></tr>
         </tbody>
       </table>
     </div>
@@ -576,6 +594,32 @@
           navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
         } else { fallback(text, done); }
       });
+    });
+
+    // Every recording starts slowed down, with buttons to change the speed.
+    document.querySelectorAll('video.vid').forEach(function (v) {
+      var rates = [0.25, 0.5, 1];
+      var bar = document.createElement('div');
+      bar.className = 'speed';
+      bar.appendChild(document.createTextNode('Speed'));
+      function set(rate) {
+        v.defaultPlaybackRate = rate;
+        v.playbackRate = rate;
+        bar.querySelectorAll('button').forEach(function (b) {
+          b.setAttribute('aria-pressed', String(Number(b.dataset.rate) === rate));
+        });
+      }
+      rates.forEach(function (r) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.dataset.rate = String(r);
+        b.textContent = r + '×';
+        b.addEventListener('click', function () { set(r); });
+        bar.appendChild(b);
+      });
+      v.insertAdjacentElement('afterend', bar);
+      v.addEventListener('loadedmetadata', function () { v.playbackRate = v.defaultPlaybackRate; });
+      set(0.5);
     });
 
     function fallback(text, done) {

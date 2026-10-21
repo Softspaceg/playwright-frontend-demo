@@ -83,39 +83,45 @@ function buildReport(calls: ApiCall[], title: string): string {
  *
  * Every test using this gets, automatically and whether it passes or fails:
  *   - a HAR file of the whole session, attached to the HTML report
+ *   - a video of the whole test, attached as `video` (shown in Playwright's report and in ours)
  *   - a readable API evidence report: endpoint, method, status, timing, payload, response
+ *
+ * The video is recorded here, not by `use.video` in playwright.config.ts: that option only
+ * applies to contexts Playwright creates itself, and this fixture creates its own.
  */
 export const test = base.extend<{ api: ApiCall[] }>({
-  context: async ({ browser, video }, use, testInfo) => {
+  context: async ({ browser }, use, testInfo) => {
     const harPath = testInfo.outputPath('network.har');
-
-    // This context replaces Playwright's own, so the config's `video` option has to be
-    // honoured here: Playwright only applies it to the context it creates itself.
-    const videoMode = typeof video === 'string' ? video : video.mode;
-    const videoDir = testInfo.outputPath('video');
+    const videoDir = testInfo.outputPath('videos');
 
     const context = await browser.newContext({
       storageState: AUTH_FILE,
       recordHar: { path: harPath, content: 'embed' },
-      ...(videoMode === 'off' ? {} : { recordVideo: { dir: videoDir, size: { width: 1440, height: 900 } } }),
+      recordVideo: { dir: videoDir, size: { width: 1280, height: 800 } },
       viewport: { width: 1440, height: 900 },
       ignoreHTTPSErrors: true,
     });
 
     await use(context);
 
-    // The HAR and the video are only flushed to disk once the context closes.
+    // The HAR and the videos are only flushed to disk once the context closes.
     await context.close();
 
-    if (videoMode !== 'off' && fs.existsSync(videoDir)) {
-      const failed = testInfo.status !== testInfo.expectedStatus;
-      if (videoMode === 'on' || failed) {
-        for (const file of fs.readdirSync(videoDir).filter(f => f.endsWith('.webm'))) {
-          await testInfo.attach('video', { path: path.join(videoDir, file), contentType: 'video/webm' });
-        }
-      } else {
-        fs.rmSync(videoDir, { recursive: true, force: true });
-      }
+    // One video per page the test opened; usually exactly one.
+    const videos = fs.existsSync(videoDir)
+      ? fs.readdirSync(videoDir).filter(f => f.endsWith('.webm')).sort()
+      : [];
+    for (const [i, file] of videos.entries()) {
+      await testInfo.attach(videos.length > 1 ? `video-${i + 1}` : 'video', {
+        path: path.join(videoDir, file),
+        contentType: 'video/webm',
+      });
+    }
+    if (videos.length === 0) {
+      await testInfo.attach('EVIDENCE WARNING — video', {
+        body: `No video was produced for this test. Expected .webm files in ${videoDir}.`,
+        contentType: 'text/plain',
+      });
     }
 
     // Verify the evidence actually exists rather than assuming the option took effect.
